@@ -1,0 +1,7 @@
+selenium == 3.141.0
+bs4 == 0.0.1
+requests == 2.21.0
+peewee == 3.8.0
+robobrowser == 0.5.3
+config == 0.4.0
+face_recognition
