@@ -6,7 +6,9 @@ import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import VueResource from "vue-resource";
-import Lingallery from 'lingallery';
+import VueAgile from 'vue-agile'
+import VueCarousel from 'vue-carousel';
+
 
 // internal icons
 import {
@@ -44,8 +46,7 @@ library.add(
   faUpload
 );
 Vue.component("vue-fontawesome", FontAwesomeIcon);
-Vue.component('lingallery', Lingallery);
-
+Vue.use(VueAgile);
 Vue.config.productionTip = false;
 
 new Vue({
@@ -58,3 +59,4 @@ Vue.use(Buefy, {
   defaultIconPack: "fas"
 });
 Vue.use(VueResource);
+Vue.use(VueCarousel);

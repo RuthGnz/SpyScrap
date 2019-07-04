@@ -67,32 +67,52 @@
 
 
 
-
     </section>
     <div class="columns is-multiline">
-      <div  v-for="user in userData" class="column is-one-fifth">  
+      <div  v-for="user,index in userData" class="column is-one-fifth">
+        <a @click="openModelUser(user.photos)">
         <div class="card">
           <div class="card-image">
-            <figure class="image is-4by3">
-              <img  :src="user.photos[0]">
-            </figure>
+            <div class="slide">
+              <figure class="image is-4by3">
+                <img  :src="user.photos[0]" @error="removeUrlUser(index,user.photos[0])">
+              </figure>
+            </div>
           </div>
           <div class="card-content">
-            <div class="content">
+             <div class="content">
+                  <p class="title is-4">{{user.user.name}}</p>
+                  <p class="subtitle is-6">Location: {{user.user.location}}</p>
+                  <p class="subtitle is-6">Birth: {{user.user.birth.split('T')[0]}}</p>
 
-                <p>{{user.user.name}}</p>
-                <p>{{user.user.birth}}</p>
-                <p>{{user.user.location}}</p>
-                <p>{{user.user.job}}</p>
+                  <p><span v-if="user.user.job.company !== undefined">{{user.user.job.company.name}}</span> &nbsp;<span v-if="user.user.job.title !== undefined">{{user.user.job.title.name}}</span></p>
             </div>
           </div>
         </div>
+      </a>
       </div>
 
     </div>
     <section>
 
 
+    </section>
+
+    <section>
+      
+        <b-modal :active.sync="isCardModalActive" :width="640" scroll="keep">
+            <div class="card">
+                <div class="card-content">
+           <carousel :per-page="1" :navigate-to="someLocalProperty" :mouse-drag="true" :centerMode="true" :navigationEnabled="true">
+              <slide v-for="photo in userSelectedPhotos">
+               <figure class="image is-1000x1000">
+                  <img :src="photo" @error="removeUrl(photo)">
+                </figure>
+              </slide>
+            </carousel>
+                </div>
+            </div>
+        </b-modal>
     </section>
   </div>
 </template>
@@ -107,11 +127,29 @@ export default {
       name: "",
       company: "",
       userData: [],
+      isCardModalActive: false,
+      userSelectedPhotos: [],
     };
   },
   methods: {
     deleteDropFile(index) {
       this.dropFiles.splice(index, 1);
+    },
+    removeUrl(photo) {
+      var index = this.userSelectedPhotos.indexOf(photo);
+        if (index > -1) {
+          this.userSelectedPhotos.splice(index, 1);
+        }
+    },
+    removeUrlUser(index,photo) {
+      var index2 = this.userData[index].photos.indexOf(photo);
+        if (index2 > -1) {
+          this.userData[index].photos.splice(index2, 1);
+        }
+    },
+    openModelUser(photos) {
+      this.userSelectedPhotos = photos;
+      this.isCardModalActive=true;
     },
     searchTinder() {
       //todo check empty
@@ -122,6 +160,14 @@ export default {
       ) {
         this.toast("You must provide at least one input");
       } else {
+        const toJson = (x) => {
+          var jobString =""
+          jobString=x.user.job
+          jobString=jobString.replace(new RegExp("'", "g"), '"');
+          var obj2 = JSON.parse(jobString);
+          x.user.job=obj2
+          return x;
+        };       
         const data = new FormData();
         data.append("name", this.name);
         data.append("company", this.company);
@@ -131,6 +177,7 @@ export default {
           .then(response => {
             const responseData = response.data;
             this.userData = responseData.msg
+            this.userData.map(toJson);
           });
       }
     },
