@@ -7,6 +7,8 @@ from controller import *
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = './uploads'
+app.config['ALLOWED_EXTENSIONS'] = ['png','jpeg','jpg']
 CORS(app)
 
 URL_BASE = '/osint/api/v1'
@@ -21,10 +23,16 @@ def tinder():
 	
 	name = request.form.get('name')
 	company = request.form.get('company')
-	files = request.form.get('files')
+	files = request.files
 	users = []
+	if len(files)>0 and not name and not company:
+		users=compareImages(files)
 	if company and not name and len(files)==0:
 		users = getUsersByCompany(company)
+	elif name and not company and len(files)==0:
+		users = getUsersByName(name)
+	elif company and name and len(files)==0:
+		users = getUsersByCompanyAndName(company,name)
 
 	return jsonify({'msg':users})
 

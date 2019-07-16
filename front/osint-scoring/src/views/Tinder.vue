@@ -85,7 +85,7 @@
                   <p class="subtitle is-6">Location: {{user.user.location}}</p>
                   <p class="subtitle is-6">Birth: {{user.user.birth.split('T')[0]}}</p>
 
-                  <p><span v-if="user.user.job.company !== undefined">{{user.user.job.company.name}}</span> &nbsp;<span v-if="user.user.job.title !== undefined">{{user.user.job.title.name}}</span></p>
+                  <p v-if="user.user.job !== ''"><span v-if="user.user.job.company !== undefined">{{user.user.job.company.name}}</span> &nbsp;<span v-if="user.user.job.title !== undefined">{{user.user.job.title.name}}</span></p>
             </div>
           </div>
         </div>
@@ -159,25 +159,20 @@ export default {
         this.dropFiles.length == 0
       ) {
         this.toast("You must provide at least one input");
-      } else {
-        const toJson = (x) => {
-          var jobString =""
-          jobString=x.user.job
-          jobString=jobString.replace(new RegExp("'", "g"), '"');
-          var obj2 = JSON.parse(jobString);
-          x.user.job=obj2
-          return x;
-        };       
+      } else {    
         const data = new FormData();
         data.append("name", this.name);
         data.append("company", this.company);
-        data.append("files", this.dropFiles);
+        console.log(this.dropFiles);
+        for( var i = 0; i < this.dropFiles.length; i++ ){
+          let file = this.dropFiles[i];
+          data.append('files[' + i + ']', file);
+        }
         this.$http
           .post(`${URL_BASE}/tinder`, data, { timeout: 12000000 })
           .then(response => {
             const responseData = response.data;
             this.userData = responseData.msg
-            this.userData.map(toJson);
           });
       }
     },

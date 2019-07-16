@@ -52,7 +52,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Tinder scrapper...")
-			#tinder(token)
+			tinder(args.token)
 
 	if args.google:
 		if not args.name:
@@ -63,7 +63,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Google scrapper...")
-			#google(name,place,image)
+			google(args.name,args.place,args.image)
 
 	return args
 
