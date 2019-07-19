@@ -26,13 +26,19 @@ def tinder():
 	files = request.files
 	users = []
 	if len(files)>0 and not name and not company:
-		users=compareImages(files)
+		users=compareImages(files,None)
 	if company and not name and len(files)==0:
 		users = getUsersByCompany(company)
 	elif name and not company and len(files)==0:
 		users = getUsersByName(name)
 	elif company and name and len(files)==0:
 		users = getUsersByCompanyAndName(company,name)
+	elif company and name and len(files)>0:
+		users=getUsersNameCompanyPhoto(company,name,files)
+	elif company and not name and len(files)>0:
+		users=getUsersByPhotoAndCompany(company,files)
+	elif not company and name and len(files)>0:
+		users=getUsersByNameAndPhoto(name,files)
 
 	return jsonify({'msg':users})
 
