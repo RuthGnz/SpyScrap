@@ -9,11 +9,15 @@ import datetime
 import face_recognition
 from os import listdir,remove
 from os.path import isfile, join
+from selenium.webdriver.chrome.options import Options
 
 def google(toSearch,placeToSearch,knownImage):
 	print(toSearch)
+	chrome_options = Options()  
+	chrome_options.add_argument("--headless")
 	chrome_path = './chromedriver_linux64/chromedriver'
-	driver = webdriver.Chrome(chrome_path)
+	driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
+
 	if placeToSearch != '':
 		driver.get("https://www.google.com/search?q=site:"+placeToSearch+"+AND+%22"+toSearch+"%22&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
 	else:
@@ -63,6 +67,7 @@ def google(toSearch,placeToSearch,knownImage):
 				jsonfile[name]=imgUrl
 				
 				try:
+					#TODO a veces se queda pillado timeout¿¿
 					urllib.request.urlretrieve(imgUrl, name)
 				except:
 					src=s.get_attribute('src')

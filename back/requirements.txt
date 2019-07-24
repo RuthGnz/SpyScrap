@@ -5,3 +5,4 @@ pyjwt==1.7.1
 flask==cors-3.0.8
 peewee==3.8.0
 face-recognition==1.2.3
+selenium == 3.141.0

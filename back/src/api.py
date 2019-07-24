@@ -42,5 +42,14 @@ def tinder():
 
 	return jsonify({'msg':users})
 
+@app.route(URL_BASE+"/google",methods=['POST'])
+def google():
+	data=[]
+	name = request.form.get('name')
+	place = request.form.get('place')
+	files = request.files
+	google_controller(name,place,files)
+	return jsonify({'msg':data})
+
 if __name__ == '__main__':
     app.run(debug=True)

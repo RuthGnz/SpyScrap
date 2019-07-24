@@ -20,6 +20,12 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Tinder.vue")
     },
     {
+      path: "/google",
+      name: "google",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Google.vue")
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting
