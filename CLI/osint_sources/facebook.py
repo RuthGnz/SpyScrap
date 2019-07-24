@@ -47,6 +47,8 @@ def facebook (name_to_search):
         if user_class=='_32mo':
             links.append(user.get_attribute('href'))
             print(user.get_attribute('href'))
+            user={'name':user.get_attribute('title'),'profile':user.get_attribute('href')}
+            jsonData.append(user)
 
     isMoreButton=True
     i=0
@@ -63,25 +65,15 @@ def facebook (name_to_search):
                 user_class=user.get_attribute('class')
                 if user_class=='_32mo':
                     links.append(user.get_attribute('href'))
+
                     print(user.get_attribute('href'))
-
-
-    for l in links:
-        driver.get(l)
-        cover=driver.find_elements_by_class_name('coverPhotoImg')
-        img=""
-        if len(cover)>0:
-            cover=cover[0]
-            img=str(l)+".jpg"
-            url=cover.get_attribute('src')
-            print(url)
-            image=os.path.join('images/'+str(now),img)
-            try:
-                urllib.request.urlretrieve(url, image)
-            except:
-                pass
             
-        user={'image':img,'profile':l}
-        jsonData.append(user)
+                    user={'name':user.get_attribute('title'),'profile':user.get_attribute('href')}
+                    jsonData.append(user)
 
+    now = datetime.datetime.now()
+    os.mkdir( "images/"+str(now) );
+    path=os.path.join('images/'+str(now),'facebook_data.json')
+    with open(path, 'w+') as outfile:
+        json.dump(jsonData, outfile)  
     driver.quit()
