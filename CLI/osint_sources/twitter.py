@@ -12,13 +12,14 @@ import urllib.parse
 from selenium.common.exceptions import NoSuchElementException
 import json
 from selenium.webdriver.chrome.options import Options
+from difflib import SequenceMatcher
 
 
 def twitter (name_to_search,page_number):
     print(name_to_search)
     placeToSearch='twitter.com'
     chrome_options = Options()  
-    chrome_options.add_argument("--headless")
+    #chrome_options.add_argument("--headless")
 
     chrome_path = './chromedriver_linux64/chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
@@ -64,7 +65,9 @@ def twitter (name_to_search,page_number):
         born=sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-birthdateText u-dir")]/span/text()').extract_first()
         webpage=sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-urlText u-dir")]/a/@title').extract_first()
         image_url=sel.xpath('//img[@class="ProfileAvatar-image "]/@src').extract_first()
-        if 'miguel' in str(name).lower() or 'miguel' in str(description).lower():
+        if name==None:
+            name=""
+        if SequenceMatcher(None,name_to_search, name).ratio()>0.8 or name_to_search in str(description).lower():
             print("Name: "+str(name))
             print("Link: "+str(link))
             print("Description: "+str(description))
