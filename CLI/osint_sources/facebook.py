@@ -21,7 +21,7 @@ def facebook (name_to_search):
     path=os.path.join('images/'+str(now),'facebook_data.json')
     chrome_options = Options()
     jsonData=[]
-    #chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
 
     chrome_path = './chromedriver_linux64/chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)

@@ -19,7 +19,9 @@ def banner():
 		python3 -t -k <token>
 		python3 -g -n "<name surname>"
 		python3 -g -n "<name surname>" -i <imagePath>
-		python3 -t -n "<name surname>" -s <number of twitter pages to search>
+		python3 -w -n "<name surname>" -s <number of twitter pages to search>
+		python3 -f -n "<name surname>"
+		python3 -r -n "<name surname>"
     """)
 
 def getArguments(args):
@@ -30,14 +32,15 @@ def getArguments(args):
 	parser.add_argument('-k','--token',dest='token', help='If you choose tinder option, provide a valid token')
 	parser.add_argument('-w','--twitter',dest='twitter',action='store_true', help='Insert this option to scrapper Twitter')
 	parser.add_argument('-g','--google',dest='google', action='store_true', help='Insert this option to scrapper google.')
-	parser.add_argument('-f','--facebook',dest='facebook', action='store_true', help='Insert this option to scrapper google.')
+	parser.add_argument('-f','--facebook',dest='facebook', action='store_true', help='Insert this option to scrapper facebook.')
 	parser.add_argument('-n','--name',dest='name', help='Name of person you like to search.')
 	parser.add_argument("-p",'--place',dest='place', help="Location you like to search")
 	parser.add_argument("-i",'--image',dest='image', help="Image you like to search")
 	parser.add_argument("-s",'--size',dest='size', help="Limit for searches")
+	parser.add_argument("-r",'--instagram',dest='instagram',action='store_true', help='Insert this option to scrapper Instagram')
 	args = parser.parse_args()
 	
-	if not args.tinder and not args.google and not args.facebook and not args.twitter:
+	if not args.tinder and not args.google and not args.facebook and not args.twitter and not args.instagram:
 		print ("--------------")
 		print ("Error in input arguments: ")
 		print ("Need one type of input, -t/--tinder -g/--google -w/--twitter or -f/--facebook")
@@ -88,7 +91,16 @@ def getArguments(args):
 			print ("--------------")
 		else:
 			print ("Starting twitter scrapper...")
-			facebook_scrapper(args.name)					
+			facebook_scrapper(args.name)
+
+	if args.instagram:
+		if not args.name:					
+			print ("--------------")
+			print ("Name must be provided")
+			print ("--------------")
+		else:
+			print ("Starting Instagram scrapper...")
+			instagram_scrapper(args.name)				
 	return args
 
 

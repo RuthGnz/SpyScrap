@@ -4,6 +4,7 @@ from osint_sources.model import *
 from osint_sources.google import *
 from osint_sources.twitter import *
 from osint_sources.facebook import *
+from osint_sources.instagram import *
 
 
 def tinder(token):
@@ -59,3 +60,6 @@ def twitter_scrapper(name,size):
 
 def facebook_scrapper(name):
 	facebook(name)
+
+def instagram_scrapper(name):
+	instagram(name)

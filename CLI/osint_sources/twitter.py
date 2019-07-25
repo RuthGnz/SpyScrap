@@ -19,7 +19,7 @@ def twitter (name_to_search,page_number):
     print(name_to_search)
     placeToSearch='twitter.com'
     chrome_options = Options()  
-    #chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
 
     chrome_path = './chromedriver_linux64/chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
