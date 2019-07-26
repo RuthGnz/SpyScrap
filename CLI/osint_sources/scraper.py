@@ -2,6 +2,10 @@ import csv
 from osint_sources.tinder import *
 from osint_sources.model import *
 from osint_sources.google import *
+from osint_sources.twitter import *
+from osint_sources.facebook import *
+from osint_sources.instagram import *
+
 
 def tinder(token):
 
@@ -50,3 +54,12 @@ def linkedin():
 def google_scrapper(toSearch,place,knownImage):
 	google(toSearch,place,knownImage)
 
+
+def twitter_scrapper(name,size):
+	twitter(name,size)
+
+def facebook_scrapper(name):
+	facebook(name)
+
+def instagram_scrapper(name):
+	instagram(name)

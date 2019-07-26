@@ -7,6 +7,13 @@ from api import app
 from PIL import Image
 import requests
 from io import BytesIO
+from selenium.webdriver.common.keys import Keys
+import time
+import urllib.request
+from urllib.parse import unquote
+from selenium import webdriver
+import os
+import json
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -111,4 +118,9 @@ def getUsersByName(name):
 
 
 def getUsersByCompanyAndNameAndImage(company,name,knownFiles):
+	pass
+
+
+
+def google_controller(toSearch,placeToSearch,knownImage):
 	pass
