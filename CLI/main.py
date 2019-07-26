@@ -16,12 +16,15 @@ def banner():
 	------------------------------------------
 	USAGE:
 		python3 main.py [options]
-		python3 -t -k <token>
-		python3 -g -n "<name surname>"
-		python3 -g -n "<name surname>" -i <imagePath>
-		python3 -w -n "<name surname>" -s <number of twitter pages to search>
-		python3 -f -n "<name surname>"
-		python3 -r -n "<name surname>"
+		python3 -t -k <token>														INFO: Get Tinder users and store data in sqlite3 database
+		python3 -g -n "<name surname>"												INFO: Search in google
+		python3 -g -n "<name surname>" -i ' '										INFO: to downliad images
+		python3 -g -n "<name surname>" -i <imagePath>								INFO: to download images and do facial recognition in google
+		python3 -w -n "<name surname>" -s <number of twitter pages to search>		INFO: Search twitter profiles
+		python3 -f -n "<name surname>"												INFO: Search facebook profiles
+		python3 -r -n "<name surname>"												INFO: Search instagram profiles
+		python3 -r -n "<name surname>" -i <imagePath> 								INFO: to download instagram profile image and do facial recognition
+		python3 -r -n "<name surname>" -i ' '    									INFO: to download instagram profile image
     """)
 
 def getArguments(args):
@@ -38,6 +41,7 @@ def getArguments(args):
 	parser.add_argument("-i",'--image',dest='image', help="Image you like to search")
 	parser.add_argument("-s",'--size',dest='size', help="Limit for searches")
 	parser.add_argument("-r",'--instagram',dest='instagram',action='store_true', help='Insert this option to scrapper Instagram')
+	parser.add_argument("-v",'--verbose')
 	args = parser.parse_args()
 	
 	if not args.tinder and not args.google and not args.facebook and not args.twitter and not args.instagram:
@@ -89,6 +93,7 @@ def getArguments(args):
 			print ("--------------")
 			print ("Name must be provided")
 			print ("--------------")
+			parser.print_help()
 		else:
 			print ("Starting twitter scrapper...")
 			facebook_scrapper(args.name)
@@ -98,15 +103,14 @@ def getArguments(args):
 			print ("--------------")
 			print ("Name must be provided")
 			print ("--------------")
+			parser.print_help()
 		else:
 			print ("Starting Instagram scrapper...")
-			instagram_scrapper(args.name)				
+			instagram_scrapper(args.name,args.image)				
 	return args
 
 
 def main(argv):
-	#tinder()
-	#google_scrapper()
 	banner()
 	args = getArguments(argv)
 	print (args)
