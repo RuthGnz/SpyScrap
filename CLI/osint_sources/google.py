@@ -47,7 +47,7 @@ def google(toSearch,placeToSearch,knownImage):
 				input_elem.click()
 			except:
 				break
-	
+
 	out = []
 	jsonfile={}
 	t =""
@@ -57,16 +57,14 @@ def google(toSearch,placeToSearch,knownImage):
 	now = datetime.datetime.now()
 	os.mkdir( "images/"+str(now) );
 	for s in search:
+
 		td_p_input = s.find_element_by_xpath('..')
-		#text = td_p_input.find_element_by_xpath('..')
 		link=td_p_input.get_attribute('href')
 		try:
 			listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
 			t = listtext.get_attribute("text")
 		except:
 			pass
-
-		print(t)
 		if link != None:
 			url=link.split('imgurl=')
 			if len(url)>1:
@@ -77,7 +75,6 @@ def google(toSearch,placeToSearch,knownImage):
 				else:
 					name=os.path.join('images/'+str(now),str(j)+"-"+toSearch+".jpg")
 				jsonfile[name]=imgUrl
-				print (imgUrl)
 				jsonfile["info"] = t
 				t=""
 				if knownImage != None:
