@@ -22,6 +22,8 @@ def banner():
 		python3 -g -n "<name surname>" -i <imagePath>								INFO: to download images and do facial recognition in google
 		python3 -w -n "<name surname>" -s <number of twitter pages to search>		INFO: Search twitter profiles
 		python3 -f -n "<name surname>"												INFO: Search facebook profiles
+		python3 -f -n "<name surname>"	-i <imagePath>								INFO: Search facebook profiles and do facial recognition
+		python3 -f -n "<name surname>"	-i ' '										INFO: Search facebook profiles and download images
 		python3 -r -n "<name surname>"												INFO: Search instagram profiles
 		python3 -r -n "<name surname>" -i <imagePath> 								INFO: to download instagram profile image and do facial recognition
 		python3 -r -n "<name surname>" -i ' '    									INFO: to download instagram profile image
@@ -96,7 +98,7 @@ def getArguments(args):
 			parser.print_help()
 		else:
 			print ("Starting twitter scrapper...")
-			facebook_scrapper(args.name)
+			facebook_scrapper(args.name,args.image)
 
 	if args.instagram:
 		if not args.name:					
