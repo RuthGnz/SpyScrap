@@ -8,6 +8,13 @@ Es necesario tener Google Chrome e instalar el driver (Chromedriver adecuado en 
 Para descargar Chromedriver: http://chromedriver.chromium.org/downloads
 En esta carpeta viene Chromedriver compativle con la versión de Chrome 72.xx, para otras versiones será necesario descargar el chromedriver correspondiente.
 
+
+
+.setup.sh
+
+
+
+
 https://cmusatyalab.github.io/openface/setup/ -> para instalar
 En la carpeta openface:
 git clone https://github.com/cmusatyalab/openface.git

@@ -61,6 +61,12 @@ def google(toSearch,placeToSearch,knownImage):
 
 		td_p_input = s.find_element_by_xpath('..')
 		link=td_p_input.get_attribute('href')
+		div = td_p_input.find_element_by_xpath('..')
+		
+		if 'Q7Rsec'== div.get_attribute('jscontroller'):
+			jsonDiv=div.find_elements_by_class_name('notranslate')[0]
+			jsonInfo= json.loads(jsonDiv.get_attribute('innerHTML'))
+			print(jsonInfo)
 		try:
 			listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
 			t = listtext.text
