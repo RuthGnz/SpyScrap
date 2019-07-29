@@ -62,7 +62,7 @@ def google(toSearch,placeToSearch,knownImage):
 		link=td_p_input.get_attribute('href')
 		try:
 			listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
-			t = listtext.get_attribute("text")
+			t = listtext.text
 		except:
 			pass
 		if link != None:
