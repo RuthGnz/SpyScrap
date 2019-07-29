@@ -21,7 +21,7 @@ def twitter (name_to_search,page_number):
     chrome_options = Options()  
     chrome_options.add_argument("--headless")
 
-    chrome_path = './chromedriver_linux64/chromedriver'
+    chrome_path = './chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
 
     people_list=[]

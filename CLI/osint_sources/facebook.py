@@ -12,9 +12,11 @@ import urllib.parse
 from selenium.common.exceptions import NoSuchElementException
 import json
 from selenium.webdriver.chrome.options import Options
+import shutil
+import requests
+from osint_sources.recognition import *
 
-
-def facebook (name_to_search):
+def facebook (name_to_search,knownimage):
     print(name_to_search)
     now = datetime.datetime.now()
     os.mkdir( "images/"+str(now) );
@@ -23,7 +25,7 @@ def facebook (name_to_search):
     jsonData=[]
     chrome_options.add_argument("--headless")
 
-    chrome_path = './chromedriver_linux64/chromedriver'
+    chrome_path = './chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
 
     driver.get("https://es-la.facebook.com/public/"+name_to_search)
@@ -65,9 +67,7 @@ def facebook (name_to_search):
                 user_class=user.get_attribute('class')
                 if user_class=='_32mo':
                     links.append(user.get_attribute('href'))
-
                     print(user.get_attribute('href'))
-            
                     user={'name':user.get_attribute('title'),'profile':user.get_attribute('href')}
                     jsonData.append(user)
 
@@ -75,5 +75,23 @@ def facebook (name_to_search):
     os.mkdir( "images/"+str(now) );
     path=os.path.join('images/'+str(now),'facebook_data.json')
     with open(path, 'w+') as outfile:
-        json.dump(jsonData, outfile)  
+        json.dump(jsonData, outfile)
+
+    j=0
+    for l in links:
+        driver.get(l)
+        div=driver.find_elements_by_class_name('profilePicThumb')[0]
+        img=div.find_elements_by_tag_name('img')[0]
+        url=img.get_attribute('src')
+        name=os.path.join('images/'+str(now),str(j)+"-"+name_to_search+".jpg")
+        j=j+1
+        try:
+            urllib.request.urlretrieve(url, name)
+        except:
+            pass
     driver.quit()
+
+    if knownimage:
+        #face_identification(knownimage,'./images/'+str(now)+'/')
+        openface_identification(knownimage,'./images/'+str(now)+'/')
+   
