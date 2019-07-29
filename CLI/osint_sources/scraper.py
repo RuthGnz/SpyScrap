@@ -61,5 +61,5 @@ def twitter_scrapper(name,size):
 def facebook_scrapper(name):
 	facebook(name)
 
-def instagram_scrapper(name):
-	instagram(name)
+def instagram_scrapper(name,knownImage):
+	instagram(name,knownImage)

@@ -119,4 +119,5 @@ dmypy.json
 tinder.json
 database.db
 chromedriver_linux64/
+/openface/
 
