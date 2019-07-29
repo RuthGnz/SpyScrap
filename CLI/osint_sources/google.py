@@ -16,21 +16,15 @@ def google(toSearch,placeToSearch,knownImage):
 	chrome_options = Options()
 	chrome_options.add_argument("--headless")
 	chrome_path = './chromedriver_linux64/chromedriver'
-<<<<<<< HEAD
-	driver = webdriver.Chrome(chrome_path)
-	if placeToSearch != None:
-=======
 	driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
-
-	if placeToSearch != '':
->>>>>>> 0c9f78596062726c9d16cd03c185c4cd9bc3544a
+	if placeToSearch != None:
 		driver.get("https://www.google.com/search?q=site:"+placeToSearch+"+AND+%22"+toSearch+"%22&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
 	else:
 		driver.get("https://www.google.com/search?q="+toSearch+"&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
 
 	driver.implicitly_wait(50)
 
-	'''
+
 	isMoreButton=True
 	while isMoreButton:
 		for i in range(1,10):
@@ -53,7 +47,7 @@ def google(toSearch,placeToSearch,knownImage):
 				input_elem.click()
 			except:
 				break
-	'''
+	
 	out = []
 	jsonfile={}
 	t =""
