@@ -66,7 +66,7 @@ case $chrome_version in
 	elif ostype=="mac"; then
 		wget https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_mac64.zip
 	elif ostype=="win"; then
-		wget https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_win32.zip 
+		wget https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_win32.zip
 	else
 		echo 'Install driver manually: http://chromedriver.chromium.org/downloads'
 	fi
@@ -97,7 +97,7 @@ git clone https://github.com/torch/distro.git ~/torch --recursive
 cd ~/torch; bash install-deps;
 ./install.sh
 source ~/.bashrc
-pathToTorch=$(tail -1 ~/.bashrc) 
+pathToTorch=$(tail -1 ~/.bashrc)
 pathToTorch=${pathToTorch#". "}
 pathToTorch=${pathToTorch%"torch-activate"}
 pathToTorch="${pathToTorch}*"
@@ -111,4 +111,6 @@ cd $current_dir
 echo $header"Installing OpenFace"$header
 git clone https://github.com/cmusatyalab/openface.git
 python3 ./openface/setup.py install
-./openface/models/get-models.sh 
+./openface/models/get-models.sh
+
+python -m spacy download es_core_news_sm
