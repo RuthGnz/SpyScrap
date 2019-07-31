@@ -66,7 +66,7 @@ def openface_identification(known_image,folder):
 	for image in onlyfiles:
 		if 'jpeg' in image or 'jpg' in image or 'png' in image:
 			rep2=getRep(image,align,net,imgDim)
-			if len(rep2)>0:
+			if len(rep2)>0 and len(rep1)>0:
 				d= rep1-rep2
 				res=np.dot(d, d)
 				if res <= threshold:
