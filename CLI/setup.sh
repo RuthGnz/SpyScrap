@@ -113,4 +113,4 @@ git clone https://github.com/cmusatyalab/openface.git
 python3 ./openface/setup.py install
 ./openface/models/get-models.sh
 
-python -m spacy download es_core_news_sm
+python3 -m spacy download es_core_news_sm

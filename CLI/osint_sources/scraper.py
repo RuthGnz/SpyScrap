@@ -5,6 +5,7 @@ from osint_sources.google import *
 from osint_sources.twitter import *
 from osint_sources.facebook import *
 from osint_sources.instagram import *
+from osint_sources.boe import *
 
 
 def tinder(token):
@@ -63,3 +64,8 @@ def facebook_scrapper(name,knownImage):
 
 def instagram_scrapper(name,knownImage):
 	instagram(name,knownImage)
+
+def boe_scrapper(toSearch,initDate,finalDate,size,explicit):
+	if explicit==None:
+		explicit=True
+	boe(toSearch,initDate,finalDate,size,explicit)
