@@ -6,3 +6,4 @@ robobrowser == 0.5.3
 config == 0.4.0
 face-recognition==1.2.3
 opencv-python==4.1.0.25
+spacy==2.1.6
