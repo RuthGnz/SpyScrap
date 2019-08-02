@@ -106,6 +106,8 @@ def searchImages(driver):
 					info["text"] = text
 					info["url"] = url
 					info["domain"] = domain
+					print("-----------------")
+					print(info)
 					out.append(info)
 
 
@@ -170,8 +172,7 @@ def yandex(name,image,token):
 			if not images:
 				print('No images.')
 				driver.close()
-		print (images)
-
+		print("Closing the search")
 		if deletedImage(image_delete,token):
 			print ("Image deleted")
 		else:
