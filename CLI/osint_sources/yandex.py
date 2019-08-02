@@ -112,7 +112,7 @@ def searchImages(driver):
 
 
 		except Exception as e:
-			print(e)
+			print("-----------------")
 			print('Image witout Tag')
 
 	return out
