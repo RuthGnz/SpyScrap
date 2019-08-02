@@ -35,8 +35,10 @@ def boe (text_to_search,initDate,outDate,pages,exact):
     driver.get(url)
     driver.implicitly_wait(20)
 
+    links = []
     elements=driver.find_elements_by_tag_name('li')
-    links=[]
+    if elements == None:
+        print("NADA")
     for link in elements:
         li=link.get_attribute('class')
         if li=='resultado-busqueda':
@@ -50,6 +52,10 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                     #newUrl='https://www.boe.es/boe/dias/'+date+'/pdfs/'+href+'.pdf'
                     newUrl='https://www.boe.es/diario_boe/xml.php?id='+href
                     links.append(newUrl)
+    if not links:
+        print("--------------------------------------------------")
+        print("No results were found for that search: " + text_to_search)
+        sys.exit(-1)
 
     driver.quit()
     boe={}
@@ -131,11 +137,11 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                         else:
                             info=tdi.text
                         dataTable[headings[i]]=info
-                        
+
                     results.append(dataTable)
 
         boe['datatables']=results
-        
+
         texto=[]
         if len(results)==0:
             p=text.findall('p')
@@ -150,4 +156,3 @@ def boe (text_to_search,initDate,outDate,pages,exact):
             #try to search the text
         boe['texto']=texto
         print(boe)
-

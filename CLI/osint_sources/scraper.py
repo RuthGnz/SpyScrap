@@ -6,6 +6,7 @@ from osint_sources.twitter import *
 from osint_sources.facebook import *
 from osint_sources.instagram import *
 from osint_sources.boe import *
+from osint_sources.yandex import *
 
 
 def tinder(token):
@@ -38,14 +39,14 @@ def tinder(token):
 			for d in differents:
 				userInfo = [usr['user_info'] for usr in data if usr['id']==d]
 				for user in userInfo:
-					User.insertUser(user)           
+					User.insertUser(user)
 				scan.diskike_users(userInfo)
 			print(len(unique_list_ids))
 
 
 
-def yandex():
-	pass
+def yandex_scrapper(name,img,token):
+	yandex(name,img,token)
 
 
 def linkedin():
