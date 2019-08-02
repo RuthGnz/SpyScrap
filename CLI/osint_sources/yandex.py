@@ -5,6 +5,7 @@ from urllib.parse import unquote
 from os.path import isfile, join
 from os import listdir,remove
 import time
+import json
 import os
 import requests
 import re
@@ -84,16 +85,16 @@ def searchImages(driver):
 		try:
 			link=s.get_attribute('src')
 			if link != None and link != "":
-				name=os.path.join('images',str(j)+"-"+placeToSearch+".jpg")
-				urllib.request.urlretrieve(link, name)
+				#name=os.path.join('images',str(j)+"-"+placeToSearch+".jpg")
+				#urllib.request.urlretrieve(link, name)
 				j=j+1
 				div1 = s.find_element_by_xpath('..')
 				div2 = div1.find_element_by_xpath('..')
 				div3 = div2.find_element_by_xpath('..')
-				databem=div3.get_attribute('data-bem')
+				databem=json.loads(div3.get_attribute('data-bem'))
 				if databem is not None:
-					#print(databem)
 					originUrl=databem['serp-item']['preview'][0]['origin']['url']
+					print(originUrl)
 					dataOrigin=databem['serp-item']['snippet']
 					title=dataOrigin['title']
 					text = dataOrigin['text']
@@ -101,7 +102,6 @@ def searchImages(driver):
 					domain = dataOrigin['domain']
 					info ={}
 					info["originUrl"] = originUrl
-					info["dataOrigin"] = dataOrigin
 					info["title"] = title
 					info["text"] = text
 					info["url"] = url
@@ -109,7 +109,8 @@ def searchImages(driver):
 					out.append(info)
 
 
-		except:
+		except Exception as e:
+			print(e)
 			print('Image witout Tag')
 
 	return out
@@ -141,15 +142,14 @@ def yandex(name,image,token):
 		try:
 			request = requests.post(url="https://api.imgur.com/3/upload.json", data=data,headers=headers)
 			if request.status_code == requests.codes.ok:
-				print(request.json())
 				image_url = request.json()['data']['link']
-				#image_delete = request.json()['data']['deletehash']
+				image_delete = request.json()['data']['deletehash']
 				print ("Image upload to imgur: " + image_url)
 		except Exception as e:
 			print(e)
 			sys.exit(-1)
 
-	
+
 	proxy=crawlProxy()
 	if proxy is not None:
 		#proxy="81.163.62.136:41258"
@@ -158,10 +158,8 @@ def yandex(name,image,token):
 		chrome_options.add_argument('--proxy-server=%s' % proxy)
 		chrome_path = './chromedriver'
 		driver = webdriver.Chrome(chrome_path,options=chrome_options)
-		encoded_url=urllib.parse.quote_plus(image_url)
-		url_final = "https://yandex.ru/images/search?url="+encoded_url+"&rpt=imagelike"
-		print (url_final)
-		'''driver.get("https://yandex.ru/images/search?url="+encoded_url+"&rpt=imagelike")
+		url_final = "https://yandex.ru/images/search?url="+image_url+"&rpt=imagelike"
+		driver.get(url_final)
 		driver.implicitly_wait(50)
 		time.sleep(3)
 		captcha=isCaptcha(driver)
@@ -173,8 +171,7 @@ def yandex(name,image,token):
 				print('No images.')
 				driver.close()
 		print (images)
-		'''
-		driver.close()
+
 		if deletedImage(image_delete,token):
 			print ("Image deleted")
 		else:
