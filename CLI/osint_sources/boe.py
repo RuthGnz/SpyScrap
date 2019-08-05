@@ -60,10 +60,11 @@ def boe (text_to_search,initDate,outDate,pages,exact):
             driver.get(nextPageLink)
 
     driver.quit()
-    boe={}
+    boe_data=[]
     for url in links:
-        boe['url']=url
+        boe={}
         print(url)
+        boe['url']=url
         remoteFile = urllib.request.urlopen(url).read()
         memoryFile = BytesIO(remoteFile)
         tree = ET.parse(memoryFile)
@@ -123,7 +124,6 @@ def boe (text_to_search,initDate,outDate,pages,exact):
 
 
             if is_important:
-                print(headings)
                 tbody=table.find('tbody')
                 if tbody!=None:
                     tr=tbody.findall('tr')
@@ -164,5 +164,12 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                         texto.append(pi.text)
             #try to search the text
         boe['texto']=texto
-        print(boe)
+        boe_data.append(boe)
 
+
+
+    now = datetime.datetime.now()
+    os.mkdir( "images/"+str(now) );
+    path=os.path.join('images/'+str(now),'boe_data.json')
+    with open(path, 'w+') as outfile:
+        json.dump(boe_data, outfile)
