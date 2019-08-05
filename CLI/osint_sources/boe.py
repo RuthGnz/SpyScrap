@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 def boe (text_to_search,initDate,outDate,pages,exact):
     if exact:
         text_to_search='"'+text_to_search+'"'
+    pages=int(pages)
     now = datetime.datetime.now()
     chrome_options = Options()
     jsonData=[]
@@ -34,22 +35,29 @@ def boe (text_to_search,initDate,outDate,pages,exact):
 
     driver.get(url)
     driver.implicitly_wait(20)
-
-    elements=driver.find_elements_by_tag_name('li')
     links=[]
-    for link in elements:
-        li=link.get_attribute('class')
-        if li=='resultado-busqueda':
-            date=link.find_elements_by_tag_name('h4')[0].get_attribute('innerHTML').split(' ')[3]
-            a=link.find_elements_by_tag_name('a')
-            for i in a:
-                cl=i.get_attribute('class')
-                if cl=='resultado-busqueda-link-defecto':
-                    href=i.get_attribute('href')
-                    href=href.split('=')[1]
-                    #newUrl='https://www.boe.es/boe/dias/'+date+'/pdfs/'+href+'.pdf'
-                    newUrl='https://www.boe.es/diario_boe/xml.php?id='+href
-                    links.append(newUrl)
+    for page in range(pages):
+        elements=driver.find_elements_by_tag_name('li')
+        for link in elements:
+            li=link.get_attribute('class')
+            if li=='resultado-busqueda':
+                date=link.find_elements_by_tag_name('h4')[0].get_attribute('innerHTML').split(' ')[3]
+                a=link.find_elements_by_tag_name('a')
+                for i in a:
+                    cl=i.get_attribute('class')
+                    if cl=='resultado-busqueda-link-defecto':
+                        href=i.get_attribute('href')
+                        href=href.split('=')[1]
+                        #newUrl='https://www.boe.es/boe/dias/'+date+'/pdfs/'+href+'.pdf'
+                        newUrl='https://www.boe.es/diario_boe/xml.php?id='+href
+                        links.append(newUrl)
+        nextPage=driver.find_elements_by_class_name('pagSig')
+        if len(nextPage) == 0:
+            break
+        else:
+            nextPage=nextPage[0]
+            nextPageLink= nextPage.find_element_by_xpath('..').get_attribute('href')
+            driver.get(nextPageLink)
 
     driver.quit()
     boe={}
@@ -74,9 +82,10 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                     for t in th:
                         if t!=None:
                             data=t.text
-                            headings.append(data)
-                            if 'nombre' in data.lower() or 'apellido' in data.lower() or 'dni' in data.lower() or 'd.n.i' in data.lower() or 'nif' in data.lower():
-                                is_important=True
+                            if data!=None:
+                                headings.append(data)
+                                if 'nombre' in data.lower() or 'apellido' in data.lower() or 'dni' in data.lower() or 'd.n.i' in data.lower() or 'nif' in data.lower():
+                                    is_important=True
                 else:
                     td=tr.findall('td')
                     for t in td:
@@ -97,11 +106,12 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                             if pi.get('class')!=None:
                                 if 'cabeza_tabla' in pi.get('class') :
                                     heading=heading+pi.text
-                                    if 'nombre' in data.lower() or 'apellido' in data.lower() or 'dni' in data.lower() or 'd.n.i' in data.lower() or 'nif' in data.lower():
+                                    if 'nombre' in heading.lower() or 'apellido' in heading.lower() or 'dni' in heading.lower() or 'd.n.i' in heading.lower() or 'nif' in heading.lower():
                                         is_important=True
                             else:
-                                if 'nombre' in data.lower() or 'apellido' in data.lower() or 'dni' in data.lower() or 'd.n.i' in data.lower() or 'nif' in data.lower():
-                                    if pi.text !=None:
+                                if pi.text != None:
+                                    data=pi.text
+                                    if 'nombre' in data.lower() or 'apellido' in data.lower() or 'dni' in data.lower() or 'd.n.i' in data.lower() or 'nif' in data.lower():
                                         heading=heading+pi.text
                                         is_important=True
                                 if i==2:
@@ -113,6 +123,7 @@ def boe (text_to_search,initDate,outDate,pages,exact):
 
 
             if is_important:
+                print(headings)
                 tbody=table.find('tbody')
                 if tbody!=None:
                     tr=tbody.findall('tr')
@@ -130,7 +141,11 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                                 info=p.text
                         else:
                             info=tdi.text
-                        dataTable[headings[i]]=info
+                        if i>len(headings)-1:
+                            print('petaaa')
+                            dataTable[i]=info
+                        else:
+                            dataTable[headings[i]]=info
                         
                     results.append(dataTable)
 
