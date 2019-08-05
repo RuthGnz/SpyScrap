@@ -48,7 +48,6 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                     if cl=='resultado-busqueda-link-defecto':
                         href=i.get_attribute('href')
                         href=href.split('=')[1]
-                        #newUrl='https://www.boe.es/boe/dias/'+date+'/pdfs/'+href+'.pdf'
                         newUrl='https://www.boe.es/diario_boe/xml.php?id='+href
                         links.append(newUrl)
         nextPage=driver.find_elements_by_class_name('pagSig')
@@ -146,11 +145,10 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                             dataTable[i]=info
                         else:
                             dataTable[headings[i]]=info
-                        
                     results.append(dataTable)
 
         boe['datatables']=results
-        
+
         texto=[]
         if len(results)==0:
             p=text.findall('p')

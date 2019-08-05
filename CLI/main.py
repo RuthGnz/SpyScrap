@@ -14,19 +14,6 @@ def banner():
 	|					  |
 	|                                         |
 	------------------------------------------
-	USAGE:
-		python3 main.py [options]
-		python3 -t tinder -k TOKEN			
-		python3 --tag google -n "<name surname>"		
-		python3 --tag google -n "<name surname>" -i <imagePath>								
-		python3 --tag google -n "<name surname>" -i <imagePath>	-p "<Place>"								
-		python3 -t twitter -n "<name surname>" -s <number of twitter pages to search>						
-		python3 -t facebook -n "<name surname>"											
-		python3 --tag facebook -n "<name surname>"	-i <imagePath>								
-		python3 -t instagram -n "<name surname>"												
-		python3 -t instagram -n "<name surname>" -i <imagePath> 											
-		python3 -t boe -n "<text to search>" -s <number of BOE pages to search>
-    	python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date> 		
 
     """)
 
@@ -35,12 +22,12 @@ def getArguments(args):
 	arguments={}
 	parser = argparse.ArgumentParser(description='EI - This tool scrapping social media to get information from a target')
 	parser.add_argument('-t','--tag',dest='tag', help='Insert the option to scrapper, options: tinder, twitter, google, facebook, instagram or all')
-	parser.add_argument('-k','--token',dest='token', help='If you choose tinder option, provide a valid token')
+	parser.add_argument('-k','--token',dest='token', help='If you choose tinder/yandex option, provide a valid token')
 	parser.add_argument('-n','--name',dest='name', help='Name of person you like to search.')
 	parser.add_argument("-p",'--place',dest='place', help="Location you like to search")
 	parser.add_argument("-i",'--image',dest='image', help="Image you like to search")
 	parser.add_argument("-s",'--size',dest='size', help="Limit for searches")
-	parser.add_argument("-e",'--explicit', dest='explicit', help="efault True. If true it search the exact text, if false it can search each word separately")
+	parser.add_argument("-e",'--explicit', dest='explicit', help="Default True. If true it search the exact text, if false it can search each word separately")
 	parser.add_argument("-d",'--initdate',dest='initdate',help="Format is dd/mm/aaaa")
 	parser.add_argument('-f','--finaldate',dest='finaldate', help="Format is dd/mm/aaaa")
 	parser.add_argument("-v",'--verbose')
@@ -127,9 +114,23 @@ def getArguments(args):
 			if not args.size:
 				args.size=1
 			print ("Starting Boe scrapper...")
-			boe_scrapper(args.name,args.initdate,args.finaldate,args.size,args.explicit)	
-
-	
+			boe_scrapper(args.name,args.initdate,args.finaldate,args.size,args.explicit)
+	if args.tag.lower()=="yandex":
+		if not args.image:
+			print ("--------------")
+			print ("image option must be provided")
+			print ("--------------")
+			parser.print_help()
+			sys.exit(-1)
+		if not re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+] |[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', args.image) and not args.token:
+			print ("--------------")
+			print ("if you upload your own photo, client-id imgur must be provided with token option  " + args.image)
+			print ("--------------")
+			parser.print_help()
+			sys.exit(-1)
+		else:
+			print ("Starting Yandex scrapper...")
+			yandex_scrapper(args.name, args.image, args.token)
 
 	if args.tag.lower() == "all":
 		print ("--------------")
