@@ -94,7 +94,6 @@ def searchImages(driver):
 				databem=json.loads(div3.get_attribute('data-bem'))
 				if databem is not None:
 					originUrl=databem['serp-item']['preview'][0]['origin']['url']
-					print(originUrl)
 					dataOrigin=databem['serp-item']['snippet']
 					title=dataOrigin['title']
 					text = dataOrigin['text']
