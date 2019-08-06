@@ -115,7 +115,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/images/
 tinder.json
 database.db
 chromedriver_linux64/
