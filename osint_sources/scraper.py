@@ -2,6 +2,12 @@ import csv
 from osint_sources.tinder import *
 from osint_sources.model import *
 from osint_sources.google import *
+from osint_sources.twitter import *
+from osint_sources.facebook import *
+from osint_sources.instagram import *
+from osint_sources.boe import *
+from osint_sources.yandex import *
+
 
 def tinder(token):
 
@@ -33,14 +39,14 @@ def tinder(token):
 			for d in differents:
 				userInfo = [usr['user_info'] for usr in data if usr['id']==d]
 				for user in userInfo:
-					User.insertUser(user)           
+					User.insertUser(user)
 				scan.diskike_users(userInfo)
 			print(len(unique_list_ids))
 
 
 
-def yandex():
-	pass
+def yandex_scrapper(name,img,token):
+	yandex(name,img,token)
 
 
 def linkedin():
@@ -50,3 +56,17 @@ def linkedin():
 def google_scrapper(toSearch,place,knownImage):
 	google(toSearch,place,knownImage)
 
+
+def twitter_scrapper(name,size):
+	twitter(name,size)
+
+def facebook_scrapper(name,knownImage):
+	facebook(name,knownImage)
+
+def instagram_scrapper(name,knownImage):
+	instagram(name,knownImage)
+
+def boe_scrapper(toSearch,initDate,finalDate,size,explicit):
+	if explicit==None:
+		explicit=True
+	boe(toSearch,initDate,finalDate,size,explicit)
