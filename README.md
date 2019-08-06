@@ -61,7 +61,7 @@ python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <bool
 ```
 
 USAGE:
-  python3 main.py [options]
+```  python3 main.py [options]
   python3 -t tinder -k TOKEN			
   python3 --tag google -n "<name surname>"		
   python3 --tag google -n "<name surname>" -i <imagePath>								
@@ -72,4 +72,5 @@ USAGE:
   python3 -t instagram -n "<name surname>"												
   python3 -t instagram -n "<name surname>" -i <imagePath> 											
   python3 -t boe -n "<text to search>" -s <number of BOE pages to search>
-  python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date>
+  python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date>```
+  
