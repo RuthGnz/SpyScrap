@@ -1,0 +1,10 @@
+version: '3'
+services:
+  osint-back:
+    build: 
+      context: .
+      dockerfile: Dockerfile-back
+    ports:
+    - "5000:5000"
+    volumes:
+    - ./back/src/:/app

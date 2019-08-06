@@ -1,15 +1,10 @@
-from flask import Flask, jsonify, request
-import requests
+from flask import jsonify, request
 import logging
-import json
-from flask_cors import CORS
+from app import app
 from controller import *
 
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = './uploads'
-app.config['ALLOWED_EXTENSIONS'] = ['png','jpeg','jpg']
-CORS(app)
+
 
 URL_BASE = '/osint/api/v1'
 

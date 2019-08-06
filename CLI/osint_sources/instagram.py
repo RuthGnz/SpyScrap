@@ -9,7 +9,6 @@ import requests
 import json
 import urllib.request
 from osint_sources.recognition import *
-
 def instagram (name_to_search,knownimage):
     resp = requests.get(url='https://www.instagram.com/web/search/topsearch/?context=blended&query='+name_to_search)
     now = datetime.datetime.now()
@@ -40,6 +39,9 @@ def instagram (name_to_search,knownimage):
         json.dump(jsonData, outfile)     
 
     if knownimage:
-        #face_identification(knownimage,'./images/'+str(now)+'/')
         openface_identification(knownimage,'./images/'+str(now)+'/')
-   
+
+
+
+        
+ 

@@ -3,7 +3,6 @@ import face_recognition
 from werkzeug.utils import secure_filename
 import os
 from os import listdir,remove
-from api import app
 from PIL import Image
 import requests
 from io import BytesIO
@@ -14,6 +13,7 @@ from urllib.parse import unquote
 from selenium import webdriver
 import os
 import json
+from app import app
 
 def allowed_file(filename):
     return '.' in filename and \

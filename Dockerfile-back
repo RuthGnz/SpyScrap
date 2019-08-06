@@ -1,0 +1,16 @@
+FROM ubuntu:18.04
+RUN apt-get update -y 
+RUN apt-get install wget unzip -y
+RUN apt-get remove python3-pip -y && apt-get install python3-pip build-essential cmake git -y 
+COPY /CLI /CLI
+WORKDIR CLI
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
+RUN chmod +x setup.sh
+RUN ./setup.sh
+COPY /back/src/ /app
+COPY /back/requirements.txt /app
+WORKDIR /app
+RUN pip3 install -r requirements.txt
+EXPOSE 5000
+CMD ["gunicorn", "-b","0.0.0.0:5000","-t","1800","api:app","--reload"]

@@ -9,7 +9,7 @@ import torchvision
 import numpy as np
 
 def face_identification(known_image,folder):
-	print('****** Image recognition *******')
+	#print('****** Image recognition *******')
 	onlyfiles = [join(folder, f) for f in listdir(folder) if isfile(join(folder, f))]
 
 	try:
@@ -24,7 +24,6 @@ def face_identification(known_image,folder):
 
 
 	for image in onlyfiles:
-		print(image)
 		if 'data.json' not in image:
 			
 			unknown_image = face_recognition.load_image_file(image)
@@ -32,9 +31,7 @@ def face_identification(known_image,folder):
 			if len(face_recognition.face_encodings(unknown_image))>0:
 				unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
 				results = face_recognition.compare_faces([known_encoding], unknown_encoding)
-				print(results)
 				if results[0]==True:
-					print('Face Recognized')
 					img_name=image.split('/')
 					img_name=img_name[len(img_name)-1]
 					new_image=folder+'/recognized/'+img_name
@@ -42,10 +39,11 @@ def face_identification(known_image,folder):
 				else:
 					pass
 			else:
-				print('Not face found')
+				pass
+				#print('Not face found')
 		else:
 			pass		
-	print()
+	#print()
 
 
 modelDir = os.path.join('./openface/', 'models')
