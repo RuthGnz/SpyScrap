@@ -1,8 +1,0 @@
-Flask==1.0.2
-requests==2.18.4
-gunicorn==19.8.1
-pyjwt==1.7.1
-Flask-Cors==3.0.8
-peewee==3.8.0
-face-recognition==1.2.3
-selenium == 3.141.0
