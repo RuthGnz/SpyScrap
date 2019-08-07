@@ -1,6 +1,8 @@
 # CLI
 
 Modulo de consola de comandos
+![alt text](./SpyScrap.png)
+
 
 ### Prerequisites
 
