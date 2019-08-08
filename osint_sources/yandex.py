@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# coding: utf-8
+# encoding=utf8
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
@@ -28,21 +31,17 @@ def isCaptcha(driver):
 
 def checkProxy(proxy):
 
-	#print(proxy)
 	proxies = {
 	"http": proxy,
 	"https": proxy,
 	}
 
 	try:
-		#print("Request to Google to try Proxy")
 		resp= requests.get("https://google.com", proxies=proxies, timeout=20)
 		print("Google responses "+str(resp.status_code)+" in "+str(resp.elapsed.total_seconds())+ " seconds.")
 		if((resp.status_code!=200) or resp.elapsed.total_seconds()>10):
-			#print("It takes a long time or error")
 			return 0
 		else:
-			#print("It is a valid proxy")
 			return 1
 	except:
 		print("Error while checking the proxy: "+ str(proxy))
@@ -111,8 +110,7 @@ def searchImages(driver):
 
 
 		except Exception as e:
-			print("-----------------")
-			print('Image witout Tag')
+			pass
 
 	return out
 
@@ -125,7 +123,7 @@ def deletedImage(hashimage, token):
         return False
 
 
-def yandex(name,image,token):
+def yandex(name,image,token,verbose):
 	image_url = image
 	image_delete = ""
 	url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+] |[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', image)
@@ -153,9 +151,9 @@ def yandex(name,image,token):
 
 	proxy=crawlProxy()
 	if proxy is not None:
-		#proxy="81.163.62.136:41258"
 		print (proxy)
 		chrome_options = webdriver.ChromeOptions()
+		chrome_options.add_argument("--headless")
 		chrome_options.add_argument('--proxy-server=%s' % proxy)
 		chrome_path = './chromedriver'
 		driver = webdriver.Chrome(chrome_path,options=chrome_options)
@@ -171,11 +169,19 @@ def yandex(name,image,token):
 			if not images:
 				print('No images.')
 				driver.close()
-		print("Closing the search")
-		if deletedImage(image_delete,token):
-			print ("Image deleted")
-		else:
-			print("Problem when deleted image from imgur")
+			now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+			if not os.path.isdir("data/yandex"):
+				os.mkdir("data/yandex");
+			path=os.path.join('data/yandex',str(now)+'_yandex_data.json')
+			with open(path, 'w+') as outfile:
+				json.dump(images, outfile)
 
+		if not token == None:
+			if deletedImage(image_delete,token):
+				print ("Image deleted")
+			else:
+				print("Problem when deleted image from imgur")
+
+		print("Results Yandex in: " + str(path))
 	else:
 		print('Yandex is blocked')

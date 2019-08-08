@@ -14,7 +14,7 @@ def instagram (name_to_search,knownimage,verbose):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not os.path.isdir("data/instragram"):
         os.mkdir("data/instagram");
-    os.mkdir("data/instagram/"+str(now)+"_images");
+
     path=os.path.join('data/instagram',str(now)+'_instagram_data.json')
     users=resp.json()['users']
     jsonData=[]
@@ -28,6 +28,7 @@ def instagram (name_to_search,knownimage,verbose):
             print('Is Verified: '+str(u['user']['is_verified']))
             print()
         if knownimage:
+            os.mkdir("data/instagram/"+str(now)+"_images");
             image_name=os.path.join('data/instagram/'+str(now)+'_images',str(j)+"-"+'instagram.jpg')
             urllib.request.urlretrieve(u['user']['profile_pic_url'], image_name)
             user={'username:':u['user']['username'],'full_name':u['user']['full_name'],'profile':'https://www.instagram.com/'+u['user']['username'],'is_private':u['user']['is_private'],'is_verified':u['user']['is_verified'],'image':image_name}

@@ -45,8 +45,8 @@ def tinder(token):
 
 
 
-def yandex_scrapper(name,img,token):
-	yandex(name,img,token)
+def yandex_scrapper(name,img,token,verbose):
+	yandex(name,img,token,verbose)
 
 
 def linkedin():

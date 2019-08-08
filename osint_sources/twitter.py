@@ -44,7 +44,7 @@ def twitter (name_to_search,page_number,verbose):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not os.path.isdir("data/twitter"):
         os.mkdir("data/twitter");
-    os.mkdir("data/twitter/"+str(now)+"_images");
+
     path=os.path.join('data/twitter',str(now)+'_twitter_data.json')
     jsonData=[]
     for p in people_list:
@@ -85,12 +85,14 @@ def twitter (name_to_search,page_number,verbose):
                 print('\n')
             userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
             jsonData.append(userData)
-            image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
+            if knownimage:
+                os.mkdir("data/twitter/"+str(now)+"_images");
+                image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
 
-            try:
-                urllib.request.urlretrieve(image_url, image)
-            except:
-                pass
+                try:
+                    urllib.request.urlretrieve(image_url, image)
+                except:
+                    pass
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
 
