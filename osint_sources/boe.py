@@ -17,11 +17,10 @@ import requests
 from io import BytesIO
 import xml.etree.ElementTree as ET
 
-def boe (text_to_search,initDate,outDate,pages,exact):
+def boe (text_to_search,initDate,outDate,pages,exact,verbose):
     if exact:
         text_to_search='"'+text_to_search+'"'
     pages=int(pages)
-    now = datetime.datetime.now()
     chrome_options = Options()
     jsonData=[]
     chrome_options.add_argument("--headless")
@@ -62,7 +61,6 @@ def boe (text_to_search,initDate,outDate,pages,exact):
     boe_data=[]
     for url in links:
         boe={}
-        print(url)
         boe['url']=url
         remoteFile = urllib.request.urlopen(url).read()
         memoryFile = BytesIO(remoteFile)
@@ -141,7 +139,6 @@ def boe (text_to_search,initDate,outDate,pages,exact):
                         else:
                             info=tdi.text
                         if i>len(headings)-1:
-                            print('petaaa')
                             dataTable[i]=info
                         else:
                             dataTable[headings[i]]=info
@@ -166,8 +163,18 @@ def boe (text_to_search,initDate,outDate,pages,exact):
 
 
 
-    now = datetime.datetime.now()
-    os.mkdir( "images/"+str(now) );
-    path=os.path.join('images/'+str(now),'boe_data.json')
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if not os.path.isdir("data/boe"):
+        os.mkdir( "data/boe" );
+    path=os.path.join('data/boe',str(now) + '_boe_data.json')
     with open(path, 'w+') as outfile:
         json.dump(boe_data, outfile)
+    if verbose:
+        for i in boe_data:
+            print(i["url"])
+            print("--------------------")
+            if i["datatables"]:
+                print(i["datatables"])
+            if i["texto"]:
+                print(i["texto"])
+    print("Results BOE in: " + str(path))

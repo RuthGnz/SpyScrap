@@ -19,8 +19,7 @@ def containsAny(str, set):
     """ Check whether sequence str contains ANY of the items in set. """
     return 1 in [c in str for c in set]
 
-def google(toSearch,placeToSearch,knownImage):
-	print(toSearch)
+def google(toSearch,placeToSearch,knownImage,verbose):
 	chrome_options = Options()
 	chrome_options.add_argument("--headless")
 	chrome_path = './chromedriver'
@@ -66,8 +65,10 @@ def google(toSearch,placeToSearch,knownImage):
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
 	print('Retrieving images')
-	now = datetime.datetime.now()
-	os.mkdir( "images/"+str(now) );
+	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	if not os.path.isdir("data/google"):
+		os.mkdir( "data/google");
+	os.mkdir("data/facebook/"+str(now)+"_images")
 	for s in search:
 
 		td_p_input = s.find_element_by_xpath('..')
@@ -116,9 +117,9 @@ def google(toSearch,placeToSearch,knownImage):
 							jsonfile={}
 
 					if placeToSearch != None:
-						name=os.path.join('images/'+str(now),str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
 					else:
-						name=os.path.join('images/'+str(now),str(j)+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+toSearch+".jpg")
 
 					if knownImage != None:
 						try:
@@ -129,9 +130,12 @@ def google(toSearch,placeToSearch,knownImage):
 								urllib.request.urlretrieve(src, name)
 					j=j+1
 
-	path=os.path.join('images/'+str(now),'google_data.json')
-	if not knownImage:
-		with open(path, 'w+') as outfile:
-			json.dump(out, outfile)
-	else:
-		openface_identification(knownImage,path)
+
+	path= os.path.join('data/google',str(now)+'_google_data.json')
+	with open(path, 'w+') as outfile:
+		json.dump(out, outfile)
+	print("Results Google in: " + str(path))
+	if verbose:
+		print(out)
+	if knownImage:
+		openface_identification(knownImage,'data/google/'+str(now)+'_images')

@@ -16,11 +16,8 @@ import shutil
 import requests
 from osint_sources.recognition import *
 
-def facebook (name_to_search,knownimage):
-    print(name_to_search)
-    now = datetime.datetime.now()
-    os.mkdir( "images/"+str(now) );
-    path=os.path.join('images/'+str(now),'facebook_data.json')
+def facebook (name_to_search,knownimage,verbose):
+
     chrome_options = Options()
     jsonData=[]
     chrome_options.add_argument("--headless")
@@ -30,17 +27,16 @@ def facebook (name_to_search,knownimage):
 
     driver.get("https://es-la.facebook.com/public/"+name_to_search)
     driver.implicitly_wait(20)
-    
+
     isMoreButton=True
     while isMoreButton:
-        for i in range(1,10):
+        for i in range(1,5):
             isEnd=driver.find_elements_by_id('browse_end_of_results_footer')
             if len(isEnd)>0:
                 isMoreButton=False
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(2)
     links=[]
-    print('*****Profiles Found*****')
     results=driver.find_elements_by_id('BrowseResultsContainer')[0]
     info=results.find_elements_by_tag_name('a')
 
@@ -48,7 +44,6 @@ def facebook (name_to_search,knownimage):
         user_class=user.get_attribute('class')
         if user_class=='_32mo':
             links.append(user.get_attribute('href'))
-            print(user.get_attribute('href'))
             user={'name':user.get_attribute('title'),'profile':user.get_attribute('href')}
             jsonData.append(user)
 
@@ -67,31 +62,33 @@ def facebook (name_to_search,knownimage):
                 user_class=user.get_attribute('class')
                 if user_class=='_32mo':
                     links.append(user.get_attribute('href'))
-                    print(user.get_attribute('href'))
                     user={'name':user.get_attribute('title'),'profile':user.get_attribute('href')}
                     jsonData.append(user)
 
-    now = datetime.datetime.now()
-    os.mkdir( "images/"+str(now) );
-    path=os.path.join('images/'+str(now),'facebook_data.json')
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if not os.path.isdir("data/facebook"):
+        os.mkdir( "data/facebook");
+    os.mkdir("data/facebook/"+str(now)+"_images")
+    path= os.path.join('data/facebook',str(now)+'_facebook_data.json')
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
+    if verbose:
+        print(jsonData)
+    print("Results Facebook in: " + str(path))
 
     j=0
-    for l in links:
-        driver.get(l)
-        div=driver.find_elements_by_class_name('profilePicThumb')[0]
-        img=div.find_elements_by_tag_name('img')[0]
-        url=img.get_attribute('src')
-        name=os.path.join('images/'+str(now),str(j)+"-"+name_to_search+".jpg")
-        j=j+1
-        try:
-            urllib.request.urlretrieve(url, name)
-        except:
-            pass
-    driver.quit()
-
     if knownimage:
-        #face_identification(knownimage,'./images/'+str(now)+'/')
-        openface_identification(knownimage,'./images/'+str(now)+'/')
-   
+        for l in links:
+            driver.get(l)
+            div=driver.find_elements_by_class_name('profilePicThumb')[0]
+            img=div.find_elements_by_tag_name('img')[0]
+            url=img.get_attribute('src')
+            name=os.path.join('data/facebook/'+str(now)+'_images',str(j)+"-"+name_to_search+".jpg")
+            j=j+1
+            try:
+                urllib.request.urlretrieve(url, name)
+            except:
+                pass
+        driver.quit()
+
+        openface_identification(knownimage,'./data/facebook/'+str(now)+'_images/')
