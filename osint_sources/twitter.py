@@ -15,7 +15,7 @@ from selenium.webdriver.chrome.options import Options
 from difflib import SequenceMatcher
 
 
-def twitter (name_to_search,page_number,verbose):
+def twitter (name_to_search,page_number,knownimage,verbose):
 
     placeToSearch='twitter.com'
     chrome_options = Options()
@@ -97,4 +97,7 @@ def twitter (name_to_search,page_number,verbose):
         json.dump(jsonData, outfile)
 
     print("Results Twitter in: " + str(path))
+    if knownimage:
+        print("Compare similarity images.")
+        openface_identification(knownimage,'./data/twitter/'+str(now)+'_images/')
     driver.quit()

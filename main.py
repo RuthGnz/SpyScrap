@@ -75,7 +75,7 @@ def getArguments(args):
 			print ("Size default: 2")
 			args.size=2
 		print ("Starting Twitter scrapper...")
-		twitter_scrapper(args.name,args.size,args.verbose)
+		twitter_scrapper(args.name,args.size,args.image,args.verbose)
 
 	if args.tag.lower() == "facebook":
 		if not args.name:
