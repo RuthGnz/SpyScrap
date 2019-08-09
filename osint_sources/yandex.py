@@ -20,6 +20,7 @@ from urllib.request import Request, urlopen
 import random
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
+from osint_sources.recognition import *
 
 def isCaptcha(driver):
 	headers=driver.find_elements_by_tag_name('h1')
