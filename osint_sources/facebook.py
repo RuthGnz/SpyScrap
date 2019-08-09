@@ -30,7 +30,7 @@ def facebook (name_to_search,knownimage,verbose):
 
     isMoreButton=True
     while isMoreButton:
-        for i in range(1,5):
+        for i in range(1,10):
             isEnd=driver.find_elements_by_id('browse_end_of_results_footer')
             if len(isEnd)>0:
                 isMoreButton=False
