@@ -60,8 +60,8 @@ def google_scrapper(toSearch,place,knownImage,verbose):
 def twitter_scrapper(name,size,knownimage,verbose):
 	twitter(name,size,knownimage,verbose)
 
-def facebook_scrapper(name,knownImage,verbose):
-	facebook(name,knownImage,verbose)
+def facebook_scrapper(name,knownImage,size,verbose):
+	facebook(name,knownImage,size,verbose)
 
 def instagram_scrapper(name,knownImage,verbose):
 	instagram(name,knownImage,verbose)

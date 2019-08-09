@@ -84,9 +84,11 @@ def getArguments(args):
 			print ("--------------")
 			parser.print_help()
 			sys.exit(-1)
-		else:
-			print ("Starting Facebook scrapper...")
-			facebook_scrapper(args.name,args.image,args.verbose)
+		if not args.size:
+			print ("Size default: 2")
+			args.size=2
+		print ("Starting Facebook scrapper...")
+		facebook_scrapper(args.name,args.image,args.size,args.verbose)
 
 	if args.tag.lower() == "instagram":
 		if not args.name:

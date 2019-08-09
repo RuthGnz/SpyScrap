@@ -16,7 +16,7 @@ import shutil
 import requests
 from osint_sources.recognition import *
 
-def facebook (name_to_search,knownimage,verbose):
+def facebook (name_to_search,knownimage,size,verbose):
 
     chrome_options = Options()
     jsonData=[]
@@ -29,13 +29,12 @@ def facebook (name_to_search,knownimage,verbose):
     driver.implicitly_wait(20)
 
     isMoreButton=True
-    while isMoreButton:
-        for i in range(1,10):
-            isEnd=driver.find_elements_by_id('browse_end_of_results_footer')
-            if len(isEnd)>0:
-                isMoreButton=False
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
+    for i in range(1,size):
+        isEnd=driver.find_elements_by_id('browse_end_of_results_footer')
+        if len(isEnd)>0:
+            isMoreButton=False
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(2)
     links=[]
     results=driver.find_elements_by_id('BrowseResultsContainer')[0]
     info=results.find_elements_by_tag_name('a')
