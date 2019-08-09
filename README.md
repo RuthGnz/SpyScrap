@@ -74,5 +74,8 @@ USAGE:
   python3 -t instagram -n "<name surname>"												
   python3 -t instagram -n "<name surname>" -i <imagePath> 											
   python3 -t boe -n "<text to search>" -s <number of BOE pages to search>
-  python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date>```
+  python3 -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date>
+  python3 main.py -t yandex -k <imgur id> -i <imagePath>
+  python3 main.py -t yandex -i <imgUrl>
+  ```
   

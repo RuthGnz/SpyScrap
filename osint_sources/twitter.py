@@ -13,12 +13,12 @@ from selenium.common.exceptions import NoSuchElementException
 import json
 from selenium.webdriver.chrome.options import Options
 from difflib import SequenceMatcher
+from osint_sources.recognition import *
 
+def twitter (name_to_search,page_number,knownimage,verbose):
 
-def twitter (name_to_search,page_number):
-    print(name_to_search)
     placeToSearch='twitter.com'
-    chrome_options = Options()  
+    chrome_options = Options()
     chrome_options.add_argument("--headless")
 
     chrome_path = './chromedriver'
@@ -41,13 +41,16 @@ def twitter (name_to_search,page_number):
 
 
     people_list=set(people_list)
-    now = datetime.datetime.now()
-    os.mkdir( "images/"+str(now) );
-    path=os.path.join('images/'+str(now),'twitter_data.json')
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if not os.path.isdir("data/twitter"):
+        os.mkdir("data/twitter");
+
+    path=os.path.join('data/twitter',str(now)+'_twitter_data.json')
     jsonData=[]
     for p in people_list:
-        print("*******************************************************************************************************")
-        print(p)
+        if verbose:
+            print("*******************************************************************************************************")
+            print(p)
         driver.get(p)
         driver.implicitly_wait(50)
         time.sleep(2)
@@ -68,29 +71,38 @@ def twitter (name_to_search,page_number):
         if name==None:
             name=""
         if SequenceMatcher(None,name_to_search, name).ratio()>0.8 or name_to_search in str(description).lower():
-            print("Name: "+str(name))
-            print("Link: "+str(link))
-            print("Description: "+str(description))
-            print("Location: "+ str(location))
-            print("Member since: "+str(member_since))
-            print("Activity: "+str(activity))
-            print("Born: "+str(born))
-            print("Web: "+str(webpage))
-            print ("Profile image url: "+str(image_url))
-            print('\n')
-            print('\n')
+            if verbose:
+                print("Name: "+str(name))
+                print("Link: "+str(link))
+                print("Description: "+str(description))
+                print("Location: "+ str(location))
+                print("Member since: "+str(member_since))
+                print("Activity: "+str(activity))
+                print("Born: "+str(born))
+                print("Web: "+str(webpage))
+                print ("Profile image url: "+str(image_url))
+                print('\n')
+                print('\n')
             userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
             jsonData.append(userData)
-            image=os.path.join('images/'+str(now),placeToSearch+"-"+str(link)+".jpg")
-            
-            try:
-                urllib.request.urlretrieve(image_url, image)
-            except:
-                pass
+            if knownimage:
+                if not os.path.isdir("data/twitter/"+str(now)+"_images"):
+                    os.mkdir("data/twitter/"+str(now)+"_images");
+                image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
+                try:
+                    urllib.request.urlretrieve(image_url, image)
+                except:
+                    pass
     with open(path, 'w+') as outfile:
-        json.dump(jsonData, outfile)     
+        json.dump(jsonData, outfile)
 
+    print("Results Twitter in: " + str(path))
+    response={'results':str(path)}
+    if knownimage:
+        print("Compare similarity images.")
+        openface_identification(knownimage,'./data/twitter/'+str(now)+'_images/')
+        response['images']='./data/twitter/'+str(now)+'_images/'
+        response['recognized']='./data/twitter/'+str(now)+'_images/recognized/'
     driver.quit()
-    print("####################################################################")
-    print("Analyzed people: "+str(len(people_list)))
-    print("####################################################################")
+
+    return response

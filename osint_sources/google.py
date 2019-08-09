@@ -19,8 +19,7 @@ def containsAny(str, set):
     """ Check whether sequence str contains ANY of the items in set. """
     return 1 in [c in str for c in set]
 
-def google(toSearch,placeToSearch,knownImage):
-	print(toSearch)
+def google(toSearch,placeToSearch,knownImage,verbose):
 	chrome_options = Options()
 	chrome_options.add_argument("--headless")
 	chrome_path = './chromedriver'
@@ -66,8 +65,10 @@ def google(toSearch,placeToSearch,knownImage):
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
 	print('Retrieving images')
-	now = datetime.datetime.now()
-	os.mkdir( "images/"+str(now) );
+	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	if not os.path.isdir("data/google"):
+		os.mkdir( "data/google");
+	os.mkdir("data/google/"+str(now)+"_images")
 	for s in search:
 
 		td_p_input = s.find_element_by_xpath('..')
@@ -88,37 +89,39 @@ def google(toSearch,placeToSearch,knownImage):
 							imgUrl = unquote(imgUrl)
 							jsonfile["photos"]=imgUrl
 							jsonfile["from_url"] = from_url
-							try:
-								resp = req.get(from_url)
-								content = resp.text
-								stripped = re.sub('<[^<]+?>', '', content)
-								stripped_filter = re.sub('\n', '', stripped)
-								stripped_filter2 = re.sub('\t', '', stripped_filter)
-								doc = nlp(stripped_filter2)
-								locs = []
-								for e in doc.ents:
-									if e.label_ == "LOC":
-										if not containsAny(e.text,my_set) and not e.text in locs:
-											locs.append(e.text)
-								jsonfile["LOC_LIST"] = locs
-								locs = []
-							except:
-								pass
+							if not from_url.endswith(".pdf"):
+    								try:
+    									resp = req.get(from_url)
+    									content = resp.text
+    									stripped = re.sub('<[^<]+?>', '', content)
+    									stripped_filter = re.sub('\n', '', stripped)
+    									stripped_filter2 = re.sub('\t', '', stripped_filter)
+    									doc = nlp(stripped_filter2)
+    									locs = []
+    									for e in doc.ents:
+    										if e.label_ == "LOC":
+    											if not containsAny(e.text,my_set) and not e.text in locs:
+    												locs.append(e.text)
+    									jsonfile["LOC_LIST"] = locs
+    									locs = []
 
-							try:
-								listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
-								t = listtext.text
-								jsonfile["info"] = t
-								t =""
-							except:
-								pass
+    									listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
+    									t = listtext.text
+    									jsonfile["info"] = t
+    									t =""
+    								except:
+    									pass
+
+
+							else:
+    								jsonfile["LOC_LIST"] = []
 							out.append(jsonfile)
 							jsonfile={}
 
 					if placeToSearch != None:
-						name=os.path.join('images/'+str(now),str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
 					else:
-						name=os.path.join('images/'+str(now),str(j)+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+toSearch+".jpg")
 
 					if knownImage != None:
 						try:
@@ -129,9 +132,12 @@ def google(toSearch,placeToSearch,knownImage):
 								urllib.request.urlretrieve(src, name)
 					j=j+1
 
-	path=os.path.join('images/'+str(now),'google_data.json')
-	if not knownImage:
-		with open(path, 'w+') as outfile:
-			json.dump(out, outfile)
-	else:
-		openface_identification(knownImage,path)
+
+	path= os.path.join('data/google',str(now)+'_google_data.json')
+	with open(path, 'w+') as outfile:
+		json.dump(out, outfile)
+	print("Results Google in: " + str(path))
+	if verbose:
+		print(out)
+	if knownImage:
+		openface_identification(knownImage,'data/google/'+str(now)+'_images/')

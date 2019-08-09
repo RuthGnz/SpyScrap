@@ -45,28 +45,28 @@ def tinder(token):
 
 
 
-def yandex_scrapper(name,img,token):
-	yandex(name,img,token)
+def yandex_scrapper(name,img,token,verbose):
+	yandex(name,img,token,verbose)
 
 
 def linkedin():
 	pass
 
 
-def google_scrapper(toSearch,place,knownImage):
-	google(toSearch,place,knownImage)
+def google_scrapper(toSearch,place,knownImage,verbose):
+	google(toSearch,place,knownImage,verbose)
 
 
-def twitter_scrapper(name,size):
-	twitter(name,size)
+def twitter_scrapper(name,size,knownimage,verbose):
+	twitter(name,size,knownimage,verbose)
 
-def facebook_scrapper(name,knownImage):
-	facebook(name,knownImage)
+def facebook_scrapper(name,knownImage,size,verbose):
+	facebook(name,knownImage,size,verbose)
 
-def instagram_scrapper(name,knownImage):
-	instagram(name,knownImage)
+def instagram_scrapper(name,knownImage,verbose):
+	instagram(name,knownImage,verbose)
 
-def boe_scrapper(toSearch,initDate,finalDate,size,explicit):
+def boe_scrapper(toSearch,initDate,finalDate,size,explicit,verbose):
 	if explicit==None:
 		explicit=True
-	boe(toSearch,initDate,finalDate,size,explicit)
+	boe(toSearch,initDate,finalDate,size,explicit,verbose)

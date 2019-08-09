@@ -6,7 +6,7 @@ import argparse
 def banner():
     print(r"""
 	------------------------------------------
-	|           ExposingIdentities            |
+	|              SypScrap                   |
 	|					  |
 	| Authors: Ruth Gonzalez (@RuthGnz)       |
 	|	   Miguel Hernandez (@MiguelHzBz) |
@@ -30,13 +30,13 @@ def getArguments(args):
 	parser.add_argument("-e",'--explicit', dest='explicit', help="Default True. If true it search the exact text, if false it can search each word separately")
 	parser.add_argument("-d",'--initdate',dest='initdate',help="Format is dd/mm/aaaa")
 	parser.add_argument('-f','--finaldate',dest='finaldate', help="Format is dd/mm/aaaa")
-	parser.add_argument("-v",'--verbose')
+	parser.add_argument("-v",'--verbose', action="store_true",help="Increase output verbosity")
 	args = parser.parse_args()
 
 	if not args.tag:
 		print ("--------------")
 		print ("Error in input arguments: ")
-		print ("Need one tag of input, -t/--tag  twitter/facebook/instagram/google/tinder/all")
+		print ("Need one tag of input, -t/--tag  twitter/facebook/instagram/google/tinder/boe/yandex/all")
 		print ("--------------")
 		parser.print_help()
 		sys.exit(-1)
@@ -62,7 +62,7 @@ def getArguments(args):
 			if not args.place:
 				args.place=''
 			print ("Starting Google scrapper...")
-			google(args.name,args.place,args.image)
+			google(args.name,args.place,args.image,args.verbose)
 
 	if args.tag.lower() == "twitter":
 		if not args.name:
@@ -71,15 +71,11 @@ def getArguments(args):
 			print ("--------------")
 			parser.print_help()
 			sys.exit(-1)
-		elif not args.size:
-			print ("--------------")
-			print ("Size must be provided")
-			print ("--------------")
-			parser.print_help()
-			sys.exit(-1)
-		else:
-			print ("Starting twitter scrapper...")
-			twitter_scrapper(args.name,args.size)
+		if not args.size:
+			print ("Size default: 2")
+			args.size=2
+		print ("Starting Twitter scrapper...")
+		twitter_scrapper(args.name,args.size,args.image,args.verbose)
 
 	if args.tag.lower() == "facebook":
 		if not args.name:
@@ -88,9 +84,11 @@ def getArguments(args):
 			print ("--------------")
 			parser.print_help()
 			sys.exit(-1)
-		else:
-			print ("Starting twitter scrapper...")
-			facebook_scrapper(args.name,args.image)
+		if not args.size:
+			print ("Size default: 2")
+			args.size=2
+		print ("Starting Facebook scrapper...")
+		facebook_scrapper(args.name,args.image,args.size,args.verbose)
 
 	if args.tag.lower() == "instagram":
 		if not args.name:
@@ -101,7 +99,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Instagram scrapper...")
-			instagram_scrapper(args.name,args.image)
+			instagram_scrapper(args.name,args.image,args.verbose)
 
 	if args.tag.lower()=="boe":
 		if not args.name:
@@ -114,7 +112,7 @@ def getArguments(args):
 			if not args.size:
 				args.size=1
 			print ("Starting Boe scrapper...")
-			boe_scrapper(args.name,args.initdate,args.finaldate,args.size,args.explicit)
+			boe_scrapper(args.name,args.initdate,args.finaldate,args.size,args.explicit,args.verbose)
 	if args.tag.lower()=="yandex":
 		if not args.image:
 			print ("--------------")
@@ -130,7 +128,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Yandex scrapper...")
-			yandex_scrapper(args.name, args.image, args.token)
+			yandex_scrapper(args.name, args.image, args.token,args.verbose)
 
 	if args.tag.lower() == "all":
 		print ("--------------")
@@ -142,8 +140,11 @@ def getArguments(args):
 
 def main(argv):
 	banner()
+	if not os.path.isdir("data"):
+		os.mkdir("data");
 	args = getArguments(argv)
-	print (args)
+	print("--------------------")
+	print ("Thanks for use SypScrap tool")
 
 if __name__ == '__main__':
 	#create_tables()
