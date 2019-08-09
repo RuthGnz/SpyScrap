@@ -36,7 +36,7 @@ def getArguments(args):
 	if not args.tag:
 		print ("--------------")
 		print ("Error in input arguments: ")
-		print ("Need one tag of input, -t/--tag  twitter/facebook/instagram/google/tinder/all")
+		print ("Need one tag of input, -t/--tag  twitter/facebook/instagram/google/tinder/boe/yandex/all")
 		print ("--------------")
 		parser.print_help()
 		sys.exit(-1)
