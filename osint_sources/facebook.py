@@ -80,12 +80,12 @@ def facebook (name_to_search,knownimage,size,verbose):
     if knownimage:
         for l in links:
             driver.get(l)
-            div=driver.find_elements_by_class_name('profilePicThumb')[0]
-            img=div.find_elements_by_tag_name('img')[0]
-            url=img.get_attribute('src')
-            name=os.path.join('data/facebook/'+str(now)+'_images',str(j)+"-"+name_to_search+".jpg")
-            j=j+1
             try:
+                div=driver.find_elements_by_class_name('profilePicThumb')[0]
+                img=div.find_elements_by_tag_name('img')[0]
+                url=img.get_attribute('src')
+                name=os.path.join('data/facebook/'+str(now)+'_images',str(j)+"-"+name_to_search+".jpg")
+                j=j+1
                 urllib.request.urlretrieve(url, name)
             except:
                 pass

@@ -46,7 +46,10 @@ def instagram (name_to_search,knownimage,verbose):
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
     print("Results Instagram in: " + str(path))
-
+    response={'results':str(path)}
     if knownimage:
         print("Start compare images.")
-        openface_identification(knownimage,"data/instagram/"+str(now)+"_images")
+        openface_identification(knownimage,"data/instagram/"+str(now)+"_images/")
+        response['images']='./data/instagram/'+str(now)+'_images/'
+        response['recognized']='./data/instagram/'+str(now)+'_images/recognized/'
+    return response

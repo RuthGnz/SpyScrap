@@ -128,6 +128,7 @@ def deletedImage(hashimage, token):
 def yandex(name,image,token,verbose):
 	image_url = image
 	image_delete = ""
+	results={}
 	url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+] |[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', image)
 	if not url:
 		try:
@@ -185,5 +186,8 @@ def yandex(name,image,token,verbose):
 				print("Problem when deleted image from imgur")
 
 		print("Results Yandex in: " + str(path))
+		results['results']=str(path)
 	else:
 		print('Yandex is blocked')
+
+	return results

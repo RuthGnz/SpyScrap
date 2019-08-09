@@ -97,7 +97,12 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         json.dump(jsonData, outfile)
 
     print("Results Twitter in: " + str(path))
+    response={'results':str(path)}
     if knownimage:
         print("Compare similarity images.")
         openface_identification(knownimage,'./data/twitter/'+str(now)+'_images/')
+        response['images']='./data/twitter/'+str(now)+'_images/'
+        response['recognized']='./data/twitter/'+str(now)+'_images/recognized/'
     driver.quit()
+
+    return response

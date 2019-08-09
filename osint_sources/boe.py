@@ -178,3 +178,5 @@ def boe (text_to_search,initDate,outDate,pages,exact,verbose):
             if i["texto"]:
                 print(i["texto"])
     print("Results BOE in: " + str(path))
+    response={'results':str(path)}
+    return response

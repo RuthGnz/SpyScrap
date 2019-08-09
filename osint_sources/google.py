@@ -140,4 +140,4 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 	if verbose:
 		print(out)
 	if knownImage:
-		openface_identification(knownImage,'data/google/'+str(now)+'_images')
+		openface_identification(knownImage,'data/google/'+str(now)+'_images/')
