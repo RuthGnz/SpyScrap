@@ -82,7 +82,8 @@ def openface_identification(known_image,folder):
 def getRep(imgPath,align,net,imgDim):
 	bgrImg = cv2.imread(imgPath)
 	if bgrImg is None:
-		raise Exception("Unable to load image: {}".format(imgPath))
+		#raise Exception("Unable to load image: {}".format(imgPath))
+		return []
 	rgbImg = cv2.cvtColor(bgrImg, cv2.COLOR_BGR2RGB)
 	bb = align.getLargestFaceBoundingBox(rgbImg)
 
