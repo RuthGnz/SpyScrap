@@ -90,6 +90,7 @@ def facebook (name_to_search,knownimage,size,verbose):
             except:
                 pass
         driver.quit()
+        print("Start compare images")
 
         openface_identification(knownimage,'./data/facebook/'+str(now)+'_images/')
         response['images']='./data/facebook/'+str(now)+'_images/'
