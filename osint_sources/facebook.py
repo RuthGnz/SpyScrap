@@ -76,6 +76,7 @@ def facebook (name_to_search,knownimage,size,verbose):
     print("Results Facebook in: " + str(path))
 
     j=0
+    response={'results':str(path)}
     if knownimage:
         for l in links:
             driver.get(l)
@@ -91,3 +92,7 @@ def facebook (name_to_search,knownimage,size,verbose):
         driver.quit()
 
         openface_identification(knownimage,'./data/facebook/'+str(now)+'_images/')
+        response['images']='./data/facebook/'+str(now)+'_images/'
+        response['recognized']='./data/facebook/'+str(now)+'_images/recognized/'
+
+    return response
