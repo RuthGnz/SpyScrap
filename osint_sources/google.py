@@ -68,7 +68,7 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	if not os.path.isdir("data/google"):
 		os.mkdir( "data/google");
-	os.mkdir("data/facebook/"+str(now)+"_images")
+	os.mkdir("data/google/"+str(now)+"_images")
 	for s in search:
 
 		td_p_input = s.find_element_by_xpath('..')

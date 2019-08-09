@@ -86,9 +86,9 @@ def twitter (name_to_search,page_number,knownimage,verbose):
             userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
             jsonData.append(userData)
             if knownimage:
-                os.mkdir("data/twitter/"+str(now)+"_images");
+                if not os.path.isdir("data/twitter/"+str(now)+"_images"):
+                    os.mkdir("data/twitter/"+str(now)+"_images");
                 image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
-
                 try:
                     urllib.request.urlretrieve(image_url, image)
                 except:
