@@ -12,7 +12,7 @@ from osint_sources.recognition import *
 def instagram (name_to_search,knownimage,verbose):
     resp = requests.get(url='https://www.instagram.com/web/search/topsearch/?context=blended&query='+name_to_search)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if not os.path.isdir("data/instragram"):
+    if not os.path.isdir("data/instagram"):
         os.mkdir("data/instagram");
 
     path=os.path.join('data/instagram',str(now)+'_instagram_data.json')
