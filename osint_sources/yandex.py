@@ -73,7 +73,7 @@ def crawlProxy():
 			invalidProxy=False
 	return proxy
 
-def searchImages(driver):
+def searchImages(driver,verbose):
 	search=driver.find_elements_by_tag_name('img')
 	j=0
 	if len(search)<10:
@@ -104,8 +104,9 @@ def searchImages(driver):
 					info["text"] = text
 					info["url"] = url
 					info["domain"] = domain
-					print("-----------------")
-					print(info)
+					if verbose:
+						print("-----------------")
+						print(info)
 					out.append(info)
 
 
@@ -165,7 +166,7 @@ def yandex(name,image,token,verbose):
 		if captcha == True:
 			driver.close()
 		else:
-			images=searchImages(driver)
+			images=searchImages(driver,verbose)
 			if not images:
 				print('No images.')
 				driver.close()
