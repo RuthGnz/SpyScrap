@@ -78,7 +78,8 @@ def facebook (name_to_search,knownimage,size,verbose):
     j=0
     response={'results':str(path)}
     if knownimage:
-        for l in links:
+        for ind,l in enumerate(links):
+            user=jsonData[ind]
             driver.get(l)
             try:
                 div=driver.find_elements_by_class_name('profilePicThumb')[0]
@@ -87,8 +88,11 @@ def facebook (name_to_search,knownimage,size,verbose):
                 name=os.path.join('data/facebook/'+str(now)+'_images',str(j)+"-"+name_to_search+".jpg")
                 j=j+1
                 urllib.request.urlretrieve(url, name)
+                user['image']=name
             except:
                 pass
+        with open(path, 'w+') as outfile:
+            json.dump(jsonData, outfile)
         driver.quit()
         print("Start compare images")
 
