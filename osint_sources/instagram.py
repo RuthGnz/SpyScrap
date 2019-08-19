@@ -37,10 +37,10 @@ def instagram (name_to_search,knownimage,verbose):
             except Exception as e:
                 print(e)
 
-            user={'username:':u['user']['username'],'full_name':u['user']['full_name'],'profile':'https://www.instagram.com/'+u['user']['username'],'is_private':u['user']['is_private'],'is_verified':u['user']['is_verified'],'image':image_name}
+            user={'username':u['user']['username'],'full_name':u['user']['full_name'],'profile':'https://www.instagram.com/'+u['user']['username'],'is_private':u['user']['is_private'],'is_verified':u['user']['is_verified'],'image':image_name}
             j=j+1
         else:
-            user={'username:':u['user']['username'],'full_name':u['user']['full_name'],'profile':'https://www.instagram.com/'+u['user']['username'],'is_private':u['user']['is_private'],'is_verified':u['user']['is_verified']}
+            user={'username':u['user']['username'],'full_name':u['user']['full_name'],'profile':'https://www.instagram.com/'+u['user']['username'],'is_private':u['user']['is_private'],'is_verified':u['user']['is_verified']}
 
         jsonData.append(user)
     with open(path, 'w+') as outfile:
