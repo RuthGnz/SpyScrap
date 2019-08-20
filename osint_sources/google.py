@@ -119,8 +119,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 							else:
     								jsonfile["LOC_LIST"] = []
-							out.append(jsonfile)
-							jsonfile={}
+
 
 					if placeToSearch != None:
 						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
@@ -130,11 +129,16 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 					if knownImage != None:
 						try:
 							urllib.request.urlretrieve(imgUrl, name)
+							jsonfile['storedImage']=name
 						except:
 							src=s.get_attribute('src')
 							if src != None:
 								urllib.request.urlretrieve(src, name)
+								jsonfile['storedImage']=name
 					j=j+1
+
+					out.append(jsonfile)		
+					jsonfile={}
 		if int(number) == int(ind):
 			break
 
