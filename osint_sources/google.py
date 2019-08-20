@@ -134,6 +134,7 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
+	response={'results':str(path)}
 	with open(path, 'w+') as outfile:
 		json.dump(out, outfile)
 	print("Results Google in: " + str(path))
@@ -141,3 +142,6 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 		print(out)
 	if knownImage:
 		openface_identification(knownImage,'data/google/'+str(now)+'_images/')
+		response['images']='./data/google/'+str(now)+'_images/'
+		response['recognized']='./data/google/'+str(now)+'_images/recognized/'
+	return response

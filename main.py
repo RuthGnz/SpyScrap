@@ -128,7 +128,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Yandex scrapper...")
-			yandex_scrapper(args.name, args.image, args.token,args.verbose)
+			yandex_scrapper(args.image, args.token,args.verbose)
 
 	if args.tag.lower() == "all":
 		print ("--------------")
