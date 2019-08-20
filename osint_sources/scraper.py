@@ -53,8 +53,8 @@ def linkedin():
 	pass
 
 
-def google_scrapper(toSearch,place,knownImage,verbose):
-	google(toSearch,place,knownImage,verbose)
+def google_scrapper(toSearch,place,knownImage,number,verbose):
+	google(toSearch,place,knownImage,number,verbose)
 
 
 def twitter_scrapper(name,size,knownimage,verbose):

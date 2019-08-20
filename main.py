@@ -62,7 +62,7 @@ def getArguments(args):
 			if not args.place:
 				args.place=''
 			print ("Starting Google scrapper...")
-			google(args.name,args.place,args.image,args.verbose)
+			google(args.name,args.place,args.image,args.size,args.verbose)
 
 	if args.tag.lower() == "twitter":
 		if not args.name:
