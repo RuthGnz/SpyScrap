@@ -45,16 +45,16 @@ def tinder(token):
 
 
 
-def yandex_scrapper(name,img,token,verbose):
-	yandex(name,img,token,verbose)
+def yandex_scrapper(img,token,verbose):
+	yandex(img,token,verbose)
 
 
 def linkedin():
 	pass
 
 
-def google_scrapper(toSearch,place,knownImage,verbose):
-	google(toSearch,place,knownImage,verbose)
+def google_scrapper(toSearch,place,knownImage,number,verbose):
+	google(toSearch,place,knownImage,number,verbose)
 
 
 def twitter_scrapper(name,size,knownimage,verbose):

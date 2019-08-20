@@ -62,7 +62,7 @@ def getArguments(args):
 			if not args.place:
 				args.place=''
 			print ("Starting Google scrapper...")
-			google(args.name,args.place,args.image,args.verbose)
+			google(args.name,args.place,args.image,args.size,args.verbose)
 
 	if args.tag.lower() == "twitter":
 		if not args.name:
@@ -128,7 +128,7 @@ def getArguments(args):
 			sys.exit(-1)
 		else:
 			print ("Starting Yandex scrapper...")
-			yandex_scrapper(args.name, args.image, args.token,args.verbose)
+			yandex_scrapper(args.image, args.token,args.verbose)
 
 	if args.tag.lower() == "all":
 		print ("--------------")

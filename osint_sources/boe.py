@@ -72,6 +72,7 @@ def boe (text_to_search,initDate,outDate,pages,exact,verbose):
         for table in tables:
             is_important=False
             headings=[]
+            content=[]
             thead=table.find('thead')
             if thead!=None:
                 tr=thead.find('tr')
@@ -142,7 +143,8 @@ def boe (text_to_search,initDate,outDate,pages,exact,verbose):
                             dataTable[i]=info
                         else:
                             dataTable[headings[i]]=info
-                    results.append(dataTable)
+                    content.append(dataTable)
+                results.append({'table':content,'headings':headings})
 
         boe['datatables']=results
 

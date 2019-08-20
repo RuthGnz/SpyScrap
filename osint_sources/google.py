@@ -19,12 +19,12 @@ def containsAny(str, set):
     """ Check whether sequence str contains ANY of the items in set. """
     return 1 in [c in str for c in set]
 
-def google(toSearch,placeToSearch,knownImage,verbose):
+def google(toSearch,placeToSearch,knownImage,number,verbose):
 	chrome_options = Options()
 	chrome_options.add_argument("--headless")
 	chrome_path = './chromedriver'
 	driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
-	if placeToSearch != None:
+	if placeToSearch != None and len(placeToSearch)>0:
 		driver.get("https://www.google.com/search?q=site:"+placeToSearch+"+AND+%22"+toSearch+"%22&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
 	else:
 		driver.get("https://www.google.com/search?q="+toSearch+"&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
@@ -64,13 +64,17 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 	j=1
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
-	print('Retrieving images')
+	
 	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	if not os.path.isdir("data/google"):
 		os.mkdir( "data/google");
 	os.mkdir("data/google/"+str(now)+"_images")
-	for s in search:
+	if number == None:
+		number=len(search)
 
+
+	for ind,s in enumerate(search):
+		
 		td_p_input = s.find_element_by_xpath('..')
 		link=td_p_input.get_attribute('href')
 		div = td_p_input.find_element_by_xpath('..')
@@ -131,9 +135,11 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 							if src != None:
 								urllib.request.urlretrieve(src, name)
 					j=j+1
-
+		if int(number) == int(ind):
+			break
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
+	response={'results':str(path)}
 	with open(path, 'w+') as outfile:
 		json.dump(out, outfile)
 	print("Results Google in: " + str(path))
@@ -141,3 +147,6 @@ def google(toSearch,placeToSearch,knownImage,verbose):
 		print(out)
 	if knownImage:
 		openface_identification(knownImage,'data/google/'+str(now)+'_images/')
+		response['images']='./data/google/'+str(now)+'_images/'
+		response['recognized']='./data/google/'+str(now)+'_images/recognized/'
+	return response
