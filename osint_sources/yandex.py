@@ -21,6 +21,7 @@ import random
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from osint_sources.recognition import *
+import sys
 
 def isCaptcha(driver):
 	headers=driver.find_elements_by_tag_name('h1')
@@ -125,7 +126,7 @@ def deletedImage(hashimage, token):
         return False
 
 
-def yandex(name,image,token,verbose):
+def yandex(image,token,verbose):
 	image_url = image
 	image_delete = ""
 	results={}
