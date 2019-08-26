@@ -36,8 +36,12 @@ def facebook (name_to_search,knownimage,size,verbose):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(2)
     links=[]
-    results=driver.find_elements_by_id('BrowseResultsContainer')[0]
-    info=results.find_elements_by_tag_name('a')
+    results=driver.find_elements_by_id('BrowseResultsContainer')
+    if len(results)>0:
+        results=results[0]
+        info=results.find_elements_by_tag_name('a')
+    else:
+        info=[]
 
     for user in info:
         user_class=user.get_attribute('class')
