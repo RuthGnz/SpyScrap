@@ -75,7 +75,8 @@ def crawlProxy():
 			invalidProxy=False
 	return proxy
 
-def searchImages(driver,verbose):
+def searchImages(driver,now,verbose):
+	os.mkdir("data/yandex/"+str(now)+"_images")
 	search=driver.find_elements_by_tag_name('img')
 	j=0
 	if len(search)<10:
@@ -86,8 +87,7 @@ def searchImages(driver,verbose):
 		try:
 			link=s.get_attribute('src')
 			if link != None and link != "":
-				#name=os.path.join('images',str(j)+"-"+placeToSearch+".jpg")
-				#urllib.request.urlretrieve(link, name)
+				name=os.path.join('data/yandex/'+str(now)+'_images',str(j)+"-yandex.jpg")
 				j=j+1
 				div1 = s.find_element_by_xpath('..')
 				div2 = div1.find_element_by_xpath('..')
@@ -110,6 +110,10 @@ def searchImages(driver,verbose):
 						print("-----------------")
 						print(info)
 					out.append(info)
+					try:
+						urllib.request.urlretrieve(originUrl, name)
+					except:
+						print("Failed when downloading photo " + str(j))
 
 
 		except Exception as e:
@@ -127,6 +131,8 @@ def deletedImage(hashimage, token):
 
 
 def yandex(image,token,verbose):
+	if not os.path.isdir("data/yandex"):
+		os.mkdir("data/yandex");
 	image_url = image
 	image_delete = ""
 	results={}
@@ -169,13 +175,11 @@ def yandex(image,token,verbose):
 		if captcha == True:
 			driver.close()
 		else:
-			images=searchImages(driver,verbose)
+			now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+			images=searchImages(driver,now,verbose)
 			if not images:
 				print('No images.')
 				driver.close()
-			now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-			if not os.path.isdir("data/yandex"):
-				os.mkdir("data/yandex");
 			path=os.path.join('data/yandex',str(now)+'_yandex_data.json')
 			with open(path, 'w+') as outfile:
 				json.dump(images, outfile)
