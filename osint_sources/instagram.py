@@ -53,4 +53,17 @@ def instagram (name_to_search,knownimage,verbose):
             openface_identification(knownimage,"data/instagram/"+str(now)+"_images/")
             response['images']='./data/instagram/'+str(now)+'_images/'
             response['recognized']='./data/instagram/'+str(now)+'_images/recognized/'
+            if verbose:
+                for r, d, f in os.walk('./data/instagram/'+str(now)+'_images/recognized/'):
+                    for file in f:
+                        index_json = int(file.replace("-instagram.jpg",""))
+                        print("-----------")
+                        print("   MATCH")
+                        print("-----------")
+                        print('Username: '+jsonData[index_json]['username'])
+                        print('Full Name: '+jsonData[index_json]['full_name'])
+                        print('Profile: https://www.instagram.com/'+jsonData[index_json]['username'])
+                        print('Is Private: '+str(jsonData[index_json]['is_private']))
+                        print('Is Verified: '+str(jsonData[index_json]['is_verified']))
+                        print()
     return response
