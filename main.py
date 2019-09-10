@@ -6,7 +6,7 @@ import argparse
 def banner():
     print(r"""
 	------------------------------------------
-	|              SypScrap                   |
+	|              SpyScrap                   |
 	|					  |
 	| Authors: Ruth Gonzalez (@RuthGnz)       |
 	|	   Miguel Hernandez (@MiguelHzBz) |
