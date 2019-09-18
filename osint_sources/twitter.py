@@ -27,17 +27,20 @@ def twitter (name_to_search,page_number,knownimage,verbose):
     people_list=[]
     for i in range(int(page_number)):
         driver.get("https://www.google.com/search?q=site:"+placeToSearch+"+AND+"+name_to_search + "&start=" + str(10 * i))
-        search=driver.find_elements_by_tag_name('cite')
+        search=driver.find_elements_by_tag_name('a')
         time.sleep(10)
+
         for s in search:
-            if "https://twitter.com/" in s.text:
-                if "/status/" not in s.text and "/media" not in s.text:
-                    people_list.append(s.text)
-                else:
-                    if "/status/" in s.text:
-                        people_list.append(s.text.split("/status/")[0])
-                    elif "/media" not in s.text:
-                        people_list.append(s.text.split("/media")[0])
+            href=s.get_attribute('href')
+            if href != None:
+                if "https://twitter.com/" in href:
+                    if "/status/" not in href and "/media" not in href and "/hashtag/" not in href:
+                        people_list.append(href)
+                    else:
+                        if "/status/" in href:
+                            people_list.append(href.split("/status/")[0])
+                        elif "/media" not in s.text:
+                            people_list.append(href.split("/media")[0])
 
 
     people_list=set(people_list)
@@ -47,6 +50,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
 
     path=os.path.join('data/twitter',str(now)+'_twitter_data.json')
     jsonData=[]
+    userLink = set()
     for p in people_list:
         if verbose:
             print("*******************************************************************************************************")
@@ -70,31 +74,33 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         image_url=sel.xpath('//img[@class="ProfileAvatar-image "]/@src').extract_first()
         if name==None:
             name=""
-        if SequenceMatcher(None,name_to_search, name).ratio()>0.8 or name_to_search in str(description).lower():
-            if verbose:
-                print("Name: "+str(name))
-                print("Link: "+str(link))
-                print("Description: "+str(description))
-                print("Location: "+ str(location))
-                print("Member since: "+str(member_since))
-                print("Activity: "+str(activity))
-                print("Born: "+str(born))
-                print("Web: "+str(webpage))
-                print ("Profile image url: "+str(image_url))
-                print('\n')
-                print('\n')
-            userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
-            
-            if knownimage:
-                if not os.path.isdir("data/twitter/"+str(now)+"_images"):
-                    os.mkdir("data/twitter/"+str(now)+"_images");
-                image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
-                try:
-                    urllib.request.urlretrieve(image_url, image)
-                    userData['storedImage']=image
-                except:
-                    pass
-            jsonData.append(userData)
+        if str(link) not in userLink:
+            if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or name_to_search in str(description).lower():
+                userLink.add(link)
+                if verbose:
+                    print("Name: "+str(name))
+                    print("Link: "+str(link))
+                    print("Description: "+str(description))
+                    print("Location: "+ str(location))
+                    print("Member since: "+str(member_since))
+                    print("Activity: "+str(activity))
+                    print("Born: "+str(born))
+                    print("Web: "+str(webpage))
+                    print ("Profile image url: "+str(image_url))
+                    print('\n')
+                    print('\n')
+                userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
+                
+                if knownimage:
+                    if not os.path.isdir("data/twitter/"+str(now)+"_images"):
+                        os.mkdir("data/twitter/"+str(now)+"_images");
+                    image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
+                    try:
+                        urllib.request.urlretrieve(image_url, image)
+                        userData['storedImage']=image
+                    except:
+                        pass
+                jsonData.append(userData)
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
 
