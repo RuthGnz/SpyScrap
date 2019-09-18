@@ -99,10 +99,10 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                         userData['storedImage']=image
                         userLink.add(link)
                         userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
-
+                        jsonData.append(userData)
                     except:
                         pass
-                jsonData.append(userData)
+                
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
 
