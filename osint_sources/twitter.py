@@ -76,7 +76,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
             name=""
         if str(link) not in userLink:
             if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or name_to_search in str(description).lower():
-                userLink.add(link)
+                
                 if verbose:
                     print("Name: "+str(name))
                     print("Link: "+str(link))
@@ -89,7 +89,6 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     print ("Profile image url: "+str(image_url))
                     print('\n')
                     print('\n')
-                userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
                 
                 if knownimage:
                     if not os.path.isdir("data/twitter/"+str(now)+"_images"):
@@ -98,6 +97,9 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     try:
                         urllib.request.urlretrieve(image_url, image)
                         userData['storedImage']=image
+                        userLink.add(link)
+                        userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
+
                     except:
                         pass
                 jsonData.append(userData)
