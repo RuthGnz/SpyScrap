@@ -75,7 +75,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         if name==None:
             name=""
         if str(link) not in userLink:
-            if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or name_to_search in str(description).lower():
+            if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or SequenceMatcher(None,name_to_search,str(link)).ratio()>0.4 or name_to_search in str(description).lower():
                 userData = {}
                 if verbose:
                     print("Name: "+str(name))
@@ -96,9 +96,8 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
                     try:
                         urllib.request.urlretrieve(image_url, image)
-                        userData['storedImage']=image
                         userLink.add(link)
-                        userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
+                        userData={'storedImage':image,'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
                         jsonData.append(userData)
                     except:
                         pass
@@ -108,6 +107,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
 
     print("Results Twitter in: " + str(path))
     response={'results':str(path)}
+
     if len(people_list)>0:
         if knownimage:
             print("Compare similarity images.")
@@ -115,5 +115,4 @@ def twitter (name_to_search,page_number,knownimage,verbose):
             response['images']='./data/twitter/'+str(now)+'_images/'
             response['recognized']='./data/twitter/'+str(now)+'_images/recognized/'
     driver.quit()
-
     return response
