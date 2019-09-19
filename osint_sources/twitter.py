@@ -75,7 +75,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         if name==None:
             name=""
         if str(link) not in userLink:
-            if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or name_to_search in str(description).lower():
+            if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or SequenceMatcher(None,name_to_search,str(link)).ratio()>0.4 or name_to_search in str(description).lower():
                 userData = {}
                 if verbose:
                     print("Name: "+str(name))
