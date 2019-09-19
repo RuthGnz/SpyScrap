@@ -142,7 +142,8 @@ def yandex(image,token,verbose):
 			f = open(image, "rb")
 		except FileNotFoundError as e:
 			print ("Image not found: " + image)
-			sys.exit(-1)
+			return []
+			#sys.exit(-1)
 		image_data = f.read()
 		b64_image = base64.standard_b64encode(image_data)
 		client_id = token
