@@ -91,31 +91,31 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 						jsonfile["photos"]=imgUrl
 						jsonfile["from_url"] = from_url
 						if not from_url.endswith(".pdf"):
-    						try:
-    							resp = req.get(from_url)
-    							content = resp.text
-    							stripped = re.sub('<[^<]+?>', '', content)
-    							stripped_filter = re.sub('\n', '', stripped)
-    							stripped_filter2 = re.sub('\t', '', stripped_filter)
-    							doc = nlp(stripped_filter2)
-    							locs = []
-    							for e in doc.ents:
-    								if e.label_ == "LOC":
-    									if not containsAny(e.text,my_set) and not e.text in locs:
-    										locs.append(e.text)
-    							jsonfile["LOC_LIST"] = locs
-    							locs = []
+							try:
+								resp = req.get(from_url)
+								content = resp.text
+								stripped = re.sub('<[^<]+?>', '', content)
+								stripped_filter = re.sub('\n', '', stripped)
+								stripped_filter2 = re.sub('\t', '', stripped_filter)
+								doc = nlp(stripped_filter2)
+								locs = []
+								for e in doc.ents:
+									if e.label_ == "LOC":
+										if not containsAny(e.text,my_set) and not e.text in locs:
+											locs.append(e.text)
+								jsonfile["LOC_LIST"] = locs
+								locs = []
 
-    							listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
-    							t = listtext.text
-    							jsonfile["info"] = t
-    							t =""
-    						except:
-    								pass
+								listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
+								t = listtext.text
+								jsonfile["info"] = t
+								t =""
+							except:
+									pass
 
 
 						else:
-    						jsonfile["LOC_LIST"] = []
+							jsonfile["LOC_LIST"] = []
 
 
 				if placeToSearch != None:
