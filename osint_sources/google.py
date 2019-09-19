@@ -62,6 +62,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	nlp = spacy.load("es_core_news_sm")
 	search=driver.find_elements_by_tag_name('img')
 	j=1
+	notRepeatPhotos = []
 	notRepeatFromUrl = []
 	
 	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -81,12 +82,12 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 			url=link.split('imgurl=')
 			if len(url)>1:
 				imgUrl=url[1].split('&')[0]
-				if 'Q7Rsec'== div.get_attribute('jscontroller'):
-					jsonDiv=div.find_elements_by_class_name('notranslate')[0]
-					jsonInfo= json.loads(jsonDiv.get_attribute('innerHTML'))
-					from_url = jsonInfo["ru"]
-					if not from_url in notRepeatFromUrl:
-						notRepeatFromUrl.append(from_url)
+				if not imgUrl in notRepeatPhotos:
+					notRepeatPhotos.append(imgUrl)
+					if 'Q7Rsec'== div.get_attribute('jscontroller'):
+						jsonDiv=div.find_elements_by_class_name('notranslate')[0]
+						jsonInfo= json.loads(jsonDiv.get_attribute('innerHTML'))
+						from_url = jsonInfo["ru"]
 						imgUrl = unquote(imgUrl)
 						jsonfile["photos"]=imgUrl
 						jsonfile["from_url"] = from_url
@@ -111,31 +112,31 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 								jsonfile["info"] = t
 								t =""
 							except:
-									pass
+								pass
 
 
 						else:
 							jsonfile["LOC_LIST"] = []
 
 
-				if placeToSearch != None:
-					name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
-				else:
-					name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+toSearch+".jpg")
+					if placeToSearch != None:
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
+					else:
+						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+toSearch+".jpg")
 
-				if knownImage != None:
-					try:
-						urllib.request.urlretrieve(imgUrl, name)
-						jsonfile['storedImage']=name
-					except:
-						src=s.get_attribute('src')
-						if src != None:
-							urllib.request.urlretrieve(src, name)
+					if knownImage != None:
+						try:
+							urllib.request.urlretrieve(imgUrl, name)
 							jsonfile['storedImage']=name
-				j=j+1
+						except:
+							src=s.get_attribute('src')
+							if src != None:
+								urllib.request.urlretrieve(src, name)
+								jsonfile['storedImage']=name
+					j=j+1
 
-				out.append(jsonfile)		
-				jsonfile={}
+					out.append(jsonfile)		
+					jsonfile={}
 		if int(number) == int(ind):
 			break
 
