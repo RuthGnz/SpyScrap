@@ -60,8 +60,9 @@ RUN ~/torch/install/bin/luarocks install dpnn \
 RUN git clone https://github.com/cmusatyalab/openface.git \
     && python ./openface/setup.py install \
     && ./openface/models/get-models.sh
-COPY ./src .
+COPY ./src/requirements.txt .
 RUN pip3 install -r ./requirements.txt
 RUN python -m spacy download es_core_news_sm
+COPY ./src/ .
 RUN cp /usr/local/bin/chromedriver .
 ENTRYPOINT ["python3","main.py"]

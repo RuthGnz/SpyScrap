@@ -123,3 +123,7 @@ chromedriver_linux64/
 chromedriver
 /darta/
 /boe/*
+/instagram/*
+/twitter/*
+/facebook/*
+/google/*

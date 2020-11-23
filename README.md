@@ -16,10 +16,10 @@ sudo .setup.sh
 
 
 ### Installation with Docker
-
+```bash
 docker build -t spyscrap .
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
-
+```
 
 
 ###Usage

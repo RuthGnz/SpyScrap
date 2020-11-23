@@ -20,6 +20,8 @@ def twitter (name_to_search,page_number,knownimage,verbose):
     placeToSearch='twitter.com'
     chrome_options = Options()
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
     chrome_path = './chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
@@ -89,7 +91,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     print ("Profile image url: "+str(image_url))
                     print('\n')
                     print('\n')
-                
+
                 if knownimage:
                     if not os.path.isdir("data/twitter/"+str(now)+"_images"):
                         os.mkdir("data/twitter/"+str(now)+"_images");
@@ -101,7 +103,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                         jsonData.append(userData)
                     except:
                         pass
-                
+
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
 
