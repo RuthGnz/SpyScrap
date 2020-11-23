@@ -4,8 +4,6 @@ from os.path import isfile, join
 import os
 import cv2
 import openface
-import torch
-import torchvision
 import numpy as np
 
 def face_identification(known_image,folder):
@@ -25,7 +23,7 @@ def face_identification(known_image,folder):
 
 	for image in onlyfiles:
 		if 'data.json' not in image:
-			
+
 			unknown_image = face_recognition.load_image_file(image)
 
 			if len(face_recognition.face_encodings(unknown_image))>0:
@@ -42,7 +40,7 @@ def face_identification(known_image,folder):
 				pass
 				#print('Not face found')
 		else:
-			pass		
+			pass
 	#print()
 
 
@@ -90,11 +88,11 @@ def getRep(imgPath,align,net,imgDim):
 	if bb is None:
 		#print("Unable to find a face: {}".format(imgPath))
 		return []
-	
+
 	alignedFace = align.align(imgDim, rgbImg, bb, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
 	if alignedFace is None:
 		#print("Unable to align image: {}".format(imgPath))
 		return []
-	
+
 	rep = net.forward(alignedFace)
 	return rep
