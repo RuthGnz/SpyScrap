@@ -15,6 +15,12 @@ Es necesario tener Google Chrome e instalar el driver (Chromedriver adecuado en 
 sudo .setup.sh
 
 
+### Installation with Docker
+
+docker build -t spyscrap .
+docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
+
+
 
 ###Usage
 
@@ -78,4 +84,3 @@ USAGE:
   python3 main.py -t yandex -k <imgur id> -i <imagePath>
   python3 main.py -t yandex -i <imgUrl>
   ```
-  
