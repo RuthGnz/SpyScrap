@@ -24,6 +24,8 @@ def boe (text_to_search,initDate,outDate,pages,exact,verbose):
     chrome_options = Options()
     jsonData=[]
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
     if initDate!=None and outDate!=None:
         url = 'https://www.boe.es/buscar/boe.php?campo%5B0%5D=ORI&dato%5B0%5D%5B1%5D=1&dato%5B0%5D%5B2%5D=2&dato%5B0%5D%5B3%5D=3&dato%5B0%5D%5B4%5D=4&dato%5B0%5D%5B5%5D=5&dato%5B0%5D%5BT%5D=T&operador%5B0%5D=and&campo%5B1%5D=TIT&dato%5B1%5D=&operador%5B1%5D=and&campo%5B2%5D=DEM&dato%5B2%5D=&operador%5B2%5D=and&campo%5B3%5D=DOC&dato%5B3%5D='+text_to_search+'&operador%5B3%5D=and&campo%5B4%5D=NBO&dato%5B4%5D=&operador%5B4%5D=and&campo%5B5%5D=NOF&dato%5B5%5D=&operador%5B5%5D=and&operador%5B6%5D=and&campo%5B6%5D=FPU&dato%5B6%5D%5B0%5D='+initDate+'&dato%5B6%5D%5B1%5D='+outDate+'&page_hits=50&sort_field%5B0%5D=fpu&sort_order%5B0%5D=desc&sort_field%5B1%5D=ori&sort_order%5B1%5D=asc&sort_field%5B2%5D=ref&sort_order%5B2%5D=asc&accion=Buscar'
     else:

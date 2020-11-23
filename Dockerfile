@@ -35,7 +35,6 @@ RUN cd ~ && \
     python3 setup.py install --yes USE_AVX_INSTRUCTIONS
 
 RUN mkdir spyscrap
-COPY ./src ./spyscrap
 WORKDIR spyscrap
 
 # Install Google Chrome
@@ -50,7 +49,6 @@ RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RE
     rm /tmp/chromedriver_linux64.zip && \
     chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver && \
     ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver
-RUN pip3 install -r ./requirements.txt
 RUN apt-get install libreadline-dev -y
 RUN git clone https://github.com/torch/distro.git ~/torch --recursive
 RUN cd ~/torch bash install-deps \
@@ -62,5 +60,8 @@ RUN ~/torch/install/bin/luarocks install dpnn \
 RUN git clone https://github.com/cmusatyalab/openface.git \
     && python ./openface/setup.py install \
     && ./openface/models/get-models.sh
+COPY ./src .
+RUN pip3 install -r ./requirements.txt
 RUN python -m spacy download es_core_news_sm
+RUN cp /usr/local/bin/chromedriver .
 ENTRYPOINT ["python3","main.py"]
