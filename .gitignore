@@ -127,3 +127,5 @@ chromedriver
 /twitter/*
 /facebook/*
 /google/*
+/data/*
+.DS_Store

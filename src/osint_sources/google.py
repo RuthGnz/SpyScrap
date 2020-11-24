@@ -150,7 +150,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	if verbose:
 		print(out)
 	if knownImage:
-		openface_identification(knownImage,'data/google/'+str(now)+'_images/')
+		face_identification(knownImage,'data/google/'+str(now)+'_images/')
 		response['images']='./data/google/'+str(now)+'_images/'
 		response['recognized']='./data/google/'+str(now)+'_images/recognized/'
 	return response

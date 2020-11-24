@@ -74,6 +74,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         if name==None:
             name=""
         if str(link) not in userLink:
+            userLink.add(link)
             nameParts = name_to_search.split(' ')
             isMatcher = False
             for n in nameParts:
@@ -100,10 +101,9 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                 if knownimage:
                     if not os.path.isdir("data/twitter/"+str(now)+"_images"):
                         os.mkdir("data/twitter/"+str(now)+"_images");
-                    image=os.path.join("data/twitter/"+str(now)+"_images",placeToSearch+"-"+str(link)+".jpg")
+                    image=os.path.join("data/twitter/"+str(now)+"_images/"+str(link.split('.com/')[1])+".jpg")
                     try:
                         urllib.request.urlretrieve(image_url, image)
-                        userLink.add(link)
                         userData={'storedImage':image,'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'born':str(born),'web':str(webpage),'image':str(image_url)}
                         jsonData.append(userData)
                     except:
@@ -121,7 +121,7 @@ def twitter (name_to_search,page_number,knownimage,verbose):
     if len(people_list)>0:
         if knownimage:
             print("Compare similarity images.")
-            openface_identification(knownimage,'./data/twitter/'+str(now)+'_images/')
+            face_identification(knownimage,'./data/twitter/'+str(now)+'_images/')
             response['images']='./data/twitter/'+str(now)+'_images/'
             response['recognized']='./data/twitter/'+str(now)+'_images/recognized/'
     driver.quit()

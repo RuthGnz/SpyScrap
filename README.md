@@ -20,7 +20,10 @@ sudo .setup.sh
 docker build -t spyscrap .
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
 ```
-
+Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la opción "-i", es necesario que la ruta a la imagen se encuentre dentro del volumen a compartir.
+```
+docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
+```
 
 ###Usage
 
