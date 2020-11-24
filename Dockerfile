@@ -65,4 +65,5 @@ RUN pip3 install -r ./requirements.txt
 RUN python -m spacy download es_core_news_sm
 COPY ./src/ .
 RUN cp /usr/local/bin/chromedriver .
+ENV PYTHONIOENCODING=utf-8
 ENTRYPOINT ["python3","main.py"]

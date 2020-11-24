@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# coding: utf-8
+# coding=utf-8
 # encoding=utf8
 import sys
 import datetime
@@ -36,9 +36,9 @@ def twitter (name_to_search,page_number,knownimage,verbose):
             href=s.get_attribute('href')
             if href != None:
                 if "https://twitter.com/" in href:
-                    if "/status/" not in href and "/media" not in href and "/hashtag/" not in href:
+                    if "/status/" not in href and "/media" not in href and "/hashtag/" not in href and "webcache.googleusercontent.com" not in href and "google.com" not in href:
                         people_list.append(href)
-                    else:
+                    elif "/hashtag/" not in href and "webcache.googleusercontent.com" not in href and "google.com" not in href:
                         if "/status/" in href:
                             people_list.append(href.split("/status/")[0])
                         elif "/media" not in s.text:
@@ -62,22 +62,28 @@ def twitter (name_to_search,page_number,knownimage,verbose):
         time.sleep(2)
 
         sel = Selector(text=driver.page_source)
-        "ProfileHeaderCard-nameLink u-textInheritColor js-nav"
-        name = sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-nameLink u-textInheritColor js-nav")]/text()').extract_first()
-        link = sel.xpath('//*[starts-with(@class, "u-linkComplex-target")]/text()').extract_first()
-        description = sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-bio u-dir")]/text()').extract_first()
-        location = sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-locationText u-dir")]/a/text()').extract_first()
-        if location == None:
-            location = sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-locationText u-dir")]/text()').extract_first()
-        member_since = sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-joinDateText js-tooltip u-dir")]/text()').extract_first()
-        activity = sel.xpath('//*[starts-with(@class, "PhotoRail-headingWithCount js-nav")]/text()').extract_first()
-        born=sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-birthdateText u-dir")]/span/text()').extract_first()
-        webpage=sel.xpath('//*[starts-with(@class, "ProfileHeaderCard-urlText u-dir")]/a/@title').extract_first()
-        image_url=sel.xpath('//img[@class="ProfileAvatar-image "]/@src').extract_first()
+
+        name = sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[2]/div/div/div[1]/div/span[1]/span/text()').extract_first()
+        link = p
+        description = sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[3]/div/div/span[1]/text()').extract_first()
+        location = sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[4]/div/span[1]/span/span/text()').extract_first()
+        member_since = sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[4]/div/span[2]/svg/text()').extract_first()
+        born=sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[4]/div/span[2]/svg/text()').extract_first()
+        webpage=sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[4]/div/a/text()').extract_first()
+        image_url=sel.xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div/div[1]/div/div[1]/a/div[1]/div[2]/div/img/@src').extract_first()
         if name==None:
             name=""
         if str(link) not in userLink:
+            nameParts = name_to_search.split(' ')
+            isMatcher = False
+            for n in nameParts:
+                if SequenceMatcher(None,n, name).ratio()>0.4 or SequenceMatcher(None,n,str(link)).ratio()>0.4 or n in str(description).lower():
+                    isMatcher=True
+
             if SequenceMatcher(None,name_to_search, name).ratio()>0.4 or SequenceMatcher(None,name_to_search,str(link)).ratio()>0.4 or name_to_search in str(description).lower():
+                isMatcher=True
+
+            if isMatcher:
                 userData = {}
                 if verbose:
                     print("Name: "+str(name))
@@ -85,7 +91,6 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     print("Description: "+str(description))
                     print("Location: "+ str(location))
                     print("Member since: "+str(member_since))
-                    print("Activity: "+str(activity))
                     print("Born: "+str(born))
                     print("Web: "+str(webpage))
                     print ("Profile image url: "+str(image_url))
@@ -99,10 +104,13 @@ def twitter (name_to_search,page_number,knownimage,verbose):
                     try:
                         urllib.request.urlretrieve(image_url, image)
                         userLink.add(link)
-                        userData={'storedImage':image,'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'activity':activity,'born':str(born),'web':str(webpage),'image':str(image_url)}
+                        userData={'storedImage':image,'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'born':str(born),'web':str(webpage),'image':str(image_url)}
                         jsonData.append(userData)
                     except:
                         pass
+                else:
+                    userData={'name':str(name),'link':str(link),'description':str(description),'location':str(location),'member_since':str(member_since),'born':str(born),'web':str(webpage),'image':str(image_url)}
+                    jsonData.append(userData)
 
     with open(path, 'w+') as outfile:
         json.dump(jsonData, outfile)
