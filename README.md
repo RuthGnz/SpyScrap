@@ -15,6 +15,15 @@ Es necesario tener Google Chrome e instalar el driver (Chromedriver adecuado en 
 sudo .setup.sh
 
 
+### Installation with Docker
+```bash
+docker build -t spyscrap .
+docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
+```
+Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la opción "-i", es necesario que la ruta a la imagen se encuentre dentro del volumen a compartir.
+```
+docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
+```
 
 ###Usage
 
@@ -78,4 +87,3 @@ USAGE:
   python3 main.py -t yandex -k <imgur id> -i <imagePath>
   python3 main.py -t yandex -i <imgUrl>
   ```
-  

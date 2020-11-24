@@ -50,7 +50,7 @@ def instagram (name_to_search,knownimage,verbose):
     if len(users)>0:
         if knownimage:
             print("Start compare images.")
-            openface_identification(knownimage,"data/instagram/"+str(now)+"_images/")
+            face_identification(knownimage,"data/instagram/"+str(now)+"_images/")
             response['images']='./data/instagram/'+str(now)+'_images/'
             response['recognized']='./data/instagram/'+str(now)+'_images/recognized/'
             if verbose:

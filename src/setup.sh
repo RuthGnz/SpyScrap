@@ -4,14 +4,7 @@ echo "If you have permissions problems, please run this script as root"
 
 current_dir=$(pwd)
 
-echo $header"Checking if Chrome is installed"$header
-chrome_version=$(google-chrome --version)
-if [[ $chrome_version == *"Google Chrome"* ]]; then
-  echo "Chrome Version is $chrome_version"
-else
-  echo "Chrome must be installed"
-  exit 0
-fi
+
 
 ostype=""
 

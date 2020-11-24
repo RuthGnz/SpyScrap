@@ -147,6 +147,6 @@ def main(argv):
 	print ("Thanks for use SypScrap tool")
 
 if __name__ == '__main__':
-	#create_tables()
+	create_tables()
 	main(sys.argv)
     	#sys.exit(-1)

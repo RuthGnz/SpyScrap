@@ -22,6 +22,8 @@ def containsAny(str, set):
 def google(toSearch,placeToSearch,knownImage,number,verbose):
 	chrome_options = Options()
 	chrome_options.add_argument("--headless")
+	chrome_options.add_argument("--no-sandbox")
+	chrome_options.add_argument("--disable-dev-shm-usage")
 	chrome_path = './chromedriver'
 	driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
 	if placeToSearch != None and len(placeToSearch)>0:
@@ -64,7 +66,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	j=1
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
-	
+
 	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	if not os.path.isdir("data/google"):
 		os.mkdir( "data/google");
@@ -74,7 +76,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 
 	for ind,s in enumerate(search):
-		
+
 		td_p_input = s.find_element_by_xpath('..')
 		link=td_p_input.get_attribute('href')
 		div = td_p_input.find_element_by_xpath('..')
@@ -135,7 +137,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 								jsonfile['storedImage']=name
 					j=j+1
 
-					out.append(jsonfile)		
+					out.append(jsonfile)
 					jsonfile={}
 		if int(number) == int(ind):
 			break
@@ -148,7 +150,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	if verbose:
 		print(out)
 	if knownImage:
-		openface_identification(knownImage,'data/google/'+str(now)+'_images/')
+		face_identification(knownImage,'data/google/'+str(now)+'_images/')
 		response['images']='./data/google/'+str(now)+'_images/'
 		response['recognized']='./data/google/'+str(now)+'_images/recognized/'
 	return response

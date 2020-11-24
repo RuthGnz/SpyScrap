@@ -15,22 +15,26 @@ from selenium.webdriver.chrome.options import Options
 import shutil
 import requests
 from osint_sources.recognition import *
-
 def facebook (name_to_search,knownimage,size,verbose):
 
     chrome_options = Options()
     jsonData=[]
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
     chrome_path = './chromedriver'
     driver = webdriver.Chrome(chrome_path,chrome_options=chrome_options)
 
+
     driver.get("https://es-la.facebook.com/public/"+name_to_search)
+    print("https://es-la.facebook.com/public/"+name_to_search)
     driver.implicitly_wait(20)
 
     isMoreButton=True
     for i in range(1,int(size)):
         isEnd=driver.find_elements_by_id('browse_end_of_results_footer')
+        print(isEnd)
         if len(isEnd)>0:
             isMoreButton=False
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -100,7 +104,7 @@ def facebook (name_to_search,knownimage,size,verbose):
         driver.quit()
         print("Start compare images")
 
-        openface_identification(knownimage,'./data/facebook/'+str(now)+'_images/')
+        face_identification(knownimage,'./data/facebook/'+str(now)+'_images/')
         response['images']='./data/facebook/'+str(now)+'_images/'
         response['recognized']='./data/facebook/'+str(now)+'_images/recognized/'
 

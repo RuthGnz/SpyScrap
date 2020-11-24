@@ -115,9 +115,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
+*.db
 tinder.json
 database.db
 chromedriver_linux64/
 /openface/
 chromedriver
+/darta/
+/boe/*
+/instagram/*
+/twitter/*
+/facebook/*
+/google/*
+/data/*
+.DS_Store
