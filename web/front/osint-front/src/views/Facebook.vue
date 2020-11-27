@@ -77,7 +77,32 @@
              {{msg}}
             </v-alert>
           </div>
+                    <v-container class="grey lighten-5">
+                      <v-row no-gutters>
+                        <v-col
+                          v-for="n in userData"
+                          :key="n.profile"
+                          cols="12"
+                          sm="2"
+                        >
+                          <a :href="n.profile" target="_blank"><v-card
+                            class="pa-3"
+                            outlined
+                            tile
+                          >
+                          <v-img
+                                :src="n.image"
+                                height="200px"
+                          ></v-img>
+                          <v-list-item-content>
+                            <v-list-item-title>{{n.name}}</v-list-item-title>
+                          </v-list-item-content>
 
+
+                       </v-card></a>
+                        </v-col>
+                      </v-row>
+                    </v-container>
 
   </v-container>
 </template>
@@ -94,10 +119,10 @@ export default {
       checkbox: false,
       data: [],
       isCardModalActive: false,
-      number: 100,
+      number: 2,
       isLoading:false,
       isAlert:false,
-      msg: ""
+      msg: "",
     };
   },
   methods: {

@@ -89,7 +89,59 @@
             </v-alert>
           </div>
 
+          <v-container class="grey lighten-5">
+            <v-row no-gutters>
+              <v-col
+                v-for="n in userData"
+                :key="n.link"
+                cols="12"
+                sm="2"
+              >
+                <v-card
+                  class="pa-3"
+                  outlined
+                  tile
+                >
+                <a :href="n.link" target="_blank"><v-img
+                      :src="n.image"
+                      height="200px"
+                ></v-img></a>
+                <v-list-item-content>
+                  <v-list-item-title>{{n.name}}</v-list-item-title>
+                </v-list-item-content>
+               <v-card-actions>
+                 <v-btn
+                   color="blue lighten-2"
+                   text
+                 >
+                   More Info
+                 </v-btn>
 
+                 <v-spacer></v-spacer>
+
+                 <v-btn
+                   icon
+                   @click="show(n)"
+                 >
+                   <v-icon>{{ toShow == n.link ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                 </v-btn>
+               </v-card-actions>
+
+               <v-expand-transition>
+                 <div v-if="toShow == n.link">
+                   <v-divider></v-divider>
+                   <v-list-item-content>
+                     <v-list-item-subtitle>Descripción: {{n.description}}</v-list-item-subtitle>
+                     <v-list-item-subtitle>Nacimiento: {{n.born}}</v-list-item-subtitle>
+                     <v-list-item-subtitle>Miembro desde: {{n.member_since}}</v-list-item-subtitle>
+                     <v-list-item-subtitle>Localización: {{n.location}}</v-list-item-subtitle>
+                   </v-list-item-content>
+                 </div>
+               </v-expand-transition>
+             </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
   </v-container>
 </template>
 
@@ -105,13 +157,29 @@ export default {
       checkbox: false,
       data: [],
       isCardModalActive: false,
-      number: 100,
+      number: 2,
       isLoading:false,
       isAlert:false,
-      msg: ""
+      msg: "",
+      toShow: ""
     };
   },
   methods: {
+    show(n) {
+      if (n.show == false){
+        n.show = true
+      } else if (n.show == true){
+        n.show = false
+      } else {
+        n.show = true
+      }
+      if (n.show == true) {
+        this.toShow = n.link
+      } else {
+        this.toShow = ""
+
+      }
+    },
     searchTwitter() {
       //todo check empty
       this.isLoading=true

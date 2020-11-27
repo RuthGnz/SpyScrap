@@ -75,7 +75,53 @@
              {{msg}}
             </v-alert>
           </div>
+          <v-container class="grey lighten-5">
+            <v-row no-gutters>
+              <v-col
+                v-for="n in userData"
+                :key="n.photos[0]"
+                cols="12"
+                sm="2"
+              >
+                <v-card
+                  class="pa-3"
+                  outlined
+                  tile
+                >
+                <v-system-bar lights-out></v-system-bar>
+     <v-carousel
+       :continuous="false"
+       :show-arrows="true"
+       hide-delimiter-background
+       hide-delimiters
+       height="300"
+     >
+       <v-carousel-item
+         v-for="(slide, i) in n.photos"
+         :key="i"
+         :src="slide"
+       >
 
+       </v-carousel-item>
+     </v-carousel>
+     <v-list two-line>
+       <v-list-item>
+
+         <v-list-item-content>
+           <v-list-item-title>{{n.user.name}}</v-list-item-title>
+           <v-list-item-subtitle>{{n.user.location}}</v-list-item-subtitle>
+           <v-list-item-subtitle>{{n.user.birth}}</v-list-item-subtitle>
+           <v-list-item-subtitle>{{n.user.job}}</v-list-item-subtitle>
+         </v-list-item-content>
+
+       </v-list-item>
+     </v-list>
+
+
+             </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
 
   </v-container>
 </template>
@@ -94,7 +140,7 @@ export default {
       isCardModalActive: false,
       isLoading:false,
       isAlert:false,
-      msg: ""
+      msg: "",
     };
   },
   methods: {

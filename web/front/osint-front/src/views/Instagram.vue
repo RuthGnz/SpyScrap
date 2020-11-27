@@ -1,7 +1,7 @@
 <template>
   <v-container>
           <h1>
-            Facebook
+            Instagram
           </h1>
           <br />
           <p>
@@ -64,7 +64,39 @@
             </v-alert>
           </div>
 
-
+          <v-container class="grey lighten-5">
+            <v-row no-gutters>
+              <v-col
+                v-for="n in userData"
+                :key="n.username"
+                cols="12"
+                sm="2"
+              >
+                <a :href="n.profile" target="_blank"><v-card
+                  class="pa-3"
+                  outlined
+                  tile
+                >
+                <v-img
+                      :src="n.image"
+                      height="200px"
+                ></v-img>
+                <v-card-title>
+                 {{n.full_name}}
+               </v-card-title>
+               <div class="grey--text ml-4">
+                    {{n.usernane}}
+              </div>
+              <div class="my-4 subtitle-1">
+                      Verified: {{n.is_verified}}
+                    </div>
+                    <div class="my-4 subtitle-1">
+                  Private: {{n.is_private}}
+      </div>
+             </v-card></a>
+              </v-col>
+            </v-row>
+          </v-container>
   </v-container>
 </template>
 
@@ -80,7 +112,7 @@ export default {
       checkbox: false,
       data: [],
       isCardModalActive: false,
-      number: 100,
+      number: 2,
       isLoading:false,
       isAlert:false,
       msg: ""
