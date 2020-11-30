@@ -286,7 +286,33 @@ export default {
       dropFiles: [],
       name: "",
       token: "",
-      userData: {},
+      userData: {
+        "facebook": [],
+        "google": [],
+        "instagram": [          {
+                "full_name": "Ruth GN",
+                "image": "data/instagram/2020-11-30 16:18:19_images/recognized/0-instagram.jpg",
+                "is_private": true,
+                "is_verified": false,
+                "profile": "https://www.instagram.com/_ruthgnz",
+                "username": "_ruthgnz"
+            }],
+        "score": 10,
+        "twitter": [
+            {
+                "born": "None",
+                "description": "Cybersecurity and cloud researcher at BBVA Next Technologies. Telecommunications engineer.\n\nhello@ruthgonzalez.es\n\nCrossfitter & Runner",
+                "image": "https://pbs.twimg.com/profile_images/1172161923972030464/uWWN69uX_200x200.jpg",
+                "link": "https://twitter.com/ruthgnz",
+                "location": "Pamplona/Madrid",
+                "member_since": "None",
+                "name": "Ruth G.N",
+                "storedImage": "data/twitter/2020-11-30 15:41:20_images/recognized/ruthgnz.jpg",
+                "web": "ruthgonzalez.es"
+            }
+        ],
+        "yandex": []
+    },
       data: [],
       gnumber: 10,
       number: 2,
