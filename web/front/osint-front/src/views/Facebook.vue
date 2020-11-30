@@ -32,7 +32,7 @@
                  color="blue"
                  label="Number of pages"
                  min="1"
-                 max="20"
+                 max="50"
                  thumb-label
                ></v-slider>
                 </v-col>

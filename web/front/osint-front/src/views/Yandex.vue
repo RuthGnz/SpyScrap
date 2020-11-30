@@ -73,6 +73,33 @@
           </div>
 
 
+                    <v-container class="grey lighten-5">
+                      <v-row no-gutters>
+                        <v-col
+                          v-for="n in userData"
+                          :key="n.url"
+                          cols="12"
+                          sm="2"
+                        >
+                          <v-card
+                            class="pa-3"
+                            outlined
+                            tile
+                          >
+                          <a :href="n.url" target="_blank"><v-img
+                                :src="n.originUrl"
+                                height="200px"
+                          ></v-img></a>
+                        <div class="my-4 subtitle-1">
+                                {{n.domain}}
+                              </div>
+                              <div class="my-4 subtitle-2">
+                            {{n.title}}
+                </div>
+                       </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-container>
   </v-container>
 </template>
 

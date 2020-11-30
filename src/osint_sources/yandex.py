@@ -168,7 +168,6 @@ def yandex(image,token,verbose):
 		chrome_path = './chromedriver'
 		driver = webdriver.Chrome(chrome_path,options=chrome_options)
 		url_final = "https://yandex.ru/images/search?rpt=imageview&url="+image_url+"&rpt=imagelike"
-		print(url_final)
 		driver.get(url_final)
 		driver.implicitly_wait(50)
 		time.sleep(3)

@@ -1,265 +1,281 @@
 <template>
-  <div class="container">
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            ¡Scoring!
-          </h1>
-          <br />
-          <h2 class="subtitle">
-            You must provide all the values. It can take a while to compute your
-            public exposition
-          </h2>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="columns is-multiline">
-        <div class="column is-one-quarter"></div>
-        <div class="column is-one-quarter">
-          <b-field label="Name and Surnames">
-            <b-input value="Name" v-model="name"></b-input>
-          </b-field>
-          <b-field label="Imgurl Token">
-            <b-input value="Token" v-model="token"></b-input>
-          </b-field>
-        </div>
-        <div class="column is-one-quarter">
-          <b-field label="Twitter and Facebook pages">
-            <b-numberinput v-model="number"></b-numberinput>
-          </b-field>
-          <b-field label="Google number of images">
-            <b-numberinput v-model="gnumber"></b-numberinput>
-          </b-field>
-        </div>
+  <v-container>
 
-        <div class="column is-one-quarter"></div>
-        <div class="column is-one-quarter"></div>
-        <div class="column is-one-quarter">
-          <b-button type="is-primary" @click="searchAll()">Send</b-button>
-        </div>
-        <div class="column is-one-quarter">
-          <b-field>
-            <b-upload v-model="dropFiles" multiple drag-drop>
-              <section class="section">
-                <div class="content has-text-centered">
-                  <p>
-                    <b-icon pack="fas" icon="upload" size="is-large"> </b-icon>
-                  </p>
-                  <p>Drop your files here or click to upload</p>
-                </div>
-              </section>
-            </b-upload>
-          </b-field>
-          <div>
-            <span
-              v-for="(file, index) in dropFiles"
-              :key="index"
-              class="tag is-primary"
-            >
-              {{ file.name }}
-              <button
-                class="delete is-small"
-                type="button"
-                @click="deleteDropFile(index)"
-              ></button>
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <br />
-      <div v-if="Object.keys(userData).length > 0">
-        <h1><b>TOTAL SCORE</b></h1>
-        <div>
-          <span class="tag is-warning is-large">{{ userData.score }}</span>
-        </div>
-      </div>
-      <br />
-      <div v-if="chartData.length > 0">
-        <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
-      </div>
-      <br />
-    </section>
-
-    <section v-if="Object.keys(userData).length > 0">
-      <div
-        class="is-divider"
-        v-if="userData.facebook.length > 0"
-        data-content="Facebook"
-      ></div>
-      <div class="columns is-multiline">
-        <div
-          v-for="(user) in userData.facebook.length" :key="user.profile"> 0"
-          class="column is-one-fifth"
+  <h1>
+    Scoring
+  </h1>
+  <br />
+  <p>
+    You must provide all the values. It can take a while to compute your
+    public exposition.
+  </p>
+  <v-form>
+    <v-container>
+      <v-row>
+        <v-col
+          cols="12"
+          md="5"
         >
-          <div class="card">
-            <div class="card-image">
-              <div class="slide">
-                <figure class="image is-4by3">
-                  <img :src="URL_IMG + '/' + user.image" />
-                </figure>
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <p class="title is-4">{{ user.name }}</p>
-                <p class="subtitle is-6">
-                  Profile URL: <a :href="user.profile">{{ user.profile }}</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          <v-text-field
+            v-model="name"
+            :counter="30"
+            label="Person to search"
+            required
+          ></v-text-field>
+        </v-col>
 
-      <div
-        class="is-divider"
-        v-if="userData.instagram.length > 0"
-        data-content="Instagram"
-      ></div>
-      <div class="columns is-multiline">
-        <div
-          v-for="(user) in userData.instagram" :key="user.username"
-          class="column is-one-fifth"
+        <v-col
+          cols="12"
+          md="5"
         >
-          <div class="card">
-            <div class="card-image">
-              <div class="slide">
-                <figure class="image is-4by3">
-                  <img :src="URL_IMG + '/' + user.image" />
-                </figure>
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <p class="title is-4">{{ user.full_name }}</p>
-                <p class="subtitle is-6">UserName: {{ user.username }}</p>
-                <p class="subtitle is-6">Is Private: {{ user.is_private }}</p>
-                <p class="subtitle is-6">Is Verified: {{ user.is_verified }}</p>
-                <p class="subtitle is-6">
-                  Profile URL: <a :href="user.profile">{{ user.profile }}</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          <v-text-field
+            v-model="token"
+            :counter="30"
+            label="Imgurl Token"
+          ></v-text-field>
+        </v-col>
 
-      <div
-        class="is-divider"
-        v-if="userData.google.length > 0"
-        data-content="Google"
-      ></div>
-      <div class="columns is-multiline">
-        <div
-          v-for="(user, index) in userData.google" :key="index"
-          class="column is-one-fifth"
+        <v-col
+          cols="12"
+          md="10"
         >
-          <div class="card">
-            <div class="card-image">
-              <div class="slide">
-                <figure class="image is-4by3">
-                  <img :src="user.photos" />
-                </figure>
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <p class="subtitle is-6">
-                  URL: <a :href="user.from_url">{{ user.from_url }}</a>
-                </p>
-                <p class="subtitle is-6">Info: {{ user.info }}</p>
-                <p v-if="user.LOC_LIST.length > 0" class="subtitle is-6">
-                  Words In Site:
-                  <a @click="showModal(user.LOC_LIST)">View More</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <v-slider
+         v-model="number"
+         color="blue"
+         label="Twitter and Facebook pages"
+         min="1"
+         max="30"
+         thumb-label
+       ></v-slider>
+       <v-slider
+        v-model="gnumber"
+        color="blue"
+        label="Google number of images"
+        min="1"
+        max="100"
+        thumb-label
+      ></v-slider>
+        </v-col>
 
-      <div
-        class="is-divider"
-        v-if="userData.twitter.length > 0"
-        data-content="Twitter"
-      ></div>
-      <div class="columns is-multiline">
-        <div
-          v-for="(user, index) in userData.twitter" :key="index"
-          class="column is-one-fifth"
-        >
-          <a :href="'https://twitter.com/' + user.link">
-            <div class="card">
-              <div class="card-image">
-                <div class="slide">
-                  <figure class="image is-4by3">
-                    <img :src="user.image" />
-                  </figure>
-                </div>
-              </div>
+        <v-col cols="12" md="4">
+          <v-file-input
+            accept="image/*"
+            label="File input"
+            v-model="dropFiles"
+          ></v-file-input>
 
-              <div class="card-content">
-                <div class="content">
-                  <p class="title is-4">{{ user.name }}</p>
-                  <p class="subtitle is-6">{{ user.member_since }}</p>
-                  <p class="subtitle is-6">{{ user.activity }}</p>
-                  <p class="subtitle is-6">{{ user.location }}</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-btn
+        depressed
+        color="primary"
+        @click="searchAll()"
+      >
+        Send
+      </v-btn>
+  </v-form>
+  <div class="text-center">
 
-      <div
-        class="is-divider"
-        v-if="userData.yandex.length > 0"
-        data-content="Yandex"
-      ></div>
-      <div class="columns is-multiline">
-        <div
-          v-for="(user, index) in userData.yandex" :key="index"
-          class="column is-one-fifth"
-        >
-          <div class="card">
-            <div class="card-image">
-              <div class="slide">
-                <figure class="image is-4by3">
-                  <img :src="user.originUrl" />
-                </figure>
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <p class="subtitle is-6">Domain: {{ user.domain }}</p>
-                <p class="subtitle is-6">Text: {{ user.text }}</p>
-                <p class="subtitle is-6">Title: {{ user.title }}</p>
-                <p class="subtitle is-6">
-                  URL: <a :href="user.url">{{ user.url }}</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <b-modal :active.sync="isCardModalActive" :width="640" scroll="keep">
-        <div class="card">
-          <div class="card-content">
-            <ul v-for="e in data" :key="e">
-              <li>{{ e }}</li>
-            </ul>
-          </div>
-        </div>
-      </b-modal>
-    </section>
+    <v-progress-circular
+          :size="200"
+          :width="5"
+          color="blue"
+          indeterminate
+          v-show="isLoading"
+        ></v-progress-circular>
+        <br>
+        <v-alert
+         border="right"
+         color="blue-grey"
+         dark
+         v-show="isAlert"
+       >
+     {{msg}}
+    </v-alert>
   </div>
+
+<div>
+  <v-tabs
+   fixed-tabs
+   background-color="blue"
+   dark
+ >
+   <v-tab>
+     Google
+   </v-tab>
+   <v-tab>
+     Twitter
+   </v-tab>
+   <v-tab>
+     Facebook
+   </v-tab>
+   <v-tab>
+     Instagram
+   </v-tab>
+   <v-tab>
+     Yandex
+   </v-tab>
+   <v-tab-item>
+     <v-container fluid>
+       google todo
+     </v-container>
+   </v-tab-item>
+   <v-tab-item>
+     <v-container fluid class="grey lighten-5">
+         <v-row no-gutters>
+           <v-col
+             v-for="n in userData.twitter"
+             :key="n.link"
+             cols="12"
+             sm="2"
+           >
+             <v-card
+               class="pa-3"
+               outlined
+               tile
+             >
+             <a :href="n.link" target="_blank"><v-img
+                   :src="n.image"
+                   height="200px"
+             ></v-img></a>
+             <v-list-item-content>
+               <v-list-item-title>{{n.name}}</v-list-item-title>
+             </v-list-item-content>
+            <v-card-actions>
+              <v-btn
+                color="blue lighten-2"
+                text
+              >
+                More Info
+              </v-btn>
+
+              <v-spacer></v-spacer>
+
+              <v-btn
+                icon
+                @click="showTwitter(n)"
+              >
+                <v-icon>{{ toShowTwitter == n.link ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
+
+            <v-expand-transition>
+              <div v-if="toShowTwitter == n.link">
+                <v-divider></v-divider>
+                <v-list-item-content>
+                  <v-list-item-subtitle>Descripción: {{n.description}}</v-list-item-subtitle>
+                  <v-list-item-subtitle>Nacimiento: {{n.born}}</v-list-item-subtitle>
+                  <v-list-item-subtitle>Miembro desde: {{n.member_since}}</v-list-item-subtitle>
+                  <v-list-item-subtitle>Localización: {{n.location}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </div>
+            </v-expand-transition>
+          </v-card>
+           </v-col>
+         </v-row>
+     </v-container>
+   </v-tab-item>
+   <v-tab-item>
+     <v-container class="grey lighten-5" fluid>
+       <v-row no-gutters>
+         <v-col
+           v-for="n in userData.facebook"
+           :key="n.profile"
+           cols="12"
+           sm="2"
+         >
+           <a :href="n.profile" target="_blank"><v-card
+             class="pa-3"
+             outlined
+             tile
+           >
+           <v-img
+                 :src="n.image"
+                 height="200px"
+           ></v-img>
+           <v-list-item-content>
+             <v-list-item-title>{{n.name}}</v-list-item-title>
+           </v-list-item-content>
+
+
+        </v-card></a>
+         </v-col>
+       </v-row>
+     </v-container>
+   </v-tab-item>
+   <v-tab-item>
+       <v-container class="grey lighten-5" fluid>
+         <v-row no-gutters>
+           <v-col
+             v-for="n in userData.instagram"
+             :key="n.username"
+             cols="12"
+             sm="2"
+           >
+             <a :href="n.profile" target="_blank"><v-card
+               class="pa-3"
+               outlined
+               tile
+             >
+             <v-img
+                   :src="n.image"
+                   height="200px"
+             ></v-img>
+             <v-card-title>
+              {{n.full_name}}
+            </v-card-title>
+            <div class="grey--text ml-4">
+                 {{n.usernane}}
+           </div>
+           <div class="my-4 subtitle-1">
+                   Verified: {{n.is_verified}}
+                 </div>
+                 <div class="my-4 subtitle-1">
+               Private: {{n.is_private}}
+   </div>
+          </v-card></a>
+           </v-col>
+         </v-row>
+       </v-container>
+   </v-tab-item>
+   <v-tab-item>
+       <v-container fluid class="grey lighten-5">
+         <v-row no-gutters>
+           <v-col
+             v-for="n in userData.yandex"
+             :key="n.url"
+             cols="12"
+             sm="2"
+           >
+             <v-card
+               class="pa-3"
+               outlined
+               tile
+             >
+             <a :href="n.url" target="_blank"><v-img
+                   :src="n.originUrl"
+                   height="200px"
+             ></v-img></a>
+           <div class="my-4 subtitle-1">
+                   {{n.domain}}
+                 </div>
+                 <div class="my-4 subtitle-2">
+               {{n.title}}
+   </div>
+          </v-card>
+           </v-col>
+         </v-row>
+     </v-container>
+   </v-tab-item>
+ </v-tabs>
+</div>
+</v-container>
+
+
+
+
+
 </template>
 
 <script>
@@ -272,10 +288,14 @@ export default {
       token: "",
       userData: {},
       data: [],
-      gnumber: 100,
-      number: 10,
+      gnumber: 10,
+      number: 2,
       chartData: [],
       isCardModalActive: false,
+      isLoading:false,
+      isAlert:false,
+      msg: "",
+      toShowTwitter: "",
       URL_IMG: "http://0.0.0.0:5000",
       chartOptions: {
         chart: {
@@ -286,19 +306,29 @@ export default {
     };
   },
   methods: {
-    deleteDropFile(index) {
-      this.dropFiles.splice(index, 1);
-    },
-    showModal(data) {
-      this.isCardModalActive = true;
-      this.data = data;
+    showTwitter(n) {
+      if (n.toShowTwitter == false){
+        n.toShowTwitter = true
+      } else if (n.toShowTwitter == true){
+        n.toShowTwitter = false
+      } else {
+        n.toShowTwitter = true
+      }
+      if (n.toShowTwitter == true) {
+        this.toShowTwitter = n.link
+      } else {
+        this.toShowTwitter = ""
+
+      }
     },
     searchAll() {
       //todo check empty
-      const loadingComponent = this.$loading.open();
-      if (this.name === "" && this.token === "" && this.dropFiles.length == 0) {
-        loadingComponent.close();
-        this.toast("You must provide all inputs");
+      this.isLoading=true
+      this.isAlert=false
+      if (this.name === "" || this.token === "" || this.dropFiles.length == 0) {
+        this.isLoading=false;
+        this.isAlert=true
+        this.msg ="You must provide all inputs";
       } else {
         const data = new FormData();
         data.append("name", this.name);
@@ -313,7 +343,7 @@ export default {
         this.$http
           .post(`${URL_BASE}/scoring`, data, { timeout: 12000000 })
           .then(response => {
-            loadingComponent.close();
+            this.isLoading=false;
             const responseData = response.data;
             this.userData = responseData.msg;
             console.log(this.userData);
@@ -327,20 +357,13 @@ export default {
             ];
           })
           .catch(error => {
-            loadingComponent.close();
-            this.toast("Error");
+            this.isLoading=false;
+            this.isAlert=true
+            this.msg="Error"
             return error
           });
       }
     },
-    toast(msg) {
-      this.$toast.open({
-        duration: 5000,
-        message: msg,
-        position: "is-bottom",
-        type: "is-danger"
-      });
-    }
   }
 };
 </script>
