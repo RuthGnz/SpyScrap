@@ -77,47 +77,44 @@ def crawlProxy():
 
 def searchImages(driver,now,verbose):
 	os.mkdir("data/yandex/"+str(now)+"_images")
-	search=driver.find_elements_by_tag_name('img')
+	search=driver.find_elements_by_class_name('other-sites__item')
 	j=0
-	if len(search)<10:
-		return (False)
 	print('Retrieving images')
 	out = []
 	for s in search:
 		try:
-			link=s.get_attribute('src')
-			if link != None and link != "":
-				name=os.path.join('data/yandex/'+str(now)+'_images',str(j)+"-yandex.jpg")
-				j=j+1
-				div1 = s.find_element_by_xpath('..')
-				div2 = div1.find_element_by_xpath('..')
-				div3 = div2.find_element_by_xpath('..')
-				databem=json.loads(div3.get_attribute('data-bem'))
-				if databem is not None:
-					originUrl=databem['serp-item']['preview'][0]['origin']['url']
-					dataOrigin=databem['serp-item']['snippet']
-					title=dataOrigin['title']
-					text = dataOrigin['text']
-					url = dataOrigin['url']
-					domain = dataOrigin['domain']
-					info ={}
-					info["originUrl"] = originUrl
-					info["title"] = title
-					info["text"] = text
-					info["url"] = url
-					info["domain"] = domain
-					if verbose:
-						print("-----------------")
-						print(info)
-					out.append(info)
-					try:
-						urllib.request.urlretrieve(originUrl, name)
-					except:
-						print("Failed when downloading photo " + str(j))
+			a = s.find_elements_by_tag_name('a')
+
+			for i,al in enumerate(a):
+				aclass = al.get_attribute('class')
+				if aclass == 'other-sites__preview-link':
+					link=al.get_attribute('href')
+					if link != None and link != "":
+						name=os.path.join('data/yandex/'+str(now)+'_images',str(j)+"-yandex.jpg")
+						j=j+1
+						title = s.find_elements_by_class_name('other-sites__snippet-title')[0]
+						atittle= title.find_elements_by_tag_name('a')[0]
+						title = atittle.get_attribute('innerText')
+						url = atittle.get_attribute('href')
+						domain =s.find_elements_by_class_name('other-sites__snippet-site')[0]
+						domain= domain.find_elements_by_tag_name('a')[0].get_attribute('innerText')
+						info ={}
+						info["originUrl"] = link
+						info["title"] = title
+						info["url"] = url
+						info["domain"] = domain
+						if verbose:
+							print("-----------------")
+							print(info)
+						out.append(info)
+						try:
+							urllib.request.urlretrieve(link, name)
+						except:
+							print("Failed when downloading photo " + str(j))
 
 
 		except Exception as e:
-			pass
+			print(e)
 
 	return out
 
@@ -166,9 +163,12 @@ def yandex(image,token,verbose):
 		chrome_options = webdriver.ChromeOptions()
 		chrome_options.add_argument("--headless")
 		chrome_options.add_argument('--proxy-server=%s' % proxy)
+		chrome_options.add_argument("--no-sandbox")
+		chrome_options.add_argument("--disable-dev-shm-usage")
 		chrome_path = './chromedriver'
 		driver = webdriver.Chrome(chrome_path,options=chrome_options)
-		url_final = "https://yandex.ru/images/search?url="+image_url+"&rpt=imagelike"
+		url_final = "https://yandex.ru/images/search?rpt=imageview&url="+image_url+"&rpt=imagelike"
+		print(url_final)
 		driver.get(url_final)
 		driver.implicitly_wait(50)
 		time.sleep(3)
