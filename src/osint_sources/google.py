@@ -66,24 +66,24 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 					jsonfile["photos"]=url_image
 					jsonfile["from_url"]=url_content
 					jsonfile["info"] = text_image
-					# if not from_url.endswith(".pdf"):
-					# 	try:
-					# 		resp = req.get(url_content)
-					# 		content = resp.text
-					# 		stripped = re.sub('<[^<]+?>', '', content)
-					# 		stripped_filter = re.sub('\n', '', stripped)
-					# 		stripped_filter2 = re.sub('\t', '', stripped_filter)
-					# 		doc = nlp(stripped_filter2)
-					# 		locs = []
-					# 		for e in doc.ents:
-					# 			if e.label_ == "LOC":
-					# 				if not containsAny(e.text,my_set) and not e.text in locs:
-					# 					locs.append(e.text)
-					# 		jsonfile["LOC_LIST"] = locs
-					# 	except:
-					# 		pass
-					# else:
-					# 	jsonfile["LOC_LIST"] = []
+					if not url_content.endswith(".pdf"):
+						try:
+							resp = req.get(url_content)
+							content = resp.text
+							stripped = re.sub('<[^<]+?>', '', content)
+							stripped_filter = re.sub('\n', '', stripped)
+							stripped_filter2 = re.sub('\t', '', stripped_filter)
+							doc = nlp(stripped_filter2)
+							locs = []
+							for e in doc.ents:
+								if e.label_ == "LOC":
+									if not containsAny(e.text,my_set) and not e.text in locs:
+										locs.append(e.text)
+							jsonfile["LOC_LIST"] = locs
+						except:
+							pass
+					else:
+						jsonfile["LOC_LIST"] = []
 
 					if placeToSearch != None:
 						name=os.path.join('data/google/'+str(now)+'_images',str(i)+"-"+placeToSearch+"-"+toSearch+".jpg")
