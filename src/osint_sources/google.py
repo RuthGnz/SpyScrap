@@ -33,36 +33,12 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 	driver.implicitly_wait(50)
 
-
-	isMoreButton=True
-	while isMoreButton:
-		for i in range(1,10):
-			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-			time.sleep(2)
-
-
-		inputs=driver.find_elements_by_tag_name('input')
-		input_elem=None
-		for inp in inputs:
-			more=inp.get_attribute("type")
-			if more=='button':
-				input_elem=inp
-				break
-		if input_elem==None:
-			isMoreButton=False
-		else:
-			print('More Elements')
-			try:
-				input_elem.click()
-			except:
-				break
-
 	out = []
 	jsonfile={}
 	t =""
 	my_set = {"{", "}", "&", "#", "_", "=",":","(",")", "+","."}
 	nlp = spacy.load("es_core_news_sm")
-	search=driver.find_elements_by_tag_name('img')
+	search=driver.find_elements_by_xpath("//img[contains(@class,'Q4LuWd')]")
 	j=1
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
@@ -74,73 +50,60 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	if number == None:
 		number=len(search)
 
-
-	for ind,s in enumerate(search):
-
-		td_p_input = s.find_element_by_xpath('..')
-		link=td_p_input.get_attribute('href')
-		div = td_p_input.find_element_by_xpath('..')
-		if link != None:
-			url=link.split('imgurl=')
-			if len(url)>1:
-				imgUrl=url[1].split('&')[0]
-				if not imgUrl in notRepeatPhotos:
-					notRepeatPhotos.append(imgUrl)
-					if 'Q7Rsec'== div.get_attribute('jscontroller'):
-						jsonDiv=div.find_elements_by_class_name('notranslate')[0]
-						jsonInfo= json.loads(jsonDiv.get_attribute('innerHTML'))
-						from_url = jsonInfo["ru"]
-						imgUrl = unquote(imgUrl)
-						jsonfile["photos"]=imgUrl
-						jsonfile["from_url"] = from_url
-						if not from_url.endswith(".pdf"):
-							try:
-								resp = req.get(from_url)
-								content = resp.text
-								stripped = re.sub('<[^<]+?>', '', content)
-								stripped_filter = re.sub('\n', '', stripped)
-								stripped_filter2 = re.sub('\t', '', stripped_filter)
-								doc = nlp(stripped_filter2)
-								locs = []
-								for e in doc.ents:
-									if e.label_ == "LOC":
-										if not containsAny(e.text,my_set) and not e.text in locs:
-											locs.append(e.text)
-								jsonfile["LOC_LIST"] = locs
-								locs = []
-
-								listtext = driver.find_element_by_xpath("//*[@id=\"rg_s\"]/div["+str(j)+"]/a[2]")
-								t = listtext.text
-								jsonfile["info"] = t
-								t =""
-							except:
-								pass
-
-
-						else:
-							jsonfile["LOC_LIST"] = []
-
+	img_urls=set()
+	for i in  range(0,len(search)):
+		img=search[i]
+		try:
+			img.click()
+			time.sleep(2)
+			actual_images = driver.find_elements_by_css_selector('img.n3VNCb')
+			for actual_image in actual_images:
+				if actual_image.get_attribute('src') and 'https' in actual_image.get_attribute('src'):
+					url_image = actual_image.get_attribute('src')
+					text_image = actual_image.get_attribute('alt')
+					n = actual_image.find_element_by_xpath('..')
+					url_content = n.get_attribute("href")
+					jsonfile["photos"]=url_image
+					jsonfile["from_url"]=url_content
+					jsonfile["info"] = text_image
+					# if not from_url.endswith(".pdf"):
+					# 	try:
+					# 		resp = req.get(url_content)
+					# 		content = resp.text
+					# 		stripped = re.sub('<[^<]+?>', '', content)
+					# 		stripped_filter = re.sub('\n', '', stripped)
+					# 		stripped_filter2 = re.sub('\t', '', stripped_filter)
+					# 		doc = nlp(stripped_filter2)
+					# 		locs = []
+					# 		for e in doc.ents:
+					# 			if e.label_ == "LOC":
+					# 				if not containsAny(e.text,my_set) and not e.text in locs:
+					# 					locs.append(e.text)
+					# 		jsonfile["LOC_LIST"] = locs
+					# 	except:
+					# 		pass
+					# else:
+					# 	jsonfile["LOC_LIST"] = []
 
 					if placeToSearch != None:
-						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+placeToSearch+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(i)+"-"+placeToSearch+"-"+toSearch+".jpg")
 					else:
-						name=os.path.join('data/google/'+str(now)+'_images',str(j)+"-"+toSearch+".jpg")
+						name=os.path.join('data/google/'+str(now)+'_images',str(i)+"-"+toSearch+".jpg")
 
-					if knownImage != None:
-						try:
-							urllib.request.urlretrieve(imgUrl, name)
+					try:
+						print(url_image)
+						urllib.request.urlretrieve(url_image, name)
+						jsonfile['storedImage']=name
+					except:
+						src=actual_image.get_attribute('src')
+						if src != None:
+							urllib.request.urlretrieve(src, name)
 							jsonfile['storedImage']=name
-						except:
-							src=s.get_attribute('src')
-							if src != None:
-								urllib.request.urlretrieve(src, name)
-								jsonfile['storedImage']=name
-					j=j+1
-
 					out.append(jsonfile)
 					jsonfile={}
-		if int(number) == int(ind):
-			break
+		except Exception as er:
+			print(er)
+
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
 	response={'results':str(path)}
