@@ -22,7 +22,7 @@
     class="text-center"
     cols="12"
   >
-    {{ new Date().getFullYear() }} — <strong>@RuthGnz @MiguelHzBz</strong>
+    {{ new Date().getFullYear() }} — <strong>@RuthGnz</strong>
   </v-col>
 </v-footer>
     </v-app>

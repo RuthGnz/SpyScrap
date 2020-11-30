@@ -123,7 +123,6 @@ def yandex():
 	url = request.form.get('url')
 	token = request.form.get('token')
 	files = request.files
-	print(files)
 	data=yandex_controller(url,files,token,app)
 	return jsonify({'msg':data['data']})
 

@@ -20,6 +20,7 @@ import shutil
 import re
 import logging
 
+
 def allowed_file(filename,app):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -273,7 +274,10 @@ def facebook_controller(name_to_search,knownFiles,page_number,app):
 	return response
 
 def yandex_controller(url,knownFiles,token,app):
-	if type(knownFiles)== str:
+	logging.warning('URL '+url)
+	if url != None:
+		image = url
+	elif type(knownFiles)== str:
 		knownImage=knownFiles
 	else:
 		if knownFiles == None:
@@ -282,16 +286,11 @@ def yandex_controller(url,knownFiles,token,app):
 			knownImage=getValidImagePath(knownFiles,app)
 		else:
 			knownImage=None
-	image=""
-	if url == None and token== None and knownImage==None:
-			return "error"
-	if url==None:
-		if token==None or knownImage==None:
+		image=""
+		if token== None and knownImage==None:
 			return "error"
 		else:
 			image=knownImage
-	else:
-		image=knownImage
 	print(image)
 	paths=yandex(image,token,False)
 	response={}
