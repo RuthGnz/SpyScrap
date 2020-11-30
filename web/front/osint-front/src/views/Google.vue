@@ -43,7 +43,7 @@
                  color="blue"
                  label="Number of pages"
                  min="1"
-                 max="20"
+                 max="100"
                  thumb-label
                ></v-slider>
                 </v-col>
@@ -105,7 +105,7 @@ export default {
       checkbox: false,
       data: [],
       isCardModalActive: false,
-      number: 100,
+      number: 10,
       isLoading:false,
       isAlert:false,
       msg: ""
