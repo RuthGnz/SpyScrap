@@ -225,7 +225,7 @@
              tile
            >
            <v-img
-                 :src="n.image"
+                 :src="'http://0.0.0.0:5000/'+n.image"
                  height="200px"
            ></v-img>
            <v-list-item-content>
@@ -247,28 +247,27 @@
              cols="12"
              sm="2"
            >
-             <a :href="n.profile" target="_blank"><v-card
+             <v-card
                class="pa-3"
                outlined
                tile
              >
-             <v-img
-                   :src="n.image"
+             <a :href="n.profile" target="_blank"><v-img
+                   :src="'http://0.0.0.0:5000/'+n.image"
                    height="200px"
-             ></v-img>
-             <v-card-title>
-              {{n.full_name}}
-            </v-card-title>
-            <div class="grey--text ml-4">
-                 {{n.usernane}}
-           </div>
-           <div class="my-4 subtitle-1">
-                   Verified: {{n.is_verified}}
-                 </div>
-                 <div class="my-4 subtitle-1">
-               Private: {{n.is_private}}
-   </div>
-          </v-card></a>
+             ></v-img></a>
+             <v-list two-line>
+               <v-list-item>
+
+                 <v-list-item-content>
+                     <v-list-item-title>{{n.full_name}}</v-list-item-title>
+                   <v-list-item-subtitle>Verified: {{n.is_verified}}</v-list-item-subtitle>
+                   <v-list-item-subtitle>Private: {{n.is_private}}</v-list-item-subtitle>
+                 </v-list-item-content>
+
+               </v-list-item>
+             </v-list>
+          </v-card>
            </v-col>
          </v-row>
        </v-container>
