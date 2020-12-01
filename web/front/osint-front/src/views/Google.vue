@@ -89,7 +89,56 @@
             </v-alert>
           </div>
 
+                    <v-container class="grey lighten-5">
+                      <v-row no-gutters>
+                        <v-col
+                          v-for="n in userData"
+                          :key="n.from_url"
+                          cols="12"
+                          sm="2"
+                        >
+                          <v-card
+                            class="pa-3"
+                            outlined
+                            tile
+                          >
+                          <a :href="n.from_url" target="_blank"><v-img
+                                :src="n.photos"
+                                height="200px"
+                          ></v-img></a>
+                          <v-list-item-content>
+                            <v-list-item-title>{{n.info}}</v-list-item-title>
+                          </v-list-item-content>
+                         <v-card-actions>
+                           <v-btn
+                             color="blue lighten-2"
+                             text
+                             @click="showGoogle(n)"
+                           >
+                             More Info
+                           </v-btn>
 
+                           <v-spacer></v-spacer>
+
+                         </v-card-actions>
+
+                       </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                    <v-row justify="center">
+                        <v-dialog v-model="isCardModalActive" width="600px" scrollable>
+
+                          <v-card>
+
+                            <v-list-item-content v-for="(word,index) in loc" :key="index">
+                              <v-list-item-subtitle>{{word}}</v-list-item-subtitle>
+
+                            </v-list-item-content>
+
+                          </v-card>
+                        </v-dialog>
+                      </v-row>
   </v-container>
 </template>
 
@@ -108,10 +157,16 @@ export default {
       number: 10,
       isLoading:false,
       isAlert:false,
-      msg: ""
+      msg: "",
+      loc:[]
     };
   },
   methods: {
+    showGoogle(n) {
+      console.log(n.LOC_LIST)
+      this.isCardModalActive = true;
+      this.loc = n.LOC_LIST
+    },
     searchGoogle() {
       //todo check empty
       this.isLoading=true
@@ -132,9 +187,8 @@ export default {
           this.msg="Name is compulsory";
           this.isLoading=false;
         } else {
-          for (var i = 0; i < this.dropFiles.length; i++) {
-            let file = this.dropFiles[i];
-            data.append("files[" + i + "]", file);
+          if (this.dropFiles.length != 0 ) {
+            data.append("files[0]", this.dropFiles);
           }
           this.$http.post(`${URL_BASE}/google`, data, { timeout: 12000000 }).then(
             response => {

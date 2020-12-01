@@ -139,10 +139,10 @@ export default {
           this.msg="Name is compulsory";
           this.isLoading=false;
         } else {
-          for (var i = 0; i < this.dropFiles.length; i++) {
-            let file = this.dropFiles[i];
-            data.append("files[" + i + "]", file);
+          if (this.dropFiles.length != 0 ) {
+            data.append("files[0]", this.dropFiles);
           }
+
           this.$http.post(`${URL_BASE}/instagram`, data, { timeout: 12000000 }).then(
             response => {
               this.isLoading=false;
