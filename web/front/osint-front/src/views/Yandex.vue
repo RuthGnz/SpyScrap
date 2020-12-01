@@ -141,9 +141,8 @@ export default {
         const data = new FormData();
         data.append("url", this.url);
         data.append("token", this.token);
-        for (var i = 0; i < this.dropFiles.length; i++) {
-          let file = this.dropFiles[i];
-          data.append("files[" + i + "]", file);
+        if (this.dropFiles.length != 0 ) {
+          data.append("files[0]", this.dropFiles);
         }
         this.$http.post(`${URL_BASE}/yandex`, data, { timeout: 12000000 }).then(
           response => {

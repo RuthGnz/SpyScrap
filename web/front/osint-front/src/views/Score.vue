@@ -117,8 +117,42 @@
      Yandex
    </v-tab>
    <v-tab-item>
-     <v-container fluid>
-       google todo
+     <v-container class="grey lighten-5" fluid>
+       <v-row no-gutters>
+         <v-col
+           v-for="n in userData.google"
+           :key="n.from_url"
+           cols="12"
+           sm="2"
+         >
+           <v-card
+             class="pa-3"
+             outlined
+             tile
+           >
+           <a :href="n.from_url" target="_blank"><v-img
+                 :src="n.photos"
+                 height="200px"
+           ></v-img></a>
+           <v-list-item-content>
+             <v-list-item-title>{{n.info}}</v-list-item-title>
+           </v-list-item-content>
+          <v-card-actions>
+            <v-btn
+              color="blue lighten-2"
+              text
+              @click="showGoogle(n)"
+            >
+              More Info
+            </v-btn>
+
+            <v-spacer></v-spacer>
+
+          </v-card-actions>
+
+        </v-card>
+         </v-col>
+       </v-row>
      </v-container>
    </v-tab-item>
    <v-tab-item>
@@ -270,6 +304,19 @@
    </v-tab-item>
  </v-tabs>
 </div>
+<v-row justify="center">
+    <v-dialog v-model="isCardModalActive" width="600px" scrollable>
+
+      <v-card>
+
+        <v-list-item-content v-for="(word,index) in loc" :key="index">
+          <v-list-item-subtitle>{{word}}</v-list-item-subtitle>
+
+        </v-list-item-content>
+
+      </v-card>
+    </v-dialog>
+  </v-row>
 </v-container>
 
 
@@ -286,33 +333,7 @@ export default {
       dropFiles: [],
       name: "",
       token: "",
-      userData: {
-        "facebook": [],
-        "google": [],
-        "instagram": [          {
-                "full_name": "Ruth GN",
-                "image": "data/instagram/2020-11-30 16:18:19_images/recognized/0-instagram.jpg",
-                "is_private": true,
-                "is_verified": false,
-                "profile": "https://www.instagram.com/_ruthgnz",
-                "username": "_ruthgnz"
-            }],
-        "score": 10,
-        "twitter": [
-            {
-                "born": "None",
-                "description": "Cybersecurity and cloud researcher at BBVA Next Technologies. Telecommunications engineer.\n\nhello@ruthgonzalez.es\n\nCrossfitter & Runner",
-                "image": "https://pbs.twimg.com/profile_images/1172161923972030464/uWWN69uX_200x200.jpg",
-                "link": "https://twitter.com/ruthgnz",
-                "location": "Pamplona/Madrid",
-                "member_since": "None",
-                "name": "Ruth G.N",
-                "storedImage": "data/twitter/2020-11-30 15:41:20_images/recognized/ruthgnz.jpg",
-                "web": "ruthgonzalez.es"
-            }
-        ],
-        "yandex": []
-    },
+      userData: {},
       data: [],
       gnumber: 10,
       number: 2,
@@ -322,6 +343,7 @@ export default {
       isAlert:false,
       msg: "",
       toShowTwitter: "",
+      loc:[],
       URL_IMG: "http://0.0.0.0:5000",
       chartOptions: {
         chart: {
@@ -332,6 +354,11 @@ export default {
     };
   },
   methods: {
+    showGoogle(n) {
+      console.log(n.LOC_LIST)
+      this.isCardModalActive = true;
+      this.loc = n.LOC_LIST
+    },
     showTwitter(n) {
       if (n.toShowTwitter == false){
         n.toShowTwitter = true
@@ -361,11 +388,8 @@ export default {
         data.append("token", this.token);
         data.append("number", this.number);
         data.append("gnumber", this.gnumber);
-        console.log(this.dropFiles);
-        for (var i = 0; i < this.dropFiles.length; i++) {
-          let file = this.dropFiles[i];
-          data.append("files[" + i + "]", file);
-        }
+        data.append("files[0]", this.dropFiles);
+
         this.$http
           .post(`${URL_BASE}/scoring`, data, { timeout: 12000000 })
           .then(response => {
@@ -386,6 +410,7 @@ export default {
             this.isLoading=false;
             this.isAlert=true
             this.msg="Error"
+            console.log(error)
             return error
           });
       }
