@@ -4,18 +4,13 @@ Modulo de consola de comandos
 ![alt text](./SpyScrap.png)
 
 
-### Prerequisites
+## Prerequisites
 
 Docker and docker-compose
 
-
-### Installation en local
+## Installation
 
 It's better to use docker for installing the tool.
-```bash
-sudo ./setup.sh
-```
-Chrome and chromedriver must be installed.
 
 
 ### Installation with Docker
@@ -28,7 +23,14 @@ Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la o
 docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
 ```
 
-### Usage
+### Installation en local
+
+```bash
+sudo ./setup.sh
+```
+Chrome and chromedriver must be installed.
+
+## Usage
 
 ```bash
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
