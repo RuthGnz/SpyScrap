@@ -25,17 +25,6 @@
 
                 <v-col
                   cols="12"
-                  md="5"
-                >
-                  <v-text-field
-                    v-model="place"
-                    :counter="30"
-                    label="Where you whan to search"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
                   md="10"
                 >
                 <v-slider
