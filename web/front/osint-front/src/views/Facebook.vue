@@ -91,7 +91,7 @@
                             tile
                           >
                           <v-img
-                                :src="n.image"
+                                :src="'http://0.0.0.0:5000/'+n.image"
                                 height="200px"
                           ></v-img>
                           <v-list-item-content>
