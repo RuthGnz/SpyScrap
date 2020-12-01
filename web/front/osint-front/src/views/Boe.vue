@@ -104,16 +104,28 @@
                 <v-card>
 
                   <v-card-text v-if="boeText.length>0">{{boeText}}</v-card-text>
-                  <v-simple-table v-if="boteTable.length>0">
-                    {{boteTable}}
-                    <template v-slot:default v-for="(table,index) in boteTable">
-                      <tbody :key="index">
-                        <tr v-for="item in table.table" :key="item.name">
-                          <td v-for="value in item" :key="value">{{ value }}</td>
+                  <div v-if="boteTable.length>0" >
+                    <div v-for="(table,index) in boteTable" :key="index" >
+                      <v-simple-table >
+                        <template  >
+                        <thead >
+                                <tr>
+                                  <th  v-for="head in table.headings" :key="head" class="text-left">
+                                    {{head}}
+                                  </th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                          v-for="(row,index) in table.table"
+                          :key="index"
+                        >
+                          <td v-for="head in table.headings" :key="head" >{{ row[head] }}</td>
                         </tr>
                       </tbody>
-                    </template>
-                  </v-simple-table>
+                        </template>
+                      </v-simple-table><br>
+                </div></div>
                 </v-card>
               </v-dialog>
             </v-row>
