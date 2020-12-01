@@ -1,6 +1,15 @@
 # CLI
 
-Modulo de consola de comandos
+CLI Module for web scraping:
+
+* Tinder
+* Instagram
+* Yandex
+* Google
+* Facebook
+* BOE
+
+
 ![alt text](./SpyScrap.png)
 
 
@@ -23,7 +32,7 @@ Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la o
 docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
 ```
 
-### Installation en local
+### Local Installation
 
 ```bash
 sudo ./setup.sh
