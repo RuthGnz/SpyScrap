@@ -6,13 +6,16 @@ Modulo de consola de comandos
 
 ### Prerequisites
 
-Es necesario tener Google Chrome e instalar el driver (Chromedriver adecuado en función del SO y versión de navegador).
+Docker and docker-compose
 
 
+### Installation en local
 
-### Installation
-
-sudo .setup.sh
+It's better to use docker for installing the tool.
+```bash
+sudo ./setup.sh
+```
+Chrome and chromedriver must be installed.
 
 
 ### Installation with Docker
@@ -87,3 +90,19 @@ USAGE:
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -k <imgur id> -i <imagePath>
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -i <imgUrl>
   ```
+sponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
+
+## Authors ✒️
+
+* **Ruth González** - [@RuthGnz](https://twitter.com/RuthGnz)
+* **Miguel Hernández** -  [@MiguelHzBz](https://twitter.com/MiguelHzBz)
+
+
+## Thanks 🎁
+
+* BBVA Next Technologies SecLab Team
+
+
+
+---
+⌨️ con ❤️ por @RuthGnz @MiguelHzBz 
