@@ -28,7 +28,7 @@
                   md="5"
                 >
                   <v-text-field
-                    v-model="place"
+                    v-model="company"
                     :counter="30"
                     label="Company"
                   ></v-text-field>
@@ -41,10 +41,7 @@
                     label="File input"
                     v-model="dropFiles"
                   ></v-file-input>
-                  <v-checkbox
-                  v-model="checkbox"
-                  :label="`Download images: ${checkbox.toString()}`"
-                ></v-checkbox>
+
                 </v-col>
               </v-row>
             </v-container>
@@ -143,9 +140,8 @@ export default {
     return {
       dropFiles: [],
       name: "",
-      place: "",
+      company: "",
       userData: [],
-      checkbox: false,
       data: [],
       isCardModalActive: false,
       isLoading:false,
@@ -158,26 +154,20 @@ export default {
       //todo check empty
       this.isLoading=true
       this.isAlert=false
-      if (this.name == "" && this.place =="" && this.dropFiles.length==0){
+      if (this.name == "" && this.company ==""){
         this.isLoading=false;
         this.isAlert=true
-        this.msg="You must provide at least the name of the person to search."
+        this.msg="You must provide at least the name of the person to search or the company."
       }else {
 
         const data = new FormData();
         data.append("name", this.name);
-        data.append("place", this.place);
-        data.append("download", this.checkbox);
-        data.append("number", this.number);
-        if (this.name == "") {
-          this.isAlert=true
-          this.msg="Name is compulsory";
-          this.isLoading=false;
-        } else {
-          for (var i = 0; i < this.dropFiles.length; i++) {
-            let file = this.dropFiles[i];
-            data.append("files[" + i + "]", file);
-          }
+        data.append("company", this.company);
+        this.isAlert=false
+        this.isLoading=false;
+        if (this.dropFiles.length != 0 ) {
+          data.append("files[0]", this.dropFiles);
+        }
           this.$http.post(`${URL_BASE}/tinder`, data, { timeout: 12000000 }).then(
             response => {
               this.isLoading=false;
@@ -191,7 +181,7 @@ export default {
               return response
             }
           );
-        }
+
       }
 
     }
