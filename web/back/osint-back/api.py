@@ -23,7 +23,7 @@ def tinder():
 	files = request.files
 	users = []
 	if len(files)>0 and not name and not company:
-		users=compareImages(files,None)
+		users=compareImages(files,None,app)
 	if company and not name and len(files)==0:
 		users = getUsersByCompany(company)
 	elif name and not company and len(files)==0:
@@ -31,9 +31,9 @@ def tinder():
 	elif company and name and len(files)==0:
 		users = getUsersByCompanyAndName(company,name)
 	elif company and name and len(files)>0:
-		users=getUsersNameCompanyPhoto(company,name,files)
+		users=getUsersNameCompanyPhoto(company,name,files,app)
 	elif company and not name and len(files)>0:
-		users=getUsersByPhotoAndCompany(company,files)
+		users=getUsersByPhotoAndCompany(company,files,app)
 	elif not company and name and len(files)>0:
 		users=getUsersByNameAndPhoto(name,files,app)
 

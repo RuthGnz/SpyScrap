@@ -164,7 +164,7 @@ export default {
         data.append("name", this.name);
         data.append("company", this.company);
         this.isAlert=false
-        this.isLoading=false;
+        this.isLoading=true;
         if (this.dropFiles.length != 0 ) {
           data.append("files[0]", this.dropFiles);
         }
