@@ -143,7 +143,7 @@ export default {
     return {
       dropFiles: [],
       name: "",
-      company: "",
+      place: "",
       userData: [],
       checkbox: false,
       data: [],
