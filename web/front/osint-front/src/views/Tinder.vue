@@ -28,7 +28,7 @@
                   md="5"
                 >
                   <v-text-field
-                    v-model="company"
+                    v-model="place"
                     :counter="30"
                     label="Company"
                   ></v-text-field>
