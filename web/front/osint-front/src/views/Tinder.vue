@@ -111,7 +111,17 @@
            <v-list-item-title>{{n.user.name}}</v-list-item-title>
            <v-list-item-subtitle>{{n.user.location}}</v-list-item-subtitle>
            <v-list-item-subtitle>{{n.user.birth}}</v-list-item-subtitle>
-           <v-list-item-subtitle>{{n.user.job}}</v-list-item-subtitle>
+           <span v-if="n.user.job != ''">
+             <span v-if="n.user.job.title != undefined">
+             <v-list-item-subtitle>{{n.user.job.title.name}}</v-list-item-subtitle>
+            </span>
+            <span v-else><br></span>
+            <span v-if="n.user.job.company != undefined">
+            <v-list-item-subtitle>{{n.user.job.company.name}}</v-list-item-subtitle>
+           </span>
+           <span v-else><br></span>
+       </span>
+       <span v-else><br><br></span>
          </v-list-item-content>
 
        </v-list-item>
