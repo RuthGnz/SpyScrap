@@ -136,13 +136,13 @@ def download_file(folder,dateFolder,image):
 def scoring():
 	#TODO
 	name = request.form.get('name')
-	token = request.form.get('token')
+	imgurl = request.form.get('imgurl')
 	number = request.form.get('number')
 	gnumber = request.form.get('gnumber')
 	files = request.files
 	if len(files)==0:
 		return jsonify({'msg':'Image must be sent'}),400
-	data=scoring_controller(name,token,number,gnumber,files,app)
+	data=scoring_controller(name,imgurl,number,gnumber,files,app)
 	return jsonify({'msg':data})
 
 if __name__ == '__main__':

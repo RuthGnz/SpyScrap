@@ -29,9 +29,9 @@
           md="5"
         >
           <v-text-field
-            v-model="token"
+            v-model="imgurl"
             :counter="30"
-            label="Imgurl Token"
+            label="Image URL for Yandex"
           ></v-text-field>
         </v-col>
 
@@ -348,7 +348,7 @@ export default {
       value: 0,
       dropFiles: [],
       name: "",
-      token: "",
+      imgurl: "",
       userData: {},
       data: [],
       gnumber: 10,
@@ -393,14 +393,14 @@ export default {
       //todo check empty
       this.isLoading=true
       this.isAlert=false
-      if (this.name === "" || this.token === "" || this.dropFiles.length == 0) {
+      if (this.name === "" || this.imgurl === "" || this.dropFiles.length == 0) {
         this.isLoading=false;
         this.isAlert=true
         this.msg ="You must provide all inputs";
       } else {
         const data = new FormData();
         data.append("name", this.name);
-        data.append("token", this.token);
+        data.append("imgurl", this.imgurl);
         data.append("number", this.number);
         data.append("gnumber", this.gnumber);
         data.append("files[0]", this.dropFiles);

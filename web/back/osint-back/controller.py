@@ -309,7 +309,7 @@ def boe_controller(text,is_explicit,initDate,outDate,pages):
 		response['data']=data
 	return response
 
-def scoring_controller(name,token,number,gnumber,files,app):
+def scoring_controller(name,url,number,gnumber,files,app):
 	imagePath=getValidImagePath(files,app)
 	response = {}
 	try:
@@ -339,7 +339,7 @@ def scoring_controller(name,token,number,gnumber,files,app):
 		print('twitter error')
 		response['twitter']=[]
 	try:
-		yn = yandex_controller(None,imagePath,token,app)
+		yn = yandex_controller(url,None,None,app)
 		response['yandex']=yn['data']
 	except:
 		print('yandex error')

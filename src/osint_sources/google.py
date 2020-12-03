@@ -33,7 +33,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 	driver.implicitly_wait(50)
 
-    	isMoreButton=True
+    isMoreButton=True
 	while isMoreButton:
 		for i in range(1,10):
 			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
