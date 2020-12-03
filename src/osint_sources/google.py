@@ -33,6 +33,29 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 	driver.implicitly_wait(50)
 
+    	isMoreButton=True
+	while isMoreButton:
+		for i in range(1,10):
+			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+			time.sleep(2)
+
+
+		inputs=driver.find_elements_by_tag_name('input')
+		input_elem=None
+		for inp in inputs:
+			more=inp.get_attribute("type")
+			if more=='button':
+				input_elem=inp
+				break
+		if input_elem==None:
+			isMoreButton=False
+		else:
+			print('More Elements')
+			try:
+				input_elem.click()
+			except:
+				break
+
 	out = []
 	jsonfile={}
 	t =""
