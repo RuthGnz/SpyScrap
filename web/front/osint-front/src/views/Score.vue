@@ -95,7 +95,23 @@
     </v-alert>
   </div>
 
+  <div class="text-center">
+    <p>Score</p>
+    <v-progress-circular
+       :rotate="360"
+       :size="100"
+       :width="15"
+       :value="value"
+       color="blue"
+     >
+       {{ value }}
+     </v-progress-circular>
+
+  </div>
+<br>
 <div>
+
+
   <v-tabs
    fixed-tabs
    background-color="blue"
@@ -329,6 +345,7 @@ const URL_BASE = "http://0.0.0.0:5000/osint/api/v1";
 export default {
   data() {
     return {
+      value: 0,
       dropFiles: [],
       name: "",
       token: "",
@@ -336,7 +353,6 @@ export default {
       data: [],
       gnumber: 10,
       number: 2,
-      chartData: [],
       isCardModalActive: false,
       isLoading:false,
       isAlert:false,
@@ -395,15 +411,7 @@ export default {
             this.isLoading=false;
             const responseData = response.data;
             this.userData = responseData.msg;
-            console.log(this.userData);
-            this.chartData = [
-              ["Place", "Possible Findings"],
-              ["Facebook", this.userData.facebook.length],
-              ["Instagram", this.userData.instagram.length],
-              ["Google", this.userData.google.length],
-              ["yandex", this.userData.yandex.length],
-              ["Twitter", this.userData.twitter.length]
-            ];
+            this.value = this.userData.score
           })
           .catch(error => {
             this.isLoading=false;
