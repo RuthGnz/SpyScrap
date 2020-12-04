@@ -73,7 +73,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 	if number == None:
 		number=len(search)
 
-	img_urls=set()
+
 	for i in  range(0,len(search)):
 		img=search[i]
 		try:
@@ -126,6 +126,8 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 					jsonfile={}
 		except Exception as er:
 			print(er)
+        if i == number:
+            break
 
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
