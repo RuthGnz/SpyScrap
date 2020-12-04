@@ -50,7 +50,7 @@
        <v-slider
         v-model="gnumber"
         color="blue"
-        label="Google number of images"
+        label="Google number of pages"
         min="1"
         max="100"
         thumb-label

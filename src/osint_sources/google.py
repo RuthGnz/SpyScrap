@@ -32,15 +32,22 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 		driver.get("https://www.google.com/search?q="+toSearch+"&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiz2eSN_9vgAhUJoRQKHU8YCuwQ_AUIDigB&biw=1181&bih=902")
 
 	driver.implicitly_wait(50)
-
+	if number == None:
+		number=len(search)
 	isMoreButton=True
 	while isMoreButton:
-		for i in range(1,10):
-			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-			time.sleep(2)
-
-
-		inputs=driver.find_elements_by_tag_name('input')
+		last_height = driver.execute_script("return document.body.scrollHeight")
+		while True:
+			driver.execute_script("window.scrollTo(0, document.body.scrollHeight-1000);")
+			# Wait to load the page.
+			driver.implicitly_wait(30) # seconds
+			new_height = driver.execute_script("return document.body.scrollHeight")
+			if new_height == last_height:
+				break
+			last_height = new_height
+            # sleep for 30s
+			driver.implicitly_wait(30) # seconds
+		inputs=driver.find_elements_by_class_name('mye4qd')
 		input_elem=None
 		for inp in inputs:
 			more=inp.get_attribute("type")
@@ -52,28 +59,31 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 		else:
 			print('More Elements')
 			try:
+				print('Click')
 				input_elem.click()
-			except:
+				driver.implicitly_wait(30)
+			except Exception as e:
+				print('break',e)
+				driver.implicitly_wait(30)
 				break
+
 
 	out = []
 	jsonfile={}
 	t =""
 	my_set = {"{", "}", "&", "#", "_", "=",":","(",")", "+","."}
 	nlp = spacy.load("es_core_news_sm")
+
 	search=driver.find_elements_by_xpath("//img[contains(@class,'Q4LuWd')]")
 	j=1
 	notRepeatPhotos = []
 	notRepeatFromUrl = []
-
+	number = int(number)
+	totalPages = number*20
 	now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	if not os.path.isdir("data/google"):
 		os.mkdir( "data/google");
 	os.mkdir("data/google/"+str(now)+"_images")
-	if number == None:
-		number=len(search)
-
-
 	for i in  range(0,len(search)):
 		img=search[i]
 		try:
@@ -114,7 +124,6 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 						name=os.path.join('data/google/'+str(now)+'_images',str(i)+"-"+toSearch+".jpg")
 
 					try:
-						print(url_image)
 						urllib.request.urlretrieve(url_image, name)
 						jsonfile['storedImage']=name
 					except:
@@ -124,11 +133,12 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 							jsonfile['storedImage']=name
 					out.append(jsonfile)
 					jsonfile={}
+					if len(out)>= int(totalPages):
+						break
 		except Exception as er:
 			print(er)
-		if i == number:
+		if len(out)>= int(totalPages):
 			break
-
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
 	response={'results':str(path)}

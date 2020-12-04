@@ -390,22 +390,22 @@ def compute_score(data):
 		bonus=0
 		if len(gn)>2:
 			bonus=bonus+5
-		elif len(gn)>5:
+		if len(gn)>5:
 			bonus=bonus+5
-		elif len(gn)>10:
+		if len(gn)>10:
 			bonus=bonus+5;
-		elif len(gn)>15:
+		if len(gn)>15:
 			bonus=bonus+5;
-		elif len(gn)>25:
+		if len(gn)>25:
 			bonus=bonus+5;
-		elif len(gn)>35:
+		if len(gn)>35:
 			bonus=bonus+5;
-		elif len(gn)>45:
+		if len(gn)>45:
 			bonus=bonus+5;
-		elif len(gn)>55:
+		if len(gn)>55:
 			bonus=bonus+5;
-		elif len(gn)>65:
+		if len(gn)>65:
 			bonus=bonus+5;
-		elif len(gn)>75:
+		if len(gn)>75:
 			bonus=bonus+5;
 	return score
