@@ -126,8 +126,8 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 					jsonfile={}
 		except Exception as er:
 			print(er)
-        if i == number:
-            break
+		if i == number:
+			break
 
 
 	path= os.path.join('data/google',str(now)+'_google_data.json')
