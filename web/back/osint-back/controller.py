@@ -385,7 +385,6 @@ def compute_score(data):
 	if len(data['google'])>0:
 
 		gn=data['google']
-		print(gn)
 		score=score+10
 		bonus=0
 		if len(gn)>2:
@@ -408,4 +407,5 @@ def compute_score(data):
 			bonus=bonus+5;
 		if len(gn)>75:
 			bonus=bonus+5;
+		score=score+bonus
 	return score

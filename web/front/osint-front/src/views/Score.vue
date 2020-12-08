@@ -30,7 +30,6 @@
         >
           <v-text-field
             v-model="imgurl"
-            :counter="30"
             label="Image URL for Yandex"
           ></v-text-field>
         </v-col>
