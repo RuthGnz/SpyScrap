@@ -98,6 +98,7 @@ All the results are stored in the docker shared volume you must have configured 
 
 This is a wrapper for the CLI. 
 
+![alt text](./GUI.png)
 
 ## Prerequisites
 
