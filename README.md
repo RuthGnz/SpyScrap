@@ -23,7 +23,7 @@ Docker and docker-compose
 docker build -t spyscrap .
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
 ```
-Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la opción "-i", es necesario que la ruta a la imagen se encuentre dentro del volumen a compartir.
+You must put the image you want to be used for facial recognition under the shared volume in docker as in the next example:
 ```
 docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
 ```
@@ -90,6 +90,34 @@ USAGE:
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -k <imgur id> -i <imagePath>
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -i <imgUrl>
   ```
+All the results are stored in the docker shared volume you must have configured on your localhost when running the container. The first part is the path for your local folder and you can change it. The second part must be the one in the example (/spyscrap/data)
+```bash
+-v /PATH/TO/SpyScrap/src/data:/spyscrap/data
+ ```
+# Web Interface
+
+This is a wrapper for the CLI. 
+
+
+## Prerequisites
+
+Docker and docker-compose
+
+### Installation
+```bash
+cd web
+docker-compose up
+```
+Once the images are built, open the browser:
+```
+http:\\localhost
+```
+For searching in Tinder you must put the database.db file created using the CLI in the volume inside the folder:
+
+```
+SpyScrap\web\data
+```
+You will also find in this folder the results of all your searches on the web interface.
 
 ## Authors ✒️
 
