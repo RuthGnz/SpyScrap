@@ -17,12 +17,8 @@ CLI Module for web scraping:
 
 Docker and docker-compose
 
-## Installation
 
-It's better to use docker for installing the tool.
-
-
-### Installation with Docker
+### Installation
 ```bash
 docker build -t spyscrap .
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap  [options]
@@ -31,13 +27,6 @@ Cuando se use docker, en el caso de utilizar reconocimiento facial mediante la o
 ```
 docker run -ti -v /Users/ruthgnz/Documents/osint/SpyScrap/src/data:/spyscrap/data sp  -t twitter -n "ruth gonzalez novillo" -i ./data/descarga.jpeg
 ```
-
-### Local Installation
-
-```bash
-sudo ./setup.sh
-```
-Chrome and chromedriver must be installed.
 
 ## Usage
 
@@ -101,7 +90,6 @@ USAGE:
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -k <imgur id> -i <imagePath>
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap main.py -t yandex -i <imgUrl>
   ```
-sponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
 
 ## Authors ✒️
 
@@ -116,4 +104,4 @@ sponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/ta
 
 
 ---
-⌨️ con ❤️ por @RuthGnz @MiguelHzBz 
+⌨️ with ❤️ por @RuthGnz @MiguelHzBz 
