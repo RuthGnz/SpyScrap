@@ -2,17 +2,24 @@ version: "3.8"
 services:
   front:
     build: ./front
-    ports:
-      - "80:8080"
     networks:
       - osint
   back:
     build: "./back"
-    ports:
-      - "5000:5000"
     volumes:
       - ./data:/SpyScrap/src/data
     networks:
       - osint
+
+  reverse-proxy:
+    container_name: reverse-proxy
+    build: reverse-proxy
+    ports:
+      - "80:80"
+    networks:
+      - osint
+    depends_on:
+      - back
+      - front
 networks:
   osint:

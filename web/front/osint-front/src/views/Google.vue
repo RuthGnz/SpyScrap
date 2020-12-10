@@ -143,7 +143,7 @@
 </template>
 
 <script>
-const URL_BASE = "http://0.0.0.0:5000/osint/api/v1";
+const URL_BASE = "/osint/api/v1";
 export default {
   data() {
     return {

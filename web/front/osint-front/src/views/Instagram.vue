@@ -78,7 +78,7 @@
                   tile
                 >
                 <a :href="n.profile" target="_blank"><v-img
-                      :src="'http://0.0.0.0:5000/'+n.image"
+                      :src="'/'+n.image"
                       height="200px"
                 ></v-img></a>
                <v-list two-line>
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-const URL_BASE = "http://0.0.0.0:5000/osint/api/v1";
+const URL_BASE = "/osint/api/v1";
 export default {
   data() {
     return {
