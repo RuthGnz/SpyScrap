@@ -1,15 +1,9 @@
 # WEB Wraper For SpyScrap
 
-Requirements node v10
+Requirements docker-compose & docker
 
 
 ### Installation
 
-cd back
-./setup_back.sh
-
-
-cd front/osint_scoring
-yarn install
-yarn serve
+docker-compose up
 
