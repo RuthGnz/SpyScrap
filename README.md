@@ -1,3 +1,18 @@
+![Last update](https://img.shields.io/badge/last%20update-12%20DEC%202020-green.svg?style=flat-square)
+![OSINT](https://img.shields.io/badge/OSINT-brightgreen.svg?style=flat-square)
+![SOCMINT](https://img.shields.io/badge/SOCMINT-brightgreen.svg?style=flat-square)
+![TOOL](https://img.shields.io/badge/TOOL-brightgreen.svg?style=flat-square)
+![CYBERSECURITY](https://img.shields.io/badge/CYBERSECURITY-brightgreen.svg?style=flat-square)
+![SPYSCRAP](https://img.shields.io/badge/SPYSCRAP-brightgreen.svg?style=flat-square)
+
+# SpyScrap
+
+This is an OSINT tool. The main purpose is recolect information from different sources like Google, Tinder, Twitter and more. It combines facial recognition methods to filter the results and uses natural language processing for obtaining important entities from the website the user appears. The tool is able to calculate a final score which indicates the amount of public exposition an user has on the Internet.
+It has two different modules that can work indepently: CLI and Web Interface.
+Both modules are built using docker and are easy to deploy.
+
+If you like the tool, give us a star! :star:
+
 # CLI
 
 CLI Module for web scraping:
