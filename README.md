@@ -8,6 +8,7 @@ CLI Module for web scraping:
 * Google
 * Facebook
 * BOE
+* Twitter
 
 
 ![alt text](./SpyScrap.png)
