@@ -1,4 +1,4 @@
-![Last update](https://img.shields.io/badge/last%20update-12%20DEC%202020-green.svg?style=flat-square)
+![Last update](https://img.shields.io/badge/last%20update-11%20FEB%202021-green.svg?style=flat-square)
 ![OSINT](https://img.shields.io/badge/OSINT-brightgreen.svg?style=flat-square)
 ![SOCMINT](https://img.shields.io/badge/SOCMINT-brightgreen.svg?style=flat-square)
 ![TOOL](https://img.shields.io/badge/TOOL-brightgreen.svg?style=flat-square)
