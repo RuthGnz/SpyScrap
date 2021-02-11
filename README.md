@@ -90,7 +90,7 @@ docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap -t boe -n "
 docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap -t boe -n "<text to search>" -s <number of BOE pages to search>	-e <boolean> -d <init date> -f <final date>			
 ```
 
-USAGE:
+OTHER EXAMPLES:
 ```  docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap [options]
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap -t tinder -k TOKEN			
   docker run -ti -v /PATH/TO/SpyScrap/src/data:/spyscrap/data spyscrap --tag google -n "<name surname>"		
