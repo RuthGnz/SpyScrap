@@ -148,7 +148,7 @@ You will also find in this folder the results of all your searches on the web in
 
 <br>
 Feel free to collaborate!!
-<br>
+<br><br>
 
 `` 
 ** NOTE: Facial recognition is slow. The tool doesn't implement threading, and depends on your computer power. Be patient when the dataset is huge and you are using images to filter the results, specially on the Tinder module.
