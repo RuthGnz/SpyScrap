@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Fixed
 
-- Fix problems in scraping module.
+- Fix problems in scraping module
 
-## [1.0.0] - 2019-09-14
+## [1.0.0] - 2019-09-14
 
 Add
 
