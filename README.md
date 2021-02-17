@@ -7,7 +7,9 @@
 
 # SpyScrap
 
-This is an OSINT tool. The main purpose is recolect information from different sources like Google, Tinder, Twitter and more. It combines facial recognition methods to filter the results and uses natural language processing for obtaining important entities from the website the user appears. The tool is able to calculate a final score which indicates the amount of public exposition an user has on the Internet.
+![alt text](./SpyScrap.png)
+
+This is an [OSINT](https://en.wikipedia.org/wiki/Open-source_intelligence) tool. The main purpose is recolect information from different sources like Google, Tinder, Twitter and more. It combines facial recognition methods to filter the results and uses natural language processing for obtaining important entities from the website the user appears. The tool is able to calculate a final score which indicates the amount of public exposition an user has on the Internet.
 It has two different modules that can work indepently: CLI and Web Interface.
 Both modules are built using docker and are easy to deploy.
 
@@ -24,9 +26,6 @@ CLI Module for web scraping:
 * Facebook
 * BOE
 * Twitter
-
-
-![alt text](./SpyScrap.png)
 
 
 ## Prerequisites
@@ -136,6 +135,13 @@ SpyScrap\web\data
 ```
 You will also find in this folder the results of all your searches on the web interface.
 
+## DISCLAIMER ⚠️
+This tool is for educational purposes only.
+
+Please only use this tool on systems you have permission to access! Ethical use only.
+
+Any actions and or activities related to the tools we have created is solely your responsibility. The misuse of the tools we have created can result in criminal charges brought against the persons in question. We will not be held responsible in the event any criminal charges be brought against any individuals misusing the tools we have made to break the law.
+
 ## Authors ✒️
 
 * **Ruth González** - [@RuthGnz](https://twitter.com/RuthGnz)
@@ -148,12 +154,10 @@ You will also find in this folder the results of all your searches on the web in
 
 <br>
 Feel free to collaborate!!
-<br><br>
-
-`` 
-** NOTE: Facial recognition is slow. The tool doesn't implement threading, and depends on your computer power. Be patient when the dataset is huge and you are using images to filter the results, specially on the Tinder module.
-``
 <br>
+ 
+> NOTE: Facial recognition is slow. The tool doesn't implement threading, and depends on your computer power. Be patient when the dataset is huge and you are using images to filter the results, specially on the Tinder module.
+
 
 ---
 ⌨️ with ❤️ by @RuthGnz @MiguelHzBz 
