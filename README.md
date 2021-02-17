@@ -111,7 +111,7 @@ All the results are stored in the docker shared volume you must have configured 
  ```
 # Web Interface
 
-This is a wrapper for the CLI. 
+This is a wrapper for the CLI.
 
 ![alt text](./GUI.png)
 
@@ -155,9 +155,9 @@ Any actions and or activities related to the tools we have created is solely you
 <br>
 Feel free to collaborate!!
 <br>
- 
+
 > NOTE: Facial recognition is slow. The tool doesn't implement threading, and depends on your computer power. Be patient when the dataset is huge and you are using images to filter the results, specially on the Tinder module.
 
 
 ---
-⌨️ with ❤️ by @RuthGnz @MiguelHzBz 
+⌨️ with ❤️ by [@RuthGnz](https://twitter.com/RuthGnz) & [@MiguelHzBz](https://twitter.com/MiguelHzBz)
