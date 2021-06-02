@@ -7,6 +7,6 @@ config == 0.4.0
 face-recognition==1.2.3
 opencv-python==4.4.0.46
 spacy==2.1.6
-urllib3==1.26.2
+urllib3==1.26.5
 fake-useragent==0.1.11
 parsel==1.6.0
