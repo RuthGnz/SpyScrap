@@ -33,7 +33,7 @@ def google(toSearch,placeToSearch,knownImage,number,verbose):
 
 	driver.implicitly_wait(50)
 	if number == None:
-		number=len(search)
+		number=len(toSearch)
 	isMoreButton=True
 	while isMoreButton:
 		last_height = driver.execute_script("return document.body.scrollHeight")
