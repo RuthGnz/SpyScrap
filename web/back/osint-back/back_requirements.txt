@@ -1,7 +1,7 @@
 Flask==1.0.2
 requests==2.25.0
 gunicorn==19.8.1
-pyjwt==1.7.1
+pyjwt==2.4.0
 Flask-Cors==3.0.8
 peewee==3.8.0
 gevent==1.4.0
